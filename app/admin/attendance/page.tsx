@@ -248,7 +248,7 @@ export default function AdminAttendancePage() {
         <header className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
           <div>
             <p className="mb-2 text-sm font-medium text-indigo-600">
-              CampusIQ / Administrator
+              GrowthTrack / Administrator
             </p>
             <h1 className="text-3xl font-bold tracking-tight">
               Attendance Management

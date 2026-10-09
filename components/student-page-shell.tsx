@@ -166,7 +166,7 @@ export function StudentPageShell({
                 </span>
                 <span>
                   <span className="block text-[20px] font-semibold tracking-[-0.6px]">
-                    CampusIQ
+                    GrowthTrack
                   </span>
                   <span className="mt-1 block text-[9px] font-semibold tracking-[1.5px] text-[#a7beb0]">
                     STUDENT PORTAL · DEMO

@@ -17,9 +17,9 @@ const adminHighlights = [
 ];
 
 const studentHighlights = [
-  { icon: BookOpenCheck, label: "Browse student records" },
-  { icon: ShieldCheck, label: "Filter by department and risk" },
-  { icon: Sparkles, label: "Open individual student profiles" },
+  { icon: BookOpenCheck, label: "Track academic progress" },
+  { icon: ShieldCheck, label: "Review attendance and engagement" },
+  { icon: Sparkles, label: "Explore skills and placement readiness" },
 ];
 
 export default function HomePage() {
@@ -35,12 +35,12 @@ export default function HomePage() {
       </div>
 
       <header className="mx-auto flex w-full max-w-7xl items-center justify-between px-5 py-5 sm:px-8 lg:px-12">
-        <Link href="/" className="flex items-center gap-3" aria-label="CampusIQ home">
+        <Link href="/" className="flex items-center gap-3" aria-label="GrowthTrack home">
           <span className="grid h-11 w-11 place-items-center rounded-2xl bg-[#193f31] text-white shadow-lg shadow-[#193f31]/15">
             <GraduationCap size={24} strokeWidth={1.8} />
           </span>
           <span>
-            <span className="block text-lg font-bold tracking-[-0.5px]">CampusIQ</span>
+            <span className="block text-lg font-bold tracking-[-0.5px]">GrowthTrack</span>
             <span className="mt-0.5 block text-[9px] font-bold tracking-[1.7px] text-[#75837a]">
               STUDENT SUCCESS PLATFORM
             </span>
@@ -95,11 +95,11 @@ export default function HomePage() {
             highlights={adminHighlights}
           />
           <DashboardCard
-            eyebrow="STUDENT DIRECTORY"
-            title="Student list"
-            description="Find students quickly, review their key details, and open a record when you need more information."
-            href="/students"
-            action="View student list"
+            eyebrow="FOR STUDENTS"
+            title="Student dashboard"
+            description="Track your academic progress, attendance, skills, and placement readiness in one place."
+            href="/student/dashboard"
+            action="View student dashboard"
             tone="blue"
             highlights={studentHighlights}
           />
@@ -107,7 +107,7 @@ export default function HomePage() {
       </section>
 
       <footer className="mx-auto flex w-full max-w-7xl flex-col gap-2 border-t border-[#dfe5dd] px-5 py-6 text-xs text-[#829087] sm:flex-row sm:items-center sm:justify-between sm:px-8 lg:px-12">
-        <p>CampusIQ · Student success, made visible.</p>
+        <p>GrowthTrack · Student success, made visible.</p>
         <p>Choose a workspace to get started.</p>
       </footer>
     </main>

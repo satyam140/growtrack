@@ -10,7 +10,10 @@ import { cn } from '@student/lib/utils'
 import { StudentProvider, useStudent } from '@student/hooks/useStudent'
 import { useTheme } from '@student/hooks/useTheme'
 import { listStudents, resetDemoData } from '@student/services/api'
+import { useLocalFeedback } from '@student/hooks/useLocalFeedback'
+import { countPendingFacultyEvaluations } from '@student/services/localFeedback'
 import { attendanceBySubject } from '@student/lib/scoring'
+import { subjectsOfSemester } from '@student/data/catalog'
 import { DEFAULT_STUDENT_ID } from '@student/data/students'
 import { Skeleton } from '@student/components/ui/misc'
 import { Logo } from '@student/components/Logo'
@@ -31,7 +34,7 @@ const NAV: NavItem[] = [
     ],
   },
   { to: '/skills', label: 'Skills', icon: Zap, keywords: 'technical soft radar', children: [{ to: '/skills/coding', label: 'Coding Test', icon: Code2, keywords: 'java python c sql' }] },
-  { to: '/feedback', label: 'Feedback', icon: MessageSquare, keywords: 'survey faculty remarks' },
+  { to: '/feedback', label: 'Feedback', icon: MessageSquare, keywords: 'survey faculty evaluation remarks suggestions' },
 ]
 const FLAT = NAV.flatMap((n) => [n, ...(n.children ?? [])])
 
@@ -114,6 +117,7 @@ function Sidebar({ open, collapsed, onClose, onToggle }: { open: boolean; collap
 
 function Topbar({ onMenu }: { onMenu: () => void }) {
   const { student, base, studentId } = useStudent()
+  const feedback = useLocalFeedback(studentId)
   const { dark, toggle } = useTheme()
   const nav = useNavigate()
   const loc = useLocation()
@@ -127,11 +131,17 @@ function Topbar({ onMenu }: { onMenu: () => void }) {
     if (!student) return []
     const out: { text: string; href: string; tone: 'warn' | 'bad' | 'info' }[] = []
     attendanceBySubject(student).filter((a) => a.percent < 75).forEach((a) => out.push({ text: `${a.name} attendance is ${a.percent}%, below 75%`, href: '/attendance', tone: 'bad' }))
-    if (!student.feedback.survey) out.push({ text: 'Satisfaction survey is pending', href: '/feedback', tone: 'warn' })
+    const pendingFacultyEvaluations = countPendingFacultyEvaluations(
+      feedback.items,
+      subjectsOfSemester(student.semester).map((subject) => subject.code),
+    )
+    if (!feedback.loading && !feedback.error && pendingFacultyEvaluations) {
+      out.push({ text: `${pendingFacultyEvaluations} faculty evaluation${pendingFacultyEvaluations > 1 ? 's' : ''} pending`, href: '/feedback', tone: 'warn' })
+    }
     if (student.lms.assignments.pending) out.push({ text: `${student.lms.assignments.pending} assignments pending on LMS`, href: '', tone: 'warn' })
     student.activities.filter((a) => a.status === 'Rejected').forEach((a) => out.push({ text: `"${a.title}" was rejected. Re-submit proof.`, href: '/engagement', tone: 'info' }))
     return out
-  }, [student])
+  }, [feedback.error, feedback.items, feedback.loading, student])
 
   const results = q.trim() ? FLAT.filter((n) => (n.label + ' ' + (n.keywords ?? '')).toLowerCase().includes(q.trim().toLowerCase())).slice(0, 6) : []
   const go = (n: { to: string }) => { setQ(''); setSearchOpen(false); nav(base + n.to) }

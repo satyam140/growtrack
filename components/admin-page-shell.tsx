@@ -88,7 +88,7 @@ export function AdminPageShell({ title, children }: AdminPageShellProps) {
               </span>
               <span>
                 <span className="block text-[20px] font-semibold tracking-[-0.6px]">
-                  CampusIQ
+                  GrowthTrack
                 </span>
                 <span className="mt-1 block text-[9px] font-semibold tracking-[1.5px] text-[#a7beb0]">
                   STUDENT SUCCESS PLATFORM
@@ -149,7 +149,7 @@ export function AdminPageShell({ title, children }: AdminPageShellProps) {
                 Help and documentation
               </Link>
               <Link
-                href="/student"
+                href="/student/dashboard"
                 onClick={() => setMobileMenuOpen(false)}
                 className="flex min-h-[43px] items-center gap-3 rounded-md px-3 text-[12px] text-[#c2d2c7] transition-colors hover:bg-white/10 hover:text-white"
               >

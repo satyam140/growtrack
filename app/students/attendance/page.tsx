@@ -90,7 +90,7 @@ export default function StudentAttendancePage() {
           <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
             <div>
               <p className="mb-2 text-sm font-medium text-indigo-600">
-                CampusIQ / Student Portal
+                GrowthTrack / Student Portal
               </p>
               <h1 className="text-3xl font-bold tracking-tight">
                 My Attendance

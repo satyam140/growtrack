@@ -828,7 +828,7 @@ export default function AcademicPerformancePage() {
                 <GraduationCap size={24} />
               </div>
               <div>
-                <h2 className="text-xl font-semibold">CampusIQ</h2>
+                <h2 className="text-xl font-semibold">GrowthTrack</h2>
                 <p className="mt-1 text-[9px] font-semibold tracking-[1.5px] text-[#b4c9ba]">
                   STUDENT SUCCESS PLATFORM
                 </p>
@@ -882,7 +882,7 @@ export default function AcademicPerformancePage() {
 
           <div className="mt-auto border-t border-white/15 p-5">
             <p className="text-sm font-medium">Administrator</p>
-            <p className="mt-1 text-xs text-[#a5bca9]">CampusIQ workspace</p>
+            <p className="mt-1 text-xs text-[#a5bca9]">GrowthTrack workspace</p>
           </div>
         </aside>
 
@@ -1176,7 +1176,7 @@ export default function AcademicPerformancePage() {
               </section>
 
               <footer className="mt-7 flex flex-wrap justify-between gap-2 border-t border-[#e2e8e2] pt-5 text-xs text-[#89938a]">
-                <span>CampusIQ · Student Success Platform</span>
+                <span>GrowthTrack · Student Success Platform</span>
                 <span>Academic Performance · Demo analytics</span>
               </footer>
             </div>

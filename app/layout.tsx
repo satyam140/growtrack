@@ -13,9 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "CampusIQ | Student Success Platform",
+  title: "GrowthTrack | Student Success Platform",
   description:
-    "Choose the CampusIQ admin or student dashboard to track progress and support student success.",
+    "Choose the GrowthTrack admin or student dashboard to track progress and support student success.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

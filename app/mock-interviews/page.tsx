@@ -629,7 +629,7 @@ export default function MockInterviewsPage() {
           <div>
             <div className="mb-2 flex items-center gap-2 text-sm font-semibold text-indigo-600">
               <Sparkles size={17} />
-              CAMPUSIQ CAREER PREPARATION
+              GROWTHTRACK CAREER PREPARATION
             </div>
             <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
               Mock Interviews

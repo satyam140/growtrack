@@ -405,7 +405,7 @@ export default function SkillGapPage() {
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = "campusiq-skill-gap-report.csv";
+    link.download = "growthtrack-skill-gap-report.csv";
     document.body.appendChild(link);
     link.click();
     link.remove();
@@ -441,7 +441,7 @@ export default function SkillGapPage() {
           <div>
             <div className="mb-2 flex items-center gap-2 text-sm font-medium text-indigo-600">
               <GraduationCap size={18} />
-              CampusIQ / Student Development
+              GrowthTrack / Student Development
             </div>
 
             <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
@@ -1032,4 +1032,3 @@ function EmptyState({ message }: { message: string }) {
     </div>
   );
 }
-

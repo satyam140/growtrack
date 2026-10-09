@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import {
   AlertCircle, Award, Brain, CheckCircle2, ChevronLeft, ChevronRight, Clock, Lightbulb, Mic, MessageSquare, Play, Printer,
-  RotateCcw, Square, Target, TrendingUp, Video, VideoOff, Loader2,
+  RotateCcw, Square, Target, TrendingUp, Video, VideoOff, Loader2, Volume2,
 } from 'lucide-react'
 import { Button } from '@student/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@student/components/ui/card'
@@ -115,7 +115,7 @@ const fmt = (s: number) => `${String(Math.floor(s / 60)).padStart(2, '0')}:${Str
 export default function MockInterview() {
   const { studentId, student } = useStudent()
   const toast = useToast()
-  const [phase, setPhase] = useState<'setup' | 'interview' | 'results'>('setup')
+  const [phase, setPhase] = useState<'setup' | 'ready' | 'interview' | 'results'>('setup')
   const [role, setRole] = useState<Role>('Software Developer')
   const [questions, setQuestions] = useState<Question[]>(() => questionsFor('Software Developer'))
   const [cur, setCur] = useState(0)
@@ -131,6 +131,53 @@ export default function MockInterview() {
   const prefix = useRef('')
   const startedAt = useRef(0)
   const frozenElapsed = useRef(0)
+  const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null)
+  const interviewQuestionsRef = useRef<Question[]>([])
+  const beginInterviewRef = useRef<() => void>(() => {})
+  const [speakingQuestion, setSpeakingQuestion] = useState(false)
+  const [speakingWelcome, setSpeakingWelcome] = useState(false)
+  const [welcomeFinished, setWelcomeFinished] = useState(false)
+  const [showQuestionText, setShowQuestionText] = useState(false)
+  const [speechError, setSpeechError] = useState('')
+  const canReadAloud = typeof window !== 'undefined' && 'speechSynthesis' in window
+
+  const readQuestionAloud = (question: Question, index: number) => {
+    if (!canReadAloud) {
+      setSpeechError('Question read-aloud is not supported in this browser. Use “Show question text” to read the question.')
+      return
+    }
+    utteranceRef.current = null
+    window.speechSynthesis.cancel()
+    const utterance = new SpeechSynthesisUtterance(`Question ${index + 1}. ${question.category}. ${question.question}`)
+    utterance.lang = 'en-IN'
+    utterance.rate = 0.92
+    const voices = window.speechSynthesis.getVoices()
+    utterance.voice = voices.find((voice) => voice.lang.toLowerCase() === 'en-in') ??
+      voices.find((voice) => voice.lang.toLowerCase().startsWith('en')) ?? null
+    utterance.onstart = () => {
+      if (utteranceRef.current === utterance) setSpeakingQuestion(true)
+    }
+    utterance.onend = () => {
+      if (utteranceRef.current === utterance) {
+        utteranceRef.current = null
+        setSpeakingQuestion(false)
+      }
+    }
+    utterance.onerror = () => {
+      if (utteranceRef.current === utterance) {
+        utteranceRef.current = null
+        setSpeakingQuestion(false)
+        setSpeechError('The question could not be read aloud. Use the replay button or “Show question text”.')
+      }
+    }
+    utteranceRef.current = utterance
+    setSpeechError('')
+    window.speechSynthesis.speak(utterance)
+  }
+
+  useEffect(() => () => {
+    window.speechSynthesis?.cancel()
+  }, [])
 
   useEffect(() => {
     if (phase !== 'interview') return
@@ -138,28 +185,105 @@ export default function MockInterview() {
     return () => clearInterval(t)
   }, [phase])
 
-  // live speech → current answer (appends to whatever was typed before pressing the mic)
+  const beginInterview = () => {
+    const qs = interviewQuestionsRef.current
+    if (!qs.length) return
+    speech.stop()
+    speech.reset()
+    setQuestions(qs)
+    setAnswers(qs.map(() => ''))
+    setResults([])
+    setOverall(null)
+    setCur(0)
+    startedAt.current = Date.now()
+    setElapsed(0)
+    setWelcomeFinished(false)
+    setSpeakingWelcome(false)
+    setPhase('interview')
+    setShowQuestionText(false)
+    readQuestionAloud(qs[0], 0)
+    if (!cam.on) cam.start()
+  }
+  useEffect(() => {
+    beginInterviewRef.current = beginInterview
+  })
+
+  // Use the spoken confirmation to start. Otherwise append recognised words to the current answer.
   useEffect(() => {
     if (!speech.listening) return
+    if (phase === 'ready') {
+      if (/\b(yes|yeah|yep|ready)\b/i.test(speech.final)) beginInterviewRef.current()
+      return
+    }
+    if (phase !== 'interview') return
     setAnswers((a) => a.map((x, i) => (i === cur ? (prefix.current + ' ' + speech.final).trim() : x)))
-  }, [speech.final, speech.listening, cur])
+  }, [speech.final, speech.listening, phase, cur])
 
   const start = async () => {
     const qs = questionsFor(role)
-    setQuestions(qs); setAnswers(qs.map(() => '')); setResults([]); setOverall(null); setCur(0)
-    startedAt.current = Date.now(); setElapsed(0); setPhase('interview')
-    if (!cam.on) cam.start() // optional: failure just shows a message
+    interviewQuestionsRef.current = qs
+    speech.stop()
+    speech.reset()
+    window.speechSynthesis?.cancel()
+    setSpeechError('')
+    setWelcomeFinished(false)
+    setSpeakingWelcome(false)
+    setPhase('ready')
+    if (!canReadAloud) {
+      setWelcomeFinished(true)
+      setSpeechError('Welcome read-aloud is not supported in this browser. You can still confirm you are ready below.')
+      return
+    }
+    const welcome = new SpeechSynthesisUtterance(
+      'Hello, I am your virtual machine AI interviewer. I am here to conduct your interview. Are you ready for the interview? Please say yes.',
+    )
+    welcome.lang = 'en-IN'
+    welcome.rate = 0.92
+    utteranceRef.current = welcome
+    welcome.onstart = () => {
+      if (utteranceRef.current === welcome) setSpeakingWelcome(true)
+    }
+    welcome.onend = () => {
+      if (utteranceRef.current === welcome) {
+        utteranceRef.current = null
+        setSpeakingWelcome(false)
+        setWelcomeFinished(true)
+        if (speech.supported) {
+          speech.reset()
+          speech.start()
+        }
+      }
+    }
+    welcome.onerror = () => {
+      if (utteranceRef.current === welcome) {
+        utteranceRef.current = null
+        setSpeakingWelcome(false)
+        setWelcomeFinished(true)
+        setSpeechError('The welcome could not be read aloud. Please confirm when you are ready using the button below.')
+      }
+    }
+    window.speechSynthesis.speak(welcome)
   }
 
   const setAnswer = (v: string) => setAnswers((a) => a.map((x, i) => (i === cur ? v : x)))
-  const goto = (i: number) => { speech.stop(); speech.reset(); setCur(i) }
+  const goto = (i: number) => {
+    speech.stop(); speech.reset()
+    setCur(i)
+    setShowQuestionText(false)
+    const nextQuestion = questions[i]
+    if (nextQuestion) readQuestionAloud(nextQuestion, i)
+  }
   const toggleVoice = () => {
     if (speech.listening) { speech.stop(); return }
     prefix.current = answers[cur]; speech.reset(); speech.start()
   }
 
   const finish = async () => {
-    speech.stop(); setFinishing(true)
+    speech.stop()
+    utteranceRef.current = null
+    window.speechSynthesis?.cancel()
+    setSpeakingQuestion(false)
+    setFinishing(true)
     frozenElapsed.current = Math.round((Date.now() - startedAt.current) / 1000)
     const evaluated = questions.map((q, i) => evaluateAnswer(q, answers[i] ?? ''))
     const mean = (f: (r: AnswerResult) => number) => Math.round(evaluated.reduce((a, r) => a + f(r), 0) / evaluated.length)
@@ -174,7 +298,10 @@ export default function MockInterview() {
     toast.success(`Interview saved — score ${o.score}/100`)
   }
 
-  const reset = () => { speech.stop(); speech.reset(); cam.stop(); setPhase('setup') }
+  const reset = () => {
+    speech.stop(); speech.reset(); utteranceRef.current = null; window.speechSynthesis?.cancel()
+    setSpeakingQuestion(false); setSpeakingWelcome(false); setWelcomeFinished(false); setSpeechError(''); cam.stop(); setPhase('setup')
+  }
   const answered = answers.filter((a) => a.trim()).length
   const q = questions[cur]
   const hist = student ? [...student.placement.interviews].sort((a, b) => b.date.localeCompare(a.date)) : []
@@ -192,17 +319,60 @@ export default function MockInterview() {
                 <CardHeader><CardTitle className="flex items-center gap-2"><MessageSquare className="h-5 w-5 text-primary" />Set up your interview</CardTitle><CardDescription>5 questions · about 10 minutes · interviewing as {student?.name}</CardDescription></CardHeader>
                 <CardContent className="space-y-4">
                   <div><Label htmlFor="role">Target job role</Label><Select id="role" value={role} onChange={(e) => setRole(e.target.value as Role)}>{ROLES.map((r) => <option key={r}>{r}</option>)}</Select></div>
-                  <div className="flex gap-3 rounded-xl border border-primary/20 bg-primary/5 p-4 text-sm"><Video className="mt-0.5 h-5 w-5 shrink-0 text-primary" /><p>Your browser may ask for camera access when you start (optional, preview only — nothing is recorded). Voice answers use speech-to-text; typing always works.</p></div>
-                  <div className="flex flex-wrap gap-2"><Badge tone={speech.supported ? 'good' : 'warn'}>{speech.supported ? 'Voice input available' : 'Voice input unsupported here — use typing'}</Badge></div>
+                  <div className="flex gap-3 rounded-xl border border-primary/20 bg-primary/5 p-4 text-sm"><Video className="mt-0.5 h-5 w-5 shrink-0 text-primary" /><p>Interview questions are read aloud one at a time. Answer each with your voice or by typing. Your browser may ask for camera access when you start (optional, preview only — nothing is recorded).</p></div>
+                  <div className="flex flex-wrap gap-2">
+                    <Badge tone={canReadAloud ? 'good' : 'warn'}>{canReadAloud ? 'Question read-aloud available' : 'Question read-aloud unsupported'}</Badge>
+                    <Badge tone={speech.supported ? 'good' : 'warn'}>{speech.supported ? 'Voice input available' : 'Voice input unsupported here — use typing'}</Badge>
+                  </div>
                   <Button size="lg" className="w-full" onClick={start}><Play className="h-4 w-4" />Start mock interview<ChevronRight className="h-4 w-4" /></Button>
                 </CardContent>
               </Card>
               <Card>
-                <CardHeader><CardTitle>Your 5 questions</CardTitle><CardDescription>Tailored to {role}</CardDescription></CardHeader>
+                <CardHeader>                <CardTitle>Your interview plan</CardTitle><CardDescription>Questions are revealed and read aloud one at a time · Tailored to {role}</CardDescription></CardHeader>
                 <CardContent className="space-y-3">
                   {questionsFor(role).map((x, i) => (
                     <div key={x.category} className="flex items-center gap-3"><div className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-muted text-sm font-semibold">{i + 1}</div><div><div className="text-sm font-semibold">{x.category}</div><div className="text-xs text-muted-foreground">One question · individual feedback</div></div></div>
                   ))}
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
+          {phase === 'ready' && (
+            <div className="mx-auto max-w-2xl">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2"><MessageSquare className="h-5 w-5 text-primary" />Your interviewer is ready</CardTitle>
+                  <CardDescription>The interview will begin after you confirm you are ready.</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-5">
+                  <div className="rounded-xl bg-muted/60 p-5">
+                    <p className="text-xs font-bold uppercase tracking-wider text-primary">Virtual machine AI interviewer</p>
+                    <p className="mt-2 text-lg font-semibold leading-8">“Hello, I am your virtual machine AI interviewer. I am here to conduct your interview. Are you ready for the interview?”</p>
+                  </div>
+                  {speakingWelcome && <p role="status" className="flex items-center gap-2 text-sm text-muted-foreground"><Volume2 className="h-4 w-4 animate-pulse text-primary" />The interviewer is speaking. Listen, then say “yes”.</p>}
+                  {welcomeFinished && speech.listening && <p role="status" className="flex items-center gap-2 text-sm text-red-600"><span className="h-2 w-2 animate-pulse rounded-full bg-red-500" />Listening for your confirmation… {speech.interim && <span className="italic text-muted-foreground">{speech.interim}</span>}</p>}
+                  {welcomeFinished && speech.final && !/\b(yes|yeah|yep|ready)\b/i.test(speech.final) && <p className="text-sm text-muted-foreground">I heard “{speech.final.trim()}”. Please say “yes” when you are ready, or use the button below.</p>}
+                  {speechError && <p role="status" className="flex items-start gap-2 text-sm text-amber-600"><AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />{speechError}</p>}
+                  <div className="flex flex-wrap gap-3">
+                    {welcomeFinished && speech.supported && (
+                      <Button variant={speech.listening ? 'outline' : 'primary'} onClick={() => {
+                        if (speech.listening) {
+                          speech.stop()
+                        } else {
+                          speech.reset()
+                          speech.start()
+                        }
+                      }}>
+                        <Mic className="h-4 w-4" />{speech.listening ? 'Stop listening' : 'Say yes to begin'}
+                      </Button>
+                    )}
+                    <Button onClick={beginInterview} disabled={!welcomeFinished}>
+                      <CheckCircle2 className="h-4 w-4" />I’m ready — start interview
+                    </Button>
+                    <Button variant="outline" onClick={reset}><RotateCcw className="h-4 w-4" />Cancel</Button>
+                  </div>
+                  {!speech.supported && welcomeFinished && <p className="text-xs text-muted-foreground">Voice recognition is unavailable in this browser. Use the confirmation button to continue.</p>}
                 </CardContent>
               </Card>
             </div>
@@ -220,13 +390,23 @@ export default function MockInterview() {
                   <Progress value={((cur + 1) / questions.length) * 100} tone="primary" className="mb-5" />
                   <div className="mb-5 rounded-xl bg-muted/60 p-5">
                     <div className="mb-2 text-xs font-bold uppercase tracking-wider text-primary">{q.category}</div>
-                    <h2 className="text-xl font-bold leading-8">{q.question}</h2>
+                    <h2 className="text-xl font-bold leading-8">{showQuestionText ? q.question : 'Listen to your interviewer'}</h2>
+                    <div className="mt-3 flex flex-wrap items-center gap-2">
+                      <Button type="button" variant="outline" onClick={() => readQuestionAloud(q, cur)} disabled={!canReadAloud || speakingQuestion}>
+                        <Volume2 className="h-4 w-4" />{speakingQuestion ? 'Reading question…' : 'Read question aloud'}
+                      </Button>
+                      <Button type="button" variant="ghost" onClick={() => setShowQuestionText((visible) => !visible)}>
+                        {showQuestionText ? 'Hide question text' : 'Show question text'}
+                      </Button>
+                      {speakingQuestion && <span className="text-xs text-muted-foreground" role="status">Listen to the question, then record or type your answer.</span>}
+                    </div>
                     <p className="mt-2 text-sm text-muted-foreground">Take a moment to think. Explain your reasoning and use an example where it helps.</p>
                   </div>
+                  {speechError && <p role="status" className="mb-4 flex items-start gap-2 text-sm text-amber-600"><AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />{speechError}</p>}
                   <div className="mb-2 flex items-center justify-between"><Label htmlFor="answer" className="mb-0 text-sm text-foreground">Your answer</Label><span className="text-xs text-muted-foreground">{(answers[cur] ?? '').trim().split(/\s+/).filter(Boolean).length} words · aim for 60–120</span></div>
                   <Textarea id="answer" rows={7} value={answers[cur] ?? ''} onChange={(e) => setAnswer(e.target.value)} placeholder="Type your answer, or press “Answer by voice”…" className="leading-7" />
                   <div className="mt-3 flex flex-wrap items-center gap-2">
-                    <Button variant={speech.listening ? 'danger' : 'primary'} onClick={toggleVoice} disabled={!speech.supported} title={speech.supported ? '' : 'Speech recognition is not supported in this browser'}>
+                    <Button variant={speech.listening ? 'danger' : 'primary'} onClick={toggleVoice} disabled={!speech.supported || speakingQuestion} title={!speech.supported ? 'Speech recognition is not supported in this browser' : speakingQuestion ? 'Wait until the question has finished' : ''}>
                       {speech.listening ? <><Square className="h-4 w-4" />Stop voice input</> : <><Mic className="h-4 w-4" />Answer by voice</>}
                     </Button>
                     <Button variant="outline" onClick={() => { speech.stop(); speech.reset(); setAnswer('') }}><RotateCcw className="h-4 w-4" />Clear</Button>

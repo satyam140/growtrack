@@ -24,7 +24,7 @@ GrowTrack is a web-based campus management platform built with Next.js. It provi
 - **Engagement:** Access available student engagement information.
 - **Placement Readiness:** Track placement preparation and readiness information.
 - **Skills:** Review available skill development information.
-- **Feedback:** View feedback available to the student.
+- **Feedback:** Submit general feedback, review local submission history, and evaluate faculty. Feedback submissions are stored per student in browser `localStorage` and are not sent to a server.
 
 ## Navigation
 

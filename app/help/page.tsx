@@ -131,7 +131,7 @@ export default function HelpPage() {
     <AdminPageShell title="Help and documentation">
       <section className="mb-7">
         <p className="mb-2 text-[10px] font-bold tracking-[1.7px] text-[#28684e]">
-          CAMPUSIQ GUIDE
+          GROWTHTRACK GUIDE
         </p>
         <h1 className="text-[27px] font-semibold leading-tight tracking-[-1px] sm:text-[30px]">
           Help and documentation
@@ -223,7 +223,7 @@ export default function HelpPage() {
             <p className="mt-1 text-sm leading-6 text-amber-900">
               No support email, help-desk link, or ticketing integration is
               configured in this project, so there is no in-app support
-              channel to open. Contact the CampusIQ project administrator
+              channel to open. Contact the GrowthTrack project administrator
               through your organization&apos;s existing support process.
             </p>
           </div>

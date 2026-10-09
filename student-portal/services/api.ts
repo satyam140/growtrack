@@ -3,13 +3,15 @@
  * To use a real backend (Express + MongoDB / Supabase) re-implement the bodies with fetch()/supabase calls —
  * keep the signatures and no UI code changes. See README → "Replacing mock data".
  *
- * Mock persistence: user-created data (activities, test attempts, feedback) is stored per student in
- * localStorage as an "overlay" that is merged onto the seeded mock record on every read.
+ * Mock persistence: activities, test attempts, and legacy satisfaction/teacher feedback are stored per
+ * student in localStorage as an overlay merged onto the seeded mock record. General feedback submissions
+ * use the separate local-only store in localFeedback.ts.
  */
 import type {
   Activity, AptitudeAttempt, CodingAttempt, CohortStats, InterviewAttempt, SoftSkill, SkillTestAttempt, Student, SurveyResponse,
   TeacherFeedback, TechSkill,
 } from '@student/types'
+import { clearLocalFeedbackData } from '@student/services/localFeedback'
 import { ALL_STUDENTS, DEFAULT_STUDENT_ID } from '@student/data/students'
 import { attendanceBySubject, avg, cohortAverageComponents } from '@student/lib/scoring'
 
@@ -139,5 +141,6 @@ export async function submitTeacherFeedback(studentId: string, f: TeacherFeedbac
 }
 export function resetDemoData() {
   localStorage.removeItem(LS_KEY)
+  clearLocalFeedbackData()
   listeners.forEach((l) => l())
 }

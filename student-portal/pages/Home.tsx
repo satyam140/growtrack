@@ -5,7 +5,7 @@ import { motion, useReducedMotion } from 'framer-motion'
 import { Area, AreaChart, CartesianGrid, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import {
   Activity as ActivityIcon, AlertTriangle, ArrowRight, Award, BellRing, Briefcase, CalendarCheck, CheckCircle2, ChevronDown, CircleAlert,
-  ClipboardList, Code2, FileCheck2, GraduationCap, Mic, PenLine, ShieldAlert, ShieldCheck, Sparkles, TrendingDown, TrendingUp, Zap,
+  ClipboardList, Code2, GraduationCap, Mic, PenLine, ShieldAlert, ShieldCheck, Sparkles, TrendingDown, TrendingUp, Zap,
 } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@student/components/ui/card'
 import { Badge } from '@student/components/ui/badge'
@@ -15,7 +15,9 @@ import { ImpactChart, PageHeader, WithData, tooltipStyle } from '@student/compon
 import {
   activeBacklogs, assignmentCompletion, attendanceBySubject, cgpa, roman, skillsScore, WEIGHTS, type Analysis, type ActionItem, type RiskFlag, type Tone,
 } from '@student/lib/scoring'
-import { pendingForms } from '@student/lib/insights'
+import { subjectsOfSemester } from '@student/data/catalog'
+import { useLocalFeedback } from '@student/hooks/useLocalFeedback'
+import { countPendingFacultyEvaluations } from '@student/services/localFeedback'
 import { cn, fmtDate, levelTone, scoreTone, TONE } from '@student/lib/utils'
 import { useStudent } from '@student/hooks/useStudent'
 import type { Level, Student } from '@student/types'
@@ -77,7 +79,11 @@ function HomeView({ s, a }: { s: Student; a: Analysis }) {
 /* Alerts: compact, actionable, only shown when something needs doing   */
 /* ------------------------------------------------------------------ */
 function AlertStrip({ s, to }: { s: Student; to: (p: string) => string }) {
-  const pf = pendingForms(s)
+  const feedback = useLocalFeedback(s.id)
+  const pendingFacultyEvaluations = countPendingFacultyEvaluations(
+    feedback.items,
+    subjectsOfSemester(s.semester).map((subject) => subject.code),
+  )
   const lowSubjects = attendanceBySubject(s).filter((x) => x.percent < 75)
   const pending = s.lms.assignments.pending
   const items: { icon: ReactNode; text: ReactNode; href: string; cta: string; tone: Tone }[] = []
@@ -85,8 +91,8 @@ function AlertStrip({ s, to }: { s: Student; to: (p: string) => string }) {
     text: <><b>{lowSubjects.length} {lowSubjects.length === 1 ? 'subject is' : 'subjects are'}</b> below 75% attendance ({lowSubjects.map((x) => x.short).join(', ')})</> })
   if (pending) items.push({ icon: <ClipboardList className="h-4 w-4" />, tone: 'warn', href: to(''), cta: '',
     text: <><b>{pending} assignment{pending > 1 ? 's' : ''}</b> pending on the LMS</> })
-  if (pf.count) items.push({ icon: <FileCheck2 className="h-4 w-4" />, tone: 'warn', href: to('/feedback'), cta: 'Complete now',
-    text: <><b>{pf.count} feedback form{pf.count > 1 ? 's' : ''}</b> pending</> })
+  if (!feedback.loading && !feedback.error && pendingFacultyEvaluations) items.push({ icon: <ClipboardList className="h-4 w-4" />, tone: 'warn', href: to('/feedback'), cta: 'Evaluate now',
+    text: <><b>{pendingFacultyEvaluations} faculty evaluation{pendingFacultyEvaluations > 1 ? 's' : ''}</b> pending</> })
   if (!items.length) return null
   return (
     <div role="region" aria-label="Action required" className="mb-6 flex flex-col gap-2 rounded-xl border border-amber-200 bg-amber-50/70 p-3 dark:border-amber-500/30 dark:bg-amber-500/10 md:flex-row md:items-center">

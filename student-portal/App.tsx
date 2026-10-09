@@ -2,7 +2,6 @@ import { Suspense, lazy } from 'react'
 import { Navigate, Route, Routes, useLocation, useParams } from 'react-router-dom'
 import { DASH, Shell } from '@student/components/Shell'
 import { ALL_STUDENTS, DEFAULT_STUDENT_ID } from '@student/data/students'
-const Landing = lazy(() => import('@student/pages/Landing'))
 import NotFound from '@student/pages/NotFound'
 import { PageSkeleton } from '@student/components/common'
 const Home = lazy(() => import('@student/pages/Home'))
@@ -50,7 +49,7 @@ export default function App() {
   return (
     <Suspense fallback={<div className="p-8"><PageSkeleton /></div>}>
     <Routes>
-      <Route path="/" element={<Landing />} />
+      <Route path="/" element={<Navigate to={DASH} replace />} />
       <Route path={DASH} element={<Shell studentId={DEFAULT_STUDENT_ID} base={DASH} />}>{pages}</Route>
       <Route path={`${DASH}/student/:studentId`} element={<StudentShell />}>{pages}</Route>
       <Route path="*" element={<Legacy />} />

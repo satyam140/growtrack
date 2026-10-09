@@ -191,7 +191,7 @@ const departmentStats = departments
   });
 
 
-return ( <div className="min-h-screen bg-[#f5f7f4] text-[#25352a]"> <div className="flex min-h-screen"> <aside id="workspace-sidebar" aria-label="Workspace navigation" className={`fixed inset-y-0 left-0 z-40 flex w-64 shrink-0 flex-col overflow-y-auto bg-[#193f31] text-white transition-transform duration-200 lg:sticky lg:top-0 lg:h-screen lg:translate-x-0 ${mobileMenuOpen ? "translate-x-0" : "-translate-x-full"}`}> <div className="flex items-center justify-between px-6 py-7"><Link href="/admin/dashboard" className="flex items-center gap-3"> <div className="rounded-xl border border-white/25 p-2"> <GraduationCap size={24} /> </div> <div> <h2 className="text-xl font-semibold">CampusIQ</h2> <p className="mt-1 text-[9px] font-semibold tracking-[1.5px] text-[#b4c9ba]">
+return ( <div className="min-h-screen bg-[#f5f7f4] text-[#25352a]"> <div className="flex min-h-screen"> <aside id="workspace-sidebar" aria-label="Workspace navigation" className={`fixed inset-y-0 left-0 z-40 flex w-64 shrink-0 flex-col overflow-y-auto bg-[#193f31] text-white transition-transform duration-200 lg:sticky lg:top-0 lg:h-screen lg:translate-x-0 ${mobileMenuOpen ? "translate-x-0" : "-translate-x-full"}`}> <div className="flex items-center justify-between px-6 py-7"><Link href="/admin/dashboard" className="flex items-center gap-3"> <div className="rounded-xl border border-white/25 p-2"> <GraduationCap size={24} /> </div> <div> <h2 className="text-xl font-semibold">GrowthTrack</h2> <p className="mt-1 text-[9px] font-semibold tracking-[1.5px] text-[#b4c9ba]">
 STUDENT SUCCESS PLATFORM </p> </div> </Link>
 <button type="button" onClick={() => setMobileMenuOpen(false)} aria-label="Close navigation" className="rounded p-1 text-white/75 hover:bg-white/10 lg:hidden"><X size={20} /></button></div>
 
@@ -236,7 +236,7 @@ STUDENT SUCCESS PLATFORM </p> </div> </Link>
 
       <div className="mt-auto border-t border-white/15 p-5">
         <p className="text-sm font-medium">Administrator</p>
-        <p className="mt-1 text-xs text-[#a5bca9]">CampusIQ workspace</p>
+        <p className="mt-1 text-xs text-[#a5bca9]">GrowthTrack workspace</p>
       </div>
     </aside>
     {mobileMenuOpen && <button type="button" aria-label="Close navigation backdrop" className="fixed inset-0 z-30 bg-black/40 lg:hidden" onClick={() => setMobileMenuOpen(false)} />}
@@ -448,7 +448,7 @@ STUDENT SUCCESS PLATFORM </p> </div> </Link>
         </section>
 
         <footer className="mt-7 flex flex-wrap justify-between gap-2 border-t border-[#e2e8e2] pt-5 text-xs text-[#89938a]">
-          <span>CampusIQ · Student Success Platform</span>
+          <span>GrowthTrack · Student Success Platform</span>
           <span>Attendance · Demo analytics</span>
         </footer>
       </div>

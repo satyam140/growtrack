@@ -248,7 +248,7 @@ export default function AdminDashboard() {
               </span>
               <span>
                 <span className="block text-[20px] font-semibold tracking-[-0.6px]">
-                  CampusIQ
+                  GrowthTrack
                 </span>
                 <span className="mt-1 block text-[9px] font-semibold tracking-[1.5px] text-[#a7beb0]">
                   STUDENT SUCCESS PLATFORM
@@ -340,7 +340,7 @@ export default function AdminDashboard() {
             </Link>
 
             <Link
-              href="/student"
+              href="/student/dashboard"
               onClick={() => setMobileMenuOpen(false)}
               className="flex min-h-[43px] w-full items-center gap-3 rounded-md px-3 text-left text-[12px] text-[#c2d2c7] transition-colors hover:bg-white/10 hover:text-white"
             >
@@ -841,7 +841,7 @@ export default function AdminDashboard() {
             </section>
 
             <footer className="mt-7 flex flex-wrap items-center justify-between gap-2 border-t border-[#e2e7df] pt-4 text-[10px] text-[#899289]">
-              <span>CampusIQ · Student Success Platform</span>
+              <span>GrowthTrack · Student Success Platform</span>
               <span>Demo analytics · Academic year 2026–27</span>
             </footer>
           </main>
