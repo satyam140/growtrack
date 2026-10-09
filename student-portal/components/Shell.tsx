@@ -3,7 +3,7 @@ import NextLink from 'next/link'
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import {
-  AlertTriangle, ArrowLeft, Award, Bell, Briefcase, CalendarCheck, ChevronRight, Code2, Database, GraduationCap, Home as HomeIcon, Menu, MessageSquare,
+  AlertTriangle, Award, Bell, Briefcase, CalendarCheck, ChevronRight, Code2, Database, GraduationCap, Home as HomeIcon, LogOut, Menu, MessageSquare,
   Mic, Moon, PanelLeftClose, PanelLeftOpen, PenLine, Search, Sun, X, Zap,
 } from 'lucide-react'
 import { cn } from '@student/lib/utils'
@@ -101,8 +101,8 @@ function Sidebar({ open, collapsed, onClose, onToggle }: { open: boolean; collap
         ))}
       </nav>
       <div className="shrink-0 space-y-1 border-t border-white/10 p-3">
-        <NextLink href="/" className={cn('flex h-10 items-center gap-3 rounded-lg px-3 text-sm text-brand-100 hover:bg-white/[0.06]', collapsed && 'lg:justify-center lg:px-0')} title={collapsed ? 'Admin workspace' : undefined}>
-          <ArrowLeft className="h-[18px] w-[18px] shrink-0" /><span className={cn(collapsed && 'lg:hidden')}>Admin workspace</span>
+        <NextLink href="/" className={cn('flex h-10 items-center gap-3 rounded-lg px-3 text-sm text-brand-100 hover:bg-white/[0.06]', collapsed && 'lg:justify-center lg:px-0')} title={collapsed ? 'Logout' : undefined}>
+          <LogOut className="h-[18px] w-[18px] shrink-0" /><span className={cn(collapsed && 'lg:hidden')}>Logout</span>
         </NextLink>
         <button onClick={onToggle} className="hidden h-10 w-full items-center gap-3 rounded-lg px-3 text-sm text-brand-100 hover:bg-white/[0.06] lg:flex" aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'} title={collapsed ? 'Expand sidebar' : undefined}>
           {collapsed ? <PanelLeftOpen className="mx-auto h-[18px] w-[18px]" /> : <><PanelLeftClose className="h-[18px] w-[18px]" />Collapse</>}

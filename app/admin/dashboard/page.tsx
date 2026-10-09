@@ -18,12 +18,12 @@ import {
   CircleHelp,
   GraduationCap,
   LayoutDashboard,
+  LogOut,
   Menu,
   Search,
   Settings,
   ShieldAlert,
   Users,
-  UserRound,
   X,
 } from "lucide-react";
 import {
@@ -346,14 +346,6 @@ export default function AdminDashboard() {
               Help and documentation
             </Link>
 
-            <Link
-              href="/student/dashboard"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex min-h-[43px] w-full items-center gap-3 rounded-md px-3 text-left text-[12px] text-[#c2d2c7] transition-colors hover:bg-white/10 hover:text-white"
-            >
-              <UserRound size={18} strokeWidth={1.7} />
-              Student portal
-            </Link>
           </nav>
 
           <div className="border-t border-white/10 p-5">
@@ -410,6 +402,15 @@ export default function AdminDashboard() {
               <span className="hidden border-l border-[#e3e7e1] pl-5 text-[11px] text-[#737e74] sm:block">
                 Academic year 2026–27
               </span>
+              <Link
+                href="/"
+                aria-label="Logout"
+                title="Logout"
+                className="inline-flex items-center gap-2 rounded-md border border-[#dfe5dc] px-3 py-2 text-[11px] font-medium text-[#47564b] transition hover:bg-[#f5f7f4] hover:text-[#193f31]"
+              >
+                <LogOut size={15} />
+                <span className="hidden sm:inline">Logout</span>
+              </Link>
             </div>
           </header>
 

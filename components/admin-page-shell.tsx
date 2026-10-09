@@ -12,10 +12,10 @@ import {
   ClipboardCheck,
   GraduationCap,
   LayoutDashboard,
+  LogOut,
   Menu,
   Settings,
   Users,
-  UserRound,
 } from "lucide-react";
 
 const workspaceLinks = [
@@ -150,14 +150,6 @@ export function AdminPageShell({ title, children }: AdminPageShellProps) {
                 <CircleHelp size={18} strokeWidth={1.7} />
                 Help and documentation
               </Link>
-              <Link
-                href="/student/dashboard"
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex min-h-[43px] items-center gap-3 rounded-md px-3 text-[12px] text-[#c2d2c7] transition-colors hover:bg-white/10 hover:text-white"
-              >
-                <UserRound size={18} strokeWidth={1.7} />
-                Student portal
-              </Link>
             </div>
           </nav>
 
@@ -202,10 +194,21 @@ export function AdminPageShell({ title, children }: AdminPageShellProps) {
               <span className="text-[#c3c9c1]">/</span>
               <span className="font-semibold text-[#2b382e]">{title}</span>
             </div>
-            <span className="inline-flex items-center gap-2 rounded border border-[#dce8df] bg-[#f5faf6] px-2.5 py-2 text-[10px] text-[#28654d] sm:px-3 sm:text-[11px]">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#4c9169]" />
-              Demo data
-            </span>
+            <div className="flex items-center gap-3">
+              <span className="inline-flex items-center gap-2 rounded border border-[#dce8df] bg-[#f5faf6] px-2.5 py-2 text-[10px] text-[#28654d] sm:px-3 sm:text-[11px]">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#4c9169]" />
+                Demo data
+              </span>
+              <Link
+                href="/"
+                aria-label="Logout"
+                title="Logout"
+                className="inline-flex items-center gap-2 rounded-md border border-[#dfe5dc] px-3 py-2 text-[11px] font-medium text-[#47564b] transition hover:bg-[#f5f7f4] hover:text-[#193f31]"
+              >
+                <LogOut size={15} />
+                <span className="hidden sm:inline">Logout</span>
+              </Link>
+            </div>
           </header>
           <main className="mx-auto max-w-[1580px] px-4 pb-10 pt-7 sm:px-7 lg:px-9">
             {children}
