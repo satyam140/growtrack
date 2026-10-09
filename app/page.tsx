@@ -17,9 +17,9 @@ const adminHighlights = [
 ];
 
 const studentHighlights = [
-  { icon: BookOpenCheck, label: "Your progress, all in one place" },
-  { icon: ShieldCheck, label: "Personal goals and next steps" },
-  { icon: Sparkles, label: "Practice for what comes next" },
+  { icon: BookOpenCheck, label: "Browse student records" },
+  { icon: ShieldCheck, label: "Filter by department and risk" },
+  { icon: Sparkles, label: "Open individual student profiles" },
 ];
 
 export default function HomePage() {
@@ -95,11 +95,11 @@ export default function HomePage() {
             highlights={adminHighlights}
           />
           <DashboardCard
-            eyebrow="FOR STUDENTS"
-            title="Student dashboard"
-            description="Follow your progress, explore your strengths, and build confidence for what comes next."
-            href="/student/dashboard"
-            action="Enter student dashboard"
+            eyebrow="STUDENT DIRECTORY"
+            title="Student list"
+            description="Find students quickly, review their key details, and open a record when you need more information."
+            href="/students"
+            action="View student list"
             tone="blue"
             highlights={studentHighlights}
           />

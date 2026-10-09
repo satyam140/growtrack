@@ -6,16 +6,14 @@ import {
   ArrowLeft,
   ArrowUpRight,
   BookOpen,
-  CalendarCheck,
   CheckCircle2,
   ChevronDown,
-  GraduationCap,
   Search,
   ShieldAlert,
-  Users,
   X,
 } from "lucide-react";
 import { studentProfiles, type StudentProfile } from "@/lib/students";
+import { AdminPageShell } from "@/components/admin-page-shell";
 
 const students = studentProfiles;
 
@@ -29,31 +27,6 @@ const riskClass: Record<StudentProfile["risk"], string> = {
   Medium: "student-risk-medium",
   Low: "student-risk-low",
 };
-
-function Metric({
-  label,
-  value,
-  detail,
-  icon: Icon,
-}: {
-  label: string;
-  value: string;
-  detail: string;
-  icon: typeof Users;
-}) {
-  return (
-    <div className="directory-metric">
-      <div className="directory-metric-heading">
-        <span>{label}</span>
-        <span className="directory-metric-icon">
-          <Icon size={17} />
-        </span>
-      </div>
-      <div className="directory-metric-value">{value}</div>
-      <div className="directory-metric-detail">{detail}</div>
-    </div>
-  );
-}
 
 export default function StudentsPage() {
   const [search, setSearch] = useState("");
@@ -80,63 +53,18 @@ export default function StudentsPage() {
     });
   }, [search, department, risk]);
 
-  const highRiskCount = students.filter(
-    (student) => student.risk === "High",
-  ).length;
-
-  const averageScore = (
-    students.reduce((total, student) => total + student.successScore, 0) /
-    students.length
-  ).toFixed(1);
-
   return (
-    <main className="directory-page">
-      <div className="directory-breadcrumb">
-        Workspace <span>/</span> <strong>Students</strong>
-      </div>
-
+    <AdminPageShell title="Students">
+      <div className="directory-page">
       <div className="directory-heading">
         <div>
-          <div className="eyebrow">STUDENT RECORDS</div>
-          <h1>Student management</h1>
-          <p>
-            Review student progress, understand risk factors, and identify where
-            support is needed.
-          </p>
+          <div className="eyebrow">CAMPUS DIRECTORY</div>
+          <h1>Student list</h1>
         </div>
         <div className="directory-demo-label">
           <span /> Sample student records
         </div>
       </div>
-
-      <section className="directory-metrics">
-        <Metric
-          label="Students in directory"
-          value={String(students.length)}
-          detail="Sample records available"
-          icon={Users}
-        />
-        <Metric
-          label="Average success score"
-          value={averageScore}
-          detail="Out of 100 points"
-          icon={GraduationCap}
-        />
-        <Metric
-          label="High-risk students"
-          value={String(highRiskCount)}
-          detail="Require priority review"
-          icon={ShieldAlert}
-        />
-        <Metric
-          label="Below attendance target"
-          value={String(
-            students.filter((student) => student.attendance < 75).length,
-          )}
-          detail="Attendance below 75%"
-          icon={CalendarCheck}
-        />
-      </section>
 
       <section className="directory-panel">
         <div className="directory-panel-heading">
@@ -425,6 +353,7 @@ export default function StudentsPage() {
           </section>
         </div>
       )}
-    </main>
+      </div>
+    </AdminPageShell>
   );
 }

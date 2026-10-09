@@ -1065,9 +1065,7 @@ h1 {
 
 .directory-page {
   width: 100%;
-  max-width: 1580px;
-  margin: 0 auto;
-  padding: 29px 35px 35px;
+  padding: 0;
 }
 
 .directory-breadcrumb {
@@ -1774,10 +1772,6 @@ h1 {
     padding-left: 45px;
   }
 
-  .directory-page {
-    padding-right: 45px;
-    padding-left: 45px;
-  }
 }
 
 @media (max-width: 1180px) {
@@ -1785,8 +1779,7 @@ h1 {
     width: 220px;
   }
 
-  .dashboard-content,
-  .directory-page {
+  .dashboard-content {
     padding-right: 22px;
     padding-left: 22px;
   }
@@ -1999,10 +1992,6 @@ h1 {
   .dashboard-footer {
     align-items: flex-start;
     flex-direction: column;
-  }
-
-  .directory-page {
-    padding: 22px 13px;
   }
 
   .directory-breadcrumb {

@@ -200,8 +200,17 @@ export default function AdminDashboard() {
   const pathname = usePathname();
   const [period, setPeriod] = useState("Last 6 months");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [search, setSearch] = useState("");
   const [notice, setNotice] = useState("");
+
+  function toggleNavigation() {
+    if (window.matchMedia("(min-width: 1024px)").matches) {
+      setSidebarCollapsed((collapsed) => !collapsed);
+    } else {
+      setMobileMenuOpen((open) => !open);
+    }
+  }
 
   const filteredStudents = attentionStudents.filter((student) => {
     const query = search.trim().toLowerCase();
@@ -223,8 +232,13 @@ export default function AdminDashboard() {
       <div className="flex min-h-screen">
         {/* Sidebar */}
         <aside
-          className={`fixed inset-y-0 left-0 z-40 flex w-[252px] flex-col bg-[#193f31] text-white transition-transform duration-200 lg:sticky lg:top-0 lg:h-screen lg:translate-x-0 ${
+          id="admin-dashboard-sidebar"
+          className={`fixed bottom-0 left-0 top-[66px] z-40 flex w-[252px] flex-col overflow-hidden bg-[#193f31] text-white transition-[transform,width,opacity] duration-200 lg:sticky lg:inset-y-0 lg:top-0 lg:h-screen lg:translate-x-0 ${
             mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+          } ${
+            sidebarCollapsed
+              ? "lg:w-0 lg:opacity-0"
+              : "lg:w-[252px] lg:opacity-100"
           }`}
         >
           <div className="flex h-[96px] items-center justify-between px-6">
@@ -242,13 +256,6 @@ export default function AdminDashboard() {
               </span>
             </Link>
 
-            <button
-              onClick={() => setMobileMenuOpen(false)}
-              className="rounded p-1 text-white/70 hover:bg-white/10 lg:hidden"
-              aria-label="Close navigation"
-            >
-              <X size={20} />
-            </button>
           </div>
 
           <nav className="flex-1 px-[18px] pt-7">
@@ -362,7 +369,7 @@ export default function AdminDashboard() {
         {mobileMenuOpen && (
           <button
             aria-label="Close navigation backdrop"
-            className="fixed inset-0 z-30 bg-black/40 lg:hidden"
+            className="fixed bottom-0 left-0 right-0 top-[66px] z-10 bg-black/40 lg:hidden"
             onClick={() => setMobileMenuOpen(false)}
           />
         )}
@@ -373,9 +380,11 @@ export default function AdminDashboard() {
           <header className="sticky top-0 z-20 flex h-[66px] items-center justify-between border-b border-[#e2e7df] bg-white px-4 sm:px-7 lg:px-9">
             <div className="flex items-center gap-3">
               <button
-                className="rounded-md border border-[#e2e7df] p-2 text-[#47564b] lg:hidden"
-                onClick={() => setMobileMenuOpen(true)}
-                aria-label="Open navigation"
+                className="rounded-md border border-[#e2e7df] p-2 text-[#47564b]"
+                onClick={toggleNavigation}
+                aria-label="Toggle navigation"
+                aria-controls="admin-dashboard-sidebar"
+                title="Show or hide navigation"
               >
                 <Menu size={19} />
               </button>

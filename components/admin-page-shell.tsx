@@ -15,7 +15,6 @@ import {
   Settings,
   Users,
   UserRound,
-  X,
 } from "lucide-react";
 
 const workspaceLinks = [
@@ -47,6 +46,15 @@ type AdminPageShellProps = {
 export function AdminPageShell({ title, children }: AdminPageShellProps) {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+
+  function toggleNavigation() {
+    if (window.matchMedia("(min-width: 1024px)").matches) {
+      setSidebarCollapsed((collapsed) => !collapsed);
+    } else {
+      setMobileMenuOpen((open) => !open);
+    }
+  }
 
   function navClass(active: boolean) {
     return `flex min-h-[43px] items-center gap-3 rounded-md px-3 text-[12px] transition-colors ${
@@ -61,8 +69,12 @@ export function AdminPageShell({ title, children }: AdminPageShellProps) {
       <div className="flex min-h-screen">
         <aside
           id="admin-sidebar"
-          className={`fixed inset-y-0 left-0 z-40 flex w-[252px] flex-col bg-[#193f31] text-white transition-transform duration-200 lg:sticky lg:top-0 lg:h-screen lg:translate-x-0 ${
+          className={`fixed bottom-0 left-0 top-[66px] z-40 flex w-[252px] flex-col overflow-hidden bg-[#193f31] text-white transition-[transform,width,opacity] duration-200 lg:sticky lg:inset-y-0 lg:top-0 lg:h-screen lg:translate-x-0 ${
             mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+          } ${
+            sidebarCollapsed
+              ? "lg:w-0 lg:opacity-0"
+              : "lg:w-[252px] lg:opacity-100"
           }`}
         >
           <div className="flex h-[96px] items-center justify-between px-6">
@@ -83,14 +95,6 @@ export function AdminPageShell({ title, children }: AdminPageShellProps) {
                 </span>
               </span>
             </Link>
-            <button
-              type="button"
-              onClick={() => setMobileMenuOpen(false)}
-              className="rounded p-1 text-white/70 hover:bg-white/10 lg:hidden"
-              aria-label="Close navigation"
-            >
-              <X size={20} />
-            </button>
           </div>
 
           <nav className="flex-1 px-[18px] pt-7">
@@ -174,7 +178,7 @@ export function AdminPageShell({ title, children }: AdminPageShellProps) {
           <button
             type="button"
             aria-label="Close navigation backdrop"
-            className="fixed inset-0 z-30 bg-black/40 lg:hidden"
+            className="fixed bottom-0 left-0 right-0 top-[66px] z-10 bg-black/40 lg:hidden"
             onClick={() => setMobileMenuOpen(false)}
           />
         )}
@@ -184,11 +188,11 @@ export function AdminPageShell({ title, children }: AdminPageShellProps) {
             <div className="flex items-center gap-3 text-[12px]">
               <button
                 type="button"
-                className="rounded-md border border-[#e2e7df] p-2 text-[#47564b] lg:hidden"
-                onClick={() => setMobileMenuOpen(true)}
-                aria-label="Open navigation"
+                className="rounded-md border border-[#e2e7df] p-2 text-[#47564b]"
+                onClick={toggleNavigation}
+                aria-label="Toggle navigation"
                 aria-controls="admin-sidebar"
-                aria-expanded={mobileMenuOpen}
+                title="Show or hide navigation"
               >
                 <Menu size={19} />
               </button>
