@@ -1,4 +1,3 @@
-
 # GrowTrack — Student & Admin Dashboard
 
 GrowTrack is a web-based campus management platform built with Next.js. It provides separate dashboards for administrators and students to help manage academic performance, attendance, student development, and placement readiness.
@@ -53,40 +52,23 @@ Additional student pages are available beneath the student dashboard routes.
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/YOUR_REPOSITORY.git
+git clone https://github.com/satyam140/growtrack.git
 ```
+2. Navigate to the project
+cd growtrack
 
-Replace `YOUR_USERNAME` and `YOUR_REPOSITORY` with your GitHub details.
+3. Install dependencies
+ npm install
 
-### 2. Navigate to the project
-
-```bash
-cd YOUR_REPOSITORY
-```
-
-### 3. Install dependencies
-
-```bash
-npm install
-```
-
-### 4. Configure environment variables
-
-If required, create a `.env.local` file using the environment variable names expected by the project.
-
+4. Configure environment variables
+If required, create a .env.local file using the environment variable names expected by the project.
 Never commit database credentials, API keys, or other secrets to GitHub.
 
-### 5. Start the development server
+5. Start the development server
+   npm run dev
+Open http://localhost:3000 in your browser.
 
-```bash
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-## Project Structure
-
-```text
+Project Structure
 growtrack/
 ├── app/
 │   ├── page.tsx
@@ -99,43 +81,29 @@ growtrack/
 ├── public/
 ├── package.json
 └── README.md
-```
 
-The exact folder structure may vary depending on the implementation.
-
-## Build and Validation
-
+Build and Validation
 Run the production build:
-
-```bash
 npm run build
-```
 
 Start the production server after building:
-
-```bash
 npm run start
-```
 
-## Deployment
-
+Deployment
 GrowTrack can be deployed using Vercel.
+1.Push the project to GitHub.
+2.Import the repository into Vercel.
+3.Configure the required environment variables.
+4.Deploy the application.
+5.Test the Admin and Student dashboards after deployment.
 
-1. Push the project to GitHub.
-2. Import the repository into Vercel.
-3. Configure the required environment variables.
-4. Deploy the application.
-5. Test the Admin and Student dashboards after deployment.
+Future Improvements
+Secure authentication and role-based access control.
+Real-time synchronization between administrator and student records.
+Enhanced academic analytics and reporting.
+Additional placement preparation and student development tools.
 
-See the [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for details.
 
-## Future Improvements
-
-- Secure authentication and role-based access control.
-- Real-time synchronization between administrator and student records.
-- Enhanced academic analytics and reporting.
-- Additional placement preparation and student development tools.
-
-## License
-
+License
 Add a license if you intend to distribute this project publicly.
+```
