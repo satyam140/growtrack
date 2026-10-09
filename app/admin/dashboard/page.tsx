@@ -35,6 +35,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { studentProfiles } from "@/lib/students";
 
 const navigation = [
   { label: "Overview", href: "/admin/dashboard", icon: LayoutDashboard, implemented: true },
@@ -126,6 +127,59 @@ const departments = [
   { name: "Mechanical Engineering", score: 75, attendance: 84, students: 800 },
 ];
 
+const studentSegments = [
+  {
+    id: "placement",
+    title: "Good marks but weak placement prep",
+    description: "Academic score ≥ 70 and placement score < 65",
+    action:
+      "Create a placement-readiness plan: assign role-focused practice, schedule a mock interview, and review progress with the student.",
+    actionLabel: "Open placement readiness",
+    href: "/placement-readiness",
+    icon: GraduationCap,
+    color: "border-[#dce8df] bg-[#f5faf6] text-[#28654d]",
+    students: studentProfiles.filter(
+      (student) =>
+        student.academicScore >= 70 && student.placementScore < 65,
+    ),
+  },
+  {
+    id: "disengaged",
+    title: "Disengaged",
+    description:
+      "Engagement score < 65, assignment completion < 60, or attendance < 65",
+    action:
+      "Arrange a supportive check-in, identify barriers to participation, and agree on one small attendance or coursework goal to review next week.",
+    actionLabel: "Open student directory",
+    href: "/students",
+    icon: Activity,
+    color: "border-[#f1e6ca] bg-[#fffaf0] text-[#946417]",
+    students: studentProfiles.filter(
+      (student) =>
+        student.engagementScore < 65 ||
+        student.assignmentCompletion < 60 ||
+        student.attendance < 65,
+    ),
+  },
+  {
+    id: "critical",
+    title: "Needs critical support",
+    description: "High risk, academic score < 50, or attendance < 60",
+    action:
+      "Prioritize a faculty/advisor review, contact the student promptly, and document a specific academic support and attendance follow-up plan.",
+    actionLabel: "Open interventions",
+    href: "/interventions",
+    icon: ShieldAlert,
+    color: "border-[#f0d8d5] bg-[#fff6f5] text-[#a33f38]",
+    students: studentProfiles.filter(
+      (student) =>
+        student.risk === "High" ||
+        student.academicScore < 50 ||
+        student.attendance < 60,
+    ),
+  },
+];
+
 type MetricCardProps = {
   title: string;
   value: string;
@@ -210,6 +264,9 @@ export default function AdminDashboard() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [search, setSearch] = useState("");
   const [notice, setNotice] = useState("");
+  const [selectedSegmentId, setSelectedSegmentId] = useState<string | null>(
+    null,
+  );
 
   function toggleNavigation() {
     if (window.matchMedia("(min-width: 1024px)").matches) {
@@ -228,6 +285,9 @@ export default function AdminDashboard() {
       student.department.toLowerCase().includes(query)
     );
   });
+  const selectedSegment = studentSegments.find(
+    (segment) => segment.id === selectedSegmentId,
+  );
 
   function handleUnavailableSection(label: string) {
     setNotice(`${label} is planned for the next development step.`);
@@ -656,6 +716,141 @@ export default function AdminDashboard() {
                   Risk levels help prioritize support, not label students.
                 </div>
               </div>
+            </section>
+
+            {/* Student groups */}
+            <section className="mt-[18px] overflow-hidden rounded-md border border-[#e2e7df] bg-white">
+              <div className="border-b border-[#edf0eb] px-5 py-5">
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <div>
+                    <h2 className="text-[13px] font-semibold">
+                      Student groups (segments)
+                    </h2>
+                    <p className="mt-2 max-w-2xl text-[11px] leading-5 text-[#7b857c]">
+                      Select a group to review matching students and a suggested
+                      support action. Students can appear in more than one
+                      segment because the signals are independent.
+                    </p>
+                  </div>
+                  <span className="rounded bg-[#f0f2ee] px-2 py-1 text-[9px] text-[#637066]">
+                    {studentProfiles.length} sample profiles
+                  </span>
+                </div>
+              </div>
+
+              <div className="grid gap-3 p-4 sm:grid-cols-2 xl:grid-cols-3">
+                {studentSegments.map((segment) => {
+                  const Icon = segment.icon;
+                  const selected = selectedSegmentId === segment.id;
+                  return (
+                    <button
+                      key={segment.id}
+                      type="button"
+                      aria-expanded={selected}
+                      onClick={() =>
+                        setSelectedSegmentId(selected ? null : segment.id)
+                      }
+                      className={`rounded-md border p-4 text-left transition hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#57906f] ${
+                        selected
+                          ? "border-[#28684e] ring-1 ring-[#28684e]"
+                          : "border-[#e5e9e3]"
+                      }`}
+                    >
+                      <div className="flex items-start justify-between gap-3">
+                        <div>
+                          <p className="text-[12px] font-semibold text-[#344037]">
+                            {segment.title}
+                          </p>
+                          <p className="mt-2 text-[10px] leading-4 text-[#7b857c]">
+                            {segment.description}
+                          </p>
+                        </div>
+                        <span className={`rounded-md p-2 ${segment.color}`}>
+                          <Icon size={18} />
+                        </span>
+                      </div>
+                      <div className="mt-5 flex items-end justify-between">
+                        <span className="text-[28px] font-semibold tracking-[-0.8px] text-[#25352a]">
+                          {segment.students.length}
+                        </span>
+                        <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-[#28684e]">
+                          {selected ? "Hide students" : "View students"}
+                          <ArrowRight size={13} />
+                        </span>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {selectedSegment && (
+                <div className="border-t border-[#edf0eb] bg-[#fbfcfa] p-4 sm:p-5">
+                  <div className="flex flex-wrap items-start justify-between gap-4">
+                    <div>
+                      <p className="text-[13px] font-semibold text-[#344037]">
+                        {selectedSegment.title} ·{" "}
+                        {selectedSegment.students.length} students
+                      </p>
+                      <div className="mt-3 max-w-4xl rounded-md border border-[#dce9df] bg-[#f5faf6] p-4">
+                        <p className="text-[10px] font-bold uppercase tracking-wide text-[#28654d]">
+                          Suggested action
+                        </p>
+                        <p className="mt-1.5 text-[11px] leading-5 text-[#536056]">
+                          {selectedSegment.action}
+                        </p>
+                        <Link
+                          href={selectedSegment.href}
+                          className="mt-3 inline-flex items-center gap-1.5 text-[10px] font-semibold text-[#28684e] hover:underline"
+                        >
+                          {selectedSegment.actionLabel}
+                          <ArrowUpRight size={13} />
+                        </Link>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setSelectedSegmentId(null)}
+                      className="rounded-md border border-[#dfe5dc] px-3 py-2 text-[10px] font-medium text-[#536056] hover:bg-white"
+                    >
+                      Close group
+                    </button>
+                  </div>
+
+                  {selectedSegment.students.length > 0 ? (
+                    <ul className="mt-4 grid gap-2 md:grid-cols-2 xl:grid-cols-3">
+                      {selectedSegment.students.map((student) => (
+                        <li
+                          key={student.id}
+                          className="rounded-md border border-[#e5e9e3] bg-white p-3"
+                        >
+                          <div className="flex items-start justify-between gap-3">
+                            <div>
+                              <p className="text-[11px] font-semibold text-[#344037]">
+                                {student.name}
+                              </p>
+                              <p className="mt-1 text-[10px] text-[#899289]">
+                                {student.id} · {student.department}
+                              </p>
+                            </div>
+                            <span className="whitespace-nowrap rounded bg-[#f0f2ee] px-2 py-1 text-[9px] text-[#637066]">
+                              {student.risk} risk
+                            </span>
+                          </div>
+                          <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-[10px] text-[#667168]">
+                            <span>Academic {student.academicScore}</span>
+                            <span>Placement {student.placementScore}</span>
+                            <span>Attendance {student.attendance}%</span>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="mt-4 rounded-md border border-[#e5e9e3] bg-white p-4 text-[11px] text-[#7b857c]">
+                      No students currently match this segment.
+                    </p>
+                  )}
+                </div>
+              )}
             </section>
 
             {/* Students needing attention */}
