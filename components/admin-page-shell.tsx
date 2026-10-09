@@ -8,6 +8,7 @@ import {
   BookOpen,
   BriefcaseBusiness,
   CircleHelp,
+  ClipboardList,
   ClipboardCheck,
   GraduationCap,
   LayoutDashboard,
@@ -25,6 +26,7 @@ const workspaceLinks = [
     href: "/academic-performance",
     icon: BookOpen,
   },
+  { label: "Results", href: "/results", icon: ClipboardList },
   {
     label: "Attendance management",
     href: "/admin/attendance",

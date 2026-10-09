@@ -223,10 +223,7 @@ const departments = [
 
 const semesters = [
   "All semesters",
-  "Semester 3",
-  "Semester 4",
-  "Semester 5",
-  "Semester 6",
+  ...Array.from({ length: 8 }, (_, index) => `Semester ${index + 1}`),
 ];
 
 const institutionTrend = [
@@ -237,6 +234,95 @@ const institutionTrend = [
   { semester: "Sem 5", score: 77 },
   { semester: "Sem 6", score: 81 },
 ];
+
+function makeStudentRecord(
+  profile: (typeof studentProfiles)[number],
+  index: number,
+): Student {
+  const semesterNumber = Number.parseInt(profile.year, 10) * 2 - 1;
+  const seed = baseStudents.find(
+    (record) => record.id === profile.id && record.name === profile.name,
+  );
+  if (seed) {
+    return {
+      ...seed,
+      semester: `Semester ${semesterNumber}`,
+      score: profile.academicScore,
+      previousScore: Math.max(0, profile.academicScore - 3 - (index % 5)),
+      attendance: profile.attendance,
+    };
+  }
+
+  const subjectsByDepartment: Record<string, string[]> = {
+    "Computer Science": [
+      "Data Structures",
+      "Database Systems",
+      "Operating Systems",
+      "Computer Networks",
+      "Mathematics",
+    ],
+    "Information Technology": [
+      "Web Technologies",
+      "Database Systems",
+      "Cloud Computing",
+      "Computer Networks",
+      "Mathematics",
+    ],
+    Electronics: [
+      "Digital Electronics",
+      "Circuit Theory",
+      "Signals and Systems",
+      "Communication Systems",
+      "Mathematics",
+    ],
+    "Mechanical Engineering": [
+      "Engineering Mechanics",
+      "Thermodynamics",
+      "Manufacturing",
+      "Material Science",
+      "Mathematics",
+    ],
+  };
+  const offsets = [-4, 3, 1, -2, 2];
+  const score = profile.academicScore;
+  const historyLength = Math.min(semesterNumber, 5);
+  const firstHistorySemester = Math.max(1, semesterNumber - historyLength + 1);
+  const history = Array.from({ length: historyLength }, (_, i) => ({
+    semester: `Sem ${firstHistorySemester + i}`,
+    score:
+      i === historyLength - 1
+        ? score
+        : Math.max(0, Math.min(100, score - (historyLength - 1 - i) * 2)),
+  }));
+
+  return {
+    id: profile.id,
+    name: profile.name,
+    department: profile.department,
+    semester: `Semester ${semesterNumber}`,
+    score,
+    previousScore: Math.max(0, score - 3 - (index % 5)),
+    attendance: profile.attendance,
+    assessmentsCompleted: 6 + (index % 5),
+    assessmentsTotal: 10,
+    subjects: (
+      subjectsByDepartment[profile.department] ??
+      subjectsByDepartment["Computer Science"]
+    ).map((name, subjectIndex) => {
+      const subjectScore = Math.max(
+        0,
+        Math.min(100, score + offsets[subjectIndex]),
+      );
+      return {
+        name,
+        score: subjectScore,
+        previousScore: Math.max(0, subjectScore - (index % 4) + 1),
+        target: 60,
+      };
+    }),
+    history,
+  };
+}
 
 function getStatus(score: number) {
   if (score < 50) return "Needs support";
@@ -727,19 +813,14 @@ export default function AcademicPerformancePage() {
 
   const students = useMemo(
     () =>
-      baseStudents.map((record) => {
-        const sharedProfile = studentProfiles.find(
-          (profile) =>
-            profile.id === record.id && profile.name === record.name,
-        );
-        if (!sharedProfile) return record;
-
+      studentProfiles.map((profile, index) => {
+        const record = makeStudentRecord(profile, index);
         const update = academicUpdates.find(
-          (item) => item.studentId === sharedProfile.id,
+          (item) => item.studentId === profile.id,
         );
         return {
           ...record,
-          score: update?.currentScore ?? sharedProfile.academicScore,
+          score: update?.currentScore ?? profile.academicScore,
           previousScore: update?.previousScore ?? record.previousScore,
         };
       }),
@@ -808,7 +889,7 @@ export default function AcademicPerformancePage() {
 
       return matchesSearch && matchesDepartment && matchesSemester;
     });
-  }, [search, department, semester]);
+  }, [search, department, semester, students]);
 
   const improving = students.filter((student) => student.score > student.previousScore).length;
   const needsSupport = students.filter((student) => student.score < 50).length;
@@ -857,6 +938,9 @@ export default function AcademicPerformancePage() {
               </Link>
               <Link href="/academic-performance" aria-current="page" className="flex items-center gap-3 rounded-lg bg-[#315d47] px-4 py-3 text-sm font-semibold text-white">
                 <BookOpen size={19} /> Academic performance
+              </Link>
+              <Link href="/results" className="flex items-center gap-3 rounded-lg px-4 py-3 text-sm text-[#d1dfd5] hover:bg-white/10">
+                <ClipboardList size={19} /> Results
               </Link>
               <Link href="/placement-readiness" className="flex items-center gap-3 rounded-lg px-4 py-3 text-sm text-[#d1dfd5] hover:bg-white/10">
                 <GraduationCap size={19} /> Placement readiness

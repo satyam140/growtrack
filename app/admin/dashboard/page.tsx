@@ -13,6 +13,7 @@ import {
   BriefcaseBusiness,
   CalendarCheck,
   ClipboardCheck,
+  ClipboardList,
   ChevronDown,
   CircleHelp,
   GraduationCap,
@@ -42,6 +43,12 @@ const navigation = [
     label: "Academic performance",
     href: "/academic-performance",
     icon: BookOpen,
+    implemented: true,
+  },
+  {
+    label: "Results",
+    href: "/results",
+    icon: ClipboardList,
     implemented: true,
   },
   {

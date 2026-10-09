@@ -9,6 +9,7 @@ GrowTrack is a web-based campus management platform built with Next.js. It provi
 - **Overview:** View key student and academic statistics.
 - **Student Management:** View and manage student information.
 - **Academic Performance:** Monitor student scores, performance trends, and academic progress.
+- **Results:** Enter and declare semester subject marks for students in the sample directory. Result declarations are stored in browser `localStorage` only.
 - **Attendance Management:** Manage attendance sessions and track student attendance.
 - **Interventions:** Create and track academic support plans for students.
 - **Placement Readiness:** Monitor student placement preparation and readiness.
@@ -29,9 +30,14 @@ GrowTrack is a web-based campus management platform built with Next.js. It provi
 
 - `/` — Landing page with links to the Admin and Student dashboards.
 - `/admin/dashboard` — Administrator dashboard.
+- `/students` — 35-profile illustrative student directory.
+- `/academic-performance` — Admin academic monitoring and reports.
+- `/results` — Admin semester result declaration register.
 - `/student/dashboard` — Student dashboard.
 
 Additional student pages are available beneath the student dashboard routes.
+
+The administrator student directory contains 35 illustrative sample profiles. Results use a demo grading scale and are not official institutional records.
 
 ## Tech Stack
 

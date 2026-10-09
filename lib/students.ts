@@ -14,7 +14,7 @@ export type StudentProfile = {
   riskReasons: string[];
 };
 
-export const studentProfiles: StudentProfile[] = [
+const initialStudentProfiles: StudentProfile[] = [
   {
     id: "STU-1024",
     name: "Aarav Sharma",
@@ -152,4 +152,92 @@ export const studentProfiles: StudentProfile[] = [
     risk: "Low",
     riskReasons: [],
   },
+];
+
+const additionalStudentDetails = [
+  ["Meera Kapoor", "Computer Science"],
+  ["Arjun Nair", "Information Technology"],
+  ["Sana Khan", "Electronics"],
+  ["Vikram Desai", "Mechanical Engineering"],
+  ["Diya Iyer", "Computer Science"],
+  ["Rahul Bose", "Information Technology"],
+  ["Nisha Kulkarni", "Electronics"],
+  ["Aditya Rao", "Mechanical Engineering"],
+  ["Tara Choudhary", "Computer Science"],
+  ["Karan Shah", "Information Technology"],
+  ["Pooja Menon", "Electronics"],
+  ["Siddharth Jain", "Mechanical Engineering"],
+  ["Ira Banerjee", "Computer Science"],
+  ["Manav Sethi", "Information Technology"],
+  ["Zoya Ali", "Electronics"],
+  ["Harsh Vardhan", "Mechanical Engineering"],
+  ["Riya Das", "Computer Science"],
+  ["Nikhil Bhat", "Information Technology"],
+  ["Aisha Thomas", "Electronics"],
+  ["Yash Agarwal", "Mechanical Engineering"],
+  ["Anika Sen", "Computer Science"],
+  ["Varun Pillai", "Information Technology"],
+  ["Simran Kaur", "Electronics"],
+  ["Omkar Patil", "Mechanical Engineering"],
+  ["Maya Krishnan", "Computer Science"],
+  ["Devika Rao", "Information Technology"],
+  ["Kabir Anand", "Electronics"],
+] as const;
+
+const additionalStudentProfiles: StudentProfile[] = additionalStudentDetails.map(
+  ([name, department], index) => {
+    const academicScore = 55 + ((index * 7) % 41);
+    const attendance = 62 + ((index * 11) % 38);
+    const assignmentCompletion = 60 + ((index * 9) % 39);
+    const skillsScore = 54 + ((index * 13) % 46);
+    const placementScore = 48 + ((index * 17) % 52);
+    const engagementScore = 60 + ((index * 5) % 40);
+    const successScore = Math.round(
+      (academicScore +
+        attendance +
+        assignmentCompletion +
+        skillsScore +
+        placementScore +
+        engagementScore) /
+        6,
+    );
+    const risk =
+      academicScore < 50 || attendance < 65
+        ? "High"
+        : academicScore < 70 || attendance < 75
+          ? "Medium"
+          : "Low";
+    const riskReasons = [
+      ...(attendance < 75
+        ? ["Attendance is below the 75% target."]
+        : []),
+      ...(academicScore < 60
+        ? ["Academic performance may need additional support."]
+        : []),
+      ...(placementScore < 60
+        ? ["Additional placement preparation may help."]
+        : []),
+    ];
+
+    return {
+      id: `STU-${String(1260 + index).padStart(4, "0")}`,
+      name,
+      department,
+      year: ["2nd year", "3rd year", "4th year"][index % 3],
+      attendance,
+      academicScore,
+      assignmentCompletion,
+      skillsScore,
+      placementScore,
+      engagementScore,
+      successScore,
+      risk,
+      riskReasons,
+    };
+  },
+);
+
+export const studentProfiles: StudentProfile[] = [
+  ...initialStudentProfiles,
+  ...additionalStudentProfiles,
 ];
