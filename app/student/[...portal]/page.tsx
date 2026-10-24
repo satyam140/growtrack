@@ -1,3 +1,4 @@
+import { connection } from "next/server";
 import StudentPortalApp from "@/components/student-portal-app";
 
 const studentPortalPaths = [
@@ -17,6 +18,7 @@ export function generateStaticParams() {
   return studentPortalPaths.map((portal) => ({ portal }));
 }
 
-export default function StudentPortalPage() {
+export default async function StudentPortalPage() {
+  await connection();
   return <StudentPortalApp />;
 }
