@@ -41,10 +41,18 @@ function Ring({ value }: { value: number | null }) {
   )
 }
 
+<<<<<<< HEAD
 export function HeroCard({ overall, totals, priority }: {
   overall: number | null
   totals: { total: number; attended: number; missed: number }
   priority: SubjectStat | null
+=======
+export function HeroCard({ overall, totals, priority, onViewMissed }: {
+  overall: number | null
+  totals: { total: number; attended: number; missed: number }
+  priority: SubjectStat | null
+  onViewMissed: () => void
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 }) {
   const buffer = bufferPoints(overall)
   const above = overall !== null && overall >= REQUIRED_PCT
@@ -52,7 +60,11 @@ export function HeroCard({ overall, totals, priority }: {
   const tiles = [
     { label: 'Total lectures', value: totals.total, sub: 'this semester so far' },
     { label: 'Attended', value: totals.attended, sub: pctOf(totals.attended) === null ? '' : `${pctOf(totals.attended)}% of total` },
+<<<<<<< HEAD
     { label: 'Missed', value: totals.missed, sub: pctOf(totals.missed) === null ? '' : `${pctOf(totals.missed)}% of total` },
+=======
+    { label: 'Missed', value: totals.missed, sub: pctOf(totals.missed) === null ? '' : `${pctOf(totals.missed)}% of total`, link: totals.missed > 0 },
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   ]
   return (
     <section aria-label="Overall attendance" className="relative overflow-hidden rounded-xl border border-brand-800 text-white shadow-soft transition duration-150 hover:-translate-y-0.5 hover:shadow-md" style={{ background: 'linear-gradient(135deg, var(--brand-950), var(--brand-800))' }}>
@@ -77,6 +89,10 @@ export function HeroCard({ overall, totals, priority }: {
               <div className="text-xs text-white/80 sm:text-[13px]">{t.label}</div>
               <div className="mt-1 text-2xl font-bold tabular-nums sm:text-[28px]">{t.value}</div>
               <div className="text-xs text-white/80">{t.sub}</div>
+<<<<<<< HEAD
+=======
+              {t.link && <button onClick={onViewMissed} className="mt-1 text-left text-xs font-semibold text-brand-300 underline-offset-2 hover:underline">View missed lectures</button>}
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
             </div>
           ))}
         </div>

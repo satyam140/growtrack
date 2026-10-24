@@ -21,7 +21,11 @@ const topics = [
     content: [
       "Use Overview to review institutional indicators and students that may need attention.",
       "Use the workspace links to open Students, Academic performance, Attendance management, Placement readiness, and Interventions.",
+<<<<<<< HEAD
       "Use Settings to update the administrator profile, preferences, and academic alert thresholds. Settings are saved in this browser.",
+=======
+      "Use Settings to update the administrator profile, preferences, and academic alert thresholds. This demo saves settings in this browser.",
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
     ],
   },
   {
@@ -31,7 +35,11 @@ const topics = [
     icon: CheckCircle2,
     content: [
       "Open Students to search the directory and filter records by department or risk level. Select a student record to review its available details.",
+<<<<<<< HEAD
       "Administrators can add a student with the Add a student form on the Students page. The student is saved to the database and appears in the list straight away; marks, attendance and forecasts appear once their records are loaded.",
+=======
+      "The current project uses sample student records and does not provide a create/edit student workflow or a connected student database. New records must be added to the configured student data source before they appear in the directory.",
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
       "Interventions can be created for any student in the current directory.",
     ],
   },
@@ -43,7 +51,11 @@ const topics = [
     content: [
       "Open Academic performance from the workspace navigation.",
       "Search by student name or ID, then filter by department or semester to narrow the results.",
+<<<<<<< HEAD
       "Review score summaries and student-level subject results.",
+=======
+      "Review score summaries and student-level subject results. The current academic module is labeled as demo data.",
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
     ],
   },
   {
@@ -54,9 +66,15 @@ const topics = [
     content: [
       "Open Attendance management and complete the session title, subject, department, year, date, and start/end time, then choose Create and take attendance.",
       "In the draft register, review each student's status and select Present, Absent, or Late. The bulk actions can mark every listed student present or absent before individual corrections.",
+<<<<<<< HEAD
       "Select Submit attendance and confirm. Submitted sessions become read-only and only submitted sessions contribute to attendance percentages.",
       "Use the attendance views to review percentages. Percentage is calculated as (Present + Late) / submitted sessions with a record for that student × 100. A student with no submitted sessions has no recorded percentage.",
       "Where a student in the attendance console cannot be matched by name to a student in the directory, the recorded percentage is shown instead.",
+=======
+      "Select Submit attendance and confirm. Submitted sessions become read-only in the demo and only submitted sessions contribute to attendance percentages.",
+      "Use the attendance views to review percentages. Percentage is calculated as (Present + Late) / submitted sessions with a record for that student × 100. A student with no submitted sessions has no recorded percentage.",
+      "The administrator attendance console currently has its own demo roster. Its student IDs do not fully match the academic demo directory; where an exact student match is unavailable, Interventions displays the directory's existing demo attendance percentage instead.",
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
     ],
   },
   {
@@ -73,10 +91,17 @@ const topics = [
   {
     id: "settings",
     title: "Settings and alert thresholds",
+<<<<<<< HEAD
     keywords: "profile email role theme notification minimum attendance score",
     icon: Settings2,
     content: [
       "Open Settings to update the administrator's name, email, and role, choose a dashboard theme preference, and enable or disable notification preferences.",
+=======
+    keywords: "profile email role notification minimum attendance score",
+    icon: Settings2,
+    content: [
+      "Open Settings to update the administrator's name, email, and role, and enable or disable notification preferences.",
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
       "Set minimum attendance and academic-score percentages from 0 to 100. A student is listed for support when either score falls below its saved threshold.",
       "Select Save settings to persist your changes. Reset to defaults asks for confirmation before replacing saved settings.",
     ],
@@ -87,7 +112,11 @@ const faqs = [
   {
     question: "Why does a student not appear on the interventions list?",
     answer:
+<<<<<<< HEAD
       "The list includes directory students whose attendance or academic score is below the saved Settings threshold. Confirm the thresholds and the available student values.",
+=======
+      "The list includes directory students whose attendance or academic score is below the saved Settings threshold. Confirm the thresholds and the available demo student values.",
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   },
   {
     question: "Do draft attendance sessions affect attendance percentages?",
@@ -102,7 +131,11 @@ const faqs = [
   {
     question: "Can I add a student from the current dashboard?",
     answer:
+<<<<<<< HEAD
       "The Students page lists every student in the database. Administrators can add a student there; faculty, heads of department and the placement officer see only the students in their scope.",
+=======
+      "The current Students page is a sample-record directory and does not include a create-student action. The source data must be updated until a student database workflow is connected.",
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   },
   {
     question: "What if my saved data cannot be loaded?",
@@ -128,15 +161,25 @@ export function HelpContent() {
   );
 
   return (
+<<<<<<< HEAD
     <>
       <section className="mb-7">
         <p className="mb-2 text-[13px] font-bold tracking-[1.7px] text-[#28684e]">
+=======
+    <div>
+      <section className="mb-7">
+        <p className="mb-2 text-[10px] font-bold tracking-[1.7px] text-[#28684e]">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
           GROWTHTRACK GUIDE
         </p>
         <h1 className="text-[27px] font-semibold leading-tight tracking-[-1px] sm:text-[30px]">
           Help and documentation
         </h1>
+<<<<<<< HEAD
         <p className="mt-2 max-w-2xl text-[14.5px] leading-5 text-[#7a847b]">
+=======
+        <p className="mt-2 max-w-2xl text-[12px] leading-5 text-[#7a847b]">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
           Search dashboard guidance, workflow instructions, troubleshooting
           tips, and frequently asked questions.
         </p>
@@ -145,10 +188,17 @@ export function HelpContent() {
       <label className="relative mb-6 block max-w-xl">
         <Search
           size={17}
+<<<<<<< HEAD
           className="absolute left-3 top-1/2 -translate-y-1/2 text-[#556057]"
         />
         <input
           className="w-full rounded-md border border-[#dfe5dc] bg-white py-3 pl-10 pr-3 text-[15px] outline-none focus:border-[#57906f] focus:ring-2 focus:ring-[#e0eee4]"
+=======
+          className="absolute left-3 top-1/2 -translate-y-1/2 text-[#89938a]"
+        />
+        <input
+          className="w-full rounded-md border border-[#dfe5dc] bg-white py-3 pl-10 pr-3 text-sm outline-none focus:border-[#57906f] focus:ring-2 focus:ring-[#e0eee4]"
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
           type="search"
           placeholder="Search help topics"
           aria-label="Search help topics"
@@ -172,7 +222,11 @@ export function HelpContent() {
                 </span>
                 <h3 className="font-semibold text-[#2c4031]">{title}</h3>
               </div>
+<<<<<<< HEAD
               <ol className="space-y-2 pl-5 text-[15px] leading-6 text-[#657268]">
+=======
+              <ol className="space-y-2 pl-5 text-sm leading-6 text-[#657268]">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                 {content.map((step, index) => (
                   <li className="list-decimal pl-1" key={`${id}-${index}`}>
                     {step}
@@ -182,7 +236,11 @@ export function HelpContent() {
             </article>
           ))
         ) : (
+<<<<<<< HEAD
           <p className="rounded-lg border border-dashed border-[#dfe5dc] bg-white px-4 py-8 text-center text-[15px] text-[#748075]">
+=======
+          <p className="rounded-lg border border-dashed border-[#dfe5dc] bg-white px-4 py-8 text-center text-sm text-[#748075]">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
             No help topics match “{query}”.
           </p>
         )}
@@ -199,16 +257,27 @@ export function HelpContent() {
           {filteredFaqs.length ? (
             filteredFaqs.map((faq) => (
               <details className="group py-4" key={faq.question}>
+<<<<<<< HEAD
                 <summary className="cursor-pointer list-none pr-6 text-[15px] font-medium text-[#46564a] marker:hidden">
                   {faq.question}
                 </summary>
                 <p className="mt-3 text-[15px] leading-6 text-[#748075]">
+=======
+                <summary className="cursor-pointer list-none pr-6 text-sm font-medium text-[#46564a] marker:hidden">
+                  {faq.question}
+                </summary>
+                <p className="mt-3 text-sm leading-6 text-[#748075]">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                   {faq.answer}
                 </p>
               </details>
             ))
           ) : (
+<<<<<<< HEAD
             <p className="py-4 text-[15px] text-[#748075]">
+=======
+            <p className="py-4 text-sm text-[#748075]">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
               No frequently asked questions match this search.
             </p>
           )}
@@ -220,7 +289,11 @@ export function HelpContent() {
           <ShieldAlert size={19} className="mt-0.5 shrink-0 text-amber-800" />
           <div>
             <h2 className="font-semibold text-amber-950">Contact support</h2>
+<<<<<<< HEAD
             <p className="mt-1 text-[15px] leading-6 text-amber-900">
+=======
+            <p className="mt-1 text-sm leading-6 text-amber-900">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
               No support email, help-desk link, or ticketing integration is
               configured in this project, so there is no in-app support
               channel to open. Contact the GrowthTrack project administrator
@@ -229,7 +302,11 @@ export function HelpContent() {
           </div>
         </div>
       </section>
+<<<<<<< HEAD
     </>
+=======
+    </div>
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   );
 }
 

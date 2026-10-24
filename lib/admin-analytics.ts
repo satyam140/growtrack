@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 /** One student as the assistant reasons about them (built from the signed-in person's own scope in the database). */
 export type AnalyticsStudent = {
@@ -5,6 +6,27 @@ export type AnalyticsStudent = {
   academicScore: number; attendance: number; assignmentCompletion: number; skillsScore: number; placementScore: number; engagementScore: number;
   successScore: number; risk: "High" | "Medium" | "Low"; riskReasons: string[]; cgpa?: number; sgpa?: number;
 };
+=======
+import type { StudentProfile } from "@/lib/students";
+
+type AnalyticsStudent = Pick<
+  StudentProfile,
+  | "id"
+  | "name"
+  | "department"
+  | "academicScore"
+  | "attendance"
+  | "assignmentCompletion"
+  | "skillsScore"
+  | "placementScore"
+  | "engagementScore"
+  | "successScore"
+  | "risk"
+  | "riskReasons"
+  | "cgpa"
+  | "sgpa"
+>;
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 
 export type AdminAnalyticsAnswer = {
   title: string;
@@ -30,7 +52,11 @@ const scoreFactors: { field: ScoreField; label: string }[] = [
   { field: "engagementScore", label: "Engagement score" },
 ];
 
+<<<<<<< HEAD
 function average(students: AnalyticsStudent[], field: ScoreField | "placementScore") {
+=======
+function average(students: StudentProfile[], field: ScoreField | "placementScore") {
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   if (students.length === 0) return 0;
   return Math.round(
     students.reduce((total, student) => total + student[field], 0) /
@@ -40,12 +66,19 @@ function average(students: AnalyticsStudent[], field: ScoreField | "placementSco
 
 function departmentFromQuestion(
   question: string,
+<<<<<<< HEAD
   students: AnalyticsStudent[],
+=======
+  students: StudentProfile[],
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 ): string | undefined {
   const departments = [...new Set(students.map((student) => student.department))];
   const aliases: Record<string, string[]> = {
     "Computer Science": ["cse", "computer science", "computer science engineering"],
+<<<<<<< HEAD
     "Civil Engineering": ["civil engineering", "civil"],
+=======
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
     "Information Technology": ["information technology", "information tech"],
     Electronics: ["electronics", "ece"],
     "Mechanical Engineering": ["mechanical engineering", "mechanical", "mech"],
@@ -64,7 +97,11 @@ function answer(
   title: string,
   summary: string,
   evidence: string[],
+<<<<<<< HEAD
   students: AnalyticsStudent[],
+=======
+  students: StudentProfile[],
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   recommendation: string,
   includeGpaDetails = false,
 ): AdminAnalyticsAnswer {
@@ -80,7 +117,11 @@ function answer(
 
 export function getAdminAnalyticsAnswer(
   question: string,
+<<<<<<< HEAD
   profiles: AnalyticsStudent[],
+=======
+  profiles: StudentProfile[],
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 ): AdminAnalyticsAnswer {
   const normalizedQuestion = question.trim().toLowerCase();
   const department = departmentFromQuestion(normalizedQuestion, profiles);
@@ -96,6 +137,7 @@ export function getAdminAnalyticsAnswer(
     /(placement|employab|readiness)/.test(normalizedQuestion);
 
   if (requestsAcademicPlacementMismatch) {
+<<<<<<< HEAD
     // CGPA is on record for every student, so "good CGPA" means a recorded CGPA of 7.0 or more
     const matches = profiles
       .filter((student) => (student.cgpa ?? student.academicScore / 10) >= 7 && student.placementScore < 65)
@@ -115,6 +157,44 @@ export function getAdminAnalyticsAnswer(
       matches.slice(0, 20),
       "Offer these students role-focused skills practice and a mock interview, then review their placement readiness after the next preparation cycle.",
       true,
+=======
+    const matches = asksGpa
+      ? profiles
+          .filter((student) => student.placementScore < 65)
+          .sort((left, right) => left.placementScore - right.placementScore)
+      : profiles
+          .filter(
+            (student) =>
+              student.academicScore >= 70 && student.placementScore < 65,
+          )
+          .sort(
+            (left, right) =>
+              left.placementScore - right.placementScore ||
+              right.academicScore - left.academicScore,
+          );
+
+    return answer(
+      asksGpa
+        ? "Lower placement readiness; official GPA not available"
+        : "Strong academics, lower placement readiness",
+      asksGpa
+        ? `${matches.length} of ${profiles.length} sample students have placement scores below 65. No official CGPA is available to verify which students have strong CGPA.`
+        : `${matches.length} of ${profiles.length} sample students have an academic score of at least 70 and a placement score below 65.`,
+      asksGpa
+        ? [
+            "CGPA and SGPA are shown only when officially stored; none are recorded in the current sample profiles.",
+            "Match criteria: placement score < 65. Academic scores are not used as a CGPA substitute.",
+          ]
+        : [
+            "Academic score is used as a proxy for strong marks; this dataset does not contain CGPA.",
+            "Match criteria: academic score ≥ 70 and placement score < 65.",
+          ],
+      matches,
+      asksGpa
+        ? "Review official academic records to verify CGPA before identifying high-CGPA students. These lower-readiness students may benefit from role-focused skills practice and a mock interview."
+        : "Offer these students role-focused skills practice and a mock interview, then review their placement score after the next preparation cycle.",
+      asksGpa,
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
     );
   }
 
@@ -136,10 +216,17 @@ export function getAdminAnalyticsAnswer(
         : matchingStudents;
 
     return answer(
+<<<<<<< HEAD
       "CGPA and SGPA records",
       recordedCount > 0
         ? `${recordedCount} of ${scopedStudents.length} matching student records have officially recorded CGPA or SGPA values.`
         : `No official CGPA or SGPA values are recorded for the ${scopedStudents.length} matching student records.`,
+=======
+      "Official CGPA and SGPA records",
+      recordedCount > 0
+        ? `${recordedCount} of ${scopedStudents.length} matching sample student profiles have officially recorded CGPA or SGPA values.`
+        : `No official CGPA or SGPA values are recorded for the ${scopedStudents.length} matching sample student profiles.`,
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
       [
         "CGPA and SGPA are shown only when officially stored on the student profile.",
         "Academic score is not converted into CGPA or SGPA.",
@@ -147,7 +234,11 @@ export function getAdminAnalyticsAnswer(
           ? [`Showing records for ${department}.`]
           : []),
       ],
+<<<<<<< HEAD
       students.slice(0, 20),
+=======
+      students,
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
       recordedCount > 0
         ? "Review the recorded values with the student's academic history and use your institution's criteria for any follow-up."
         : "Add verified CGPA and SGPA values to the official student records to make them available here.",
@@ -171,7 +262,11 @@ export function getAdminAnalyticsAnswer(
 
     return answer(
       "Students to prioritize for a supportive review",
+<<<<<<< HEAD
       `${matches.length} of ${profiles.length} students are marked medium or high risk, including ${highRiskCount} at high risk. The list is ordered by risk level, then lower success score.`,
+=======
+      `${matches.length} of ${profiles.length} sample students are marked medium or high risk, including ${highRiskCount} at high risk. The list is ordered by risk level, then lower success score.`,
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
       [
         "Risk labels and success scores come from the student profiles.",
         "Review the listed attendance, academic and placement scores alongside each student's recorded risk reasons.",
@@ -208,7 +303,11 @@ export function getAdminAnalyticsAnswer(
 
     return answer(
       "Signals associated with lower placement readiness",
+<<<<<<< HEAD
       `${lowerReadiness.length} of ${profiles.length} students have a placement score below 65. The comparisons below show cohort averages; they indicate associations, not proven causes.`,
+=======
+      `${lowerReadiness.length} of ${profiles.length} sample students have a placement score below 65. The comparisons below show cohort averages; they indicate associations, not proven causes.`,
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
       [
         ...factors.slice(0, 3).map(
           (factor) =>
@@ -235,7 +334,11 @@ export function getAdminAnalyticsAnswer(
     if (departmentStudents.length === 0) {
       return answer(
         `${department} analytics`,
+<<<<<<< HEAD
         `No student records were found for ${department}.`,
+=======
+        `No sample student profiles were found for ${department}.`,
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
         ["Department results are computed from the student profiles currently loaded in the dashboard."],
         [],
         "Confirm that this department is present in the current student dataset before planning an intervention.",
@@ -259,7 +362,11 @@ export function getAdminAnalyticsAnswer(
 
     return answer(
       `${department}: intervention priority`,
+<<<<<<< HEAD
       `${lowReadiness.length} of ${departmentStudents.length} students have placement scores below 65. The department's average placement score is ${average(departmentStudents, "placementScore")}/100.`,
+=======
+      `${lowReadiness.length} of ${departmentStudents.length} sample students have placement scores below 65. The department's average placement score is ${average(departmentStudents, "placementScore")}/100.`,
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
       [
         `Average academic score: ${average(departmentStudents, "academicScore")}/100.`,
         `Average skills score: ${average(departmentStudents, "skillsScore")}/100.`,

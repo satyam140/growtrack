@@ -2,8 +2,11 @@
 "use client";
 
 import { useMemo, useState } from "react";
+<<<<<<< HEAD
 import { studentProfiles, studentDepartments } from "@/lib/students";
 import { Pager, usePaged } from "@/components/pager";
+=======
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 import {
   Search,
   TrendingUp,
@@ -35,7 +38,11 @@ type Skill = {
 };
 
 type Student = {
+<<<<<<< HEAD
   id: string;
+=======
+  id: number;
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   name: string;
   department: string;
   year: string;
@@ -43,6 +50,7 @@ type Student = {
   skills: Skill[];
 };
 
+<<<<<<< HEAD
 /** Skill levels each target role asks for. */
 const roleRequirements: Record<string, Record<string, number>> = {
   "Software Developer": { Programming: 85, "Data Structures": 80, SQL: 70, Communication: 75, "Problem Solving": 85 },
@@ -125,6 +133,195 @@ const initialStudents: Student[] = studentProfiles.map(toSkillGapStudent);
 const departments = ["All Departments", ...studentDepartments];
 
 const roles = ["All Roles", ...Object.keys(roleRequirements)];
+=======
+const initialStudents: Student[] = [
+  {
+    id: 1,
+    name: "Aarav Sharma",
+    department: "Computer Engineering",
+    year: "Final Year",
+    targetRole: "Software Developer",
+    skills: [
+      { name: "Programming", current: 75, required: 90 },
+      { name: "Data Structures", current: 60, required: 85 },
+      { name: "SQL", current: 70, required: 80 },
+      { name: "Communication", current: 65, required: 80 },
+      { name: "Problem Solving", current: 70, required: 90 },
+    ],
+  },
+  {
+    id: 2,
+    name: "Priya Patel",
+    department: "Information Technology",
+    year: "Final Year",
+    targetRole: "Data Analyst",
+    skills: [
+      { name: "Python", current: 80, required: 85 },
+      { name: "SQL", current: 55, required: 90 },
+      { name: "Statistics", current: 65, required: 85 },
+      { name: "Data Visualization", current: 60, required: 85 },
+      { name: "Communication", current: 75, required: 80 },
+    ],
+  },
+  {
+    id: 3,
+    name: "Rohan Deshmukh",
+    department: "Electronics",
+    year: "Final Year",
+    targetRole: "Embedded Engineer",
+    skills: [
+      { name: "C/C++", current: 70, required: 90 },
+      { name: "Microcontrollers", current: 60, required: 85 },
+      { name: "Digital Electronics", current: 80, required: 85 },
+      { name: "Debugging", current: 55, required: 80 },
+      { name: "Communication", current: 65, required: 75 },
+    ],
+  },
+  {
+    id: 4,
+    name: "Sneha Kulkarni",
+    department: "Computer Engineering",
+    year: "Third Year",
+    targetRole: "Web Developer",
+    skills: [
+      { name: "HTML/CSS", current: 85, required: 85 },
+      { name: "JavaScript", current: 65, required: 90 },
+      { name: "React", current: 55, required: 85 },
+      { name: "Git", current: 60, required: 80 },
+      { name: "Communication", current: 75, required: 80 },
+    ],
+  },
+  {
+    id: 5,
+    name: "Aditya Singh",
+    department: "Information Technology",
+    year: "Final Year",
+    targetRole: "Software Developer",
+    skills: [
+      { name: "Programming", current: 85, required: 90 },
+      { name: "Data Structures", current: 78, required: 85 },
+      { name: "SQL", current: 75, required: 80 },
+      { name: "Communication", current: 60, required: 80 },
+      { name: "Problem Solving", current: 82, required: 90 },
+    ],
+  },
+  {
+    id: 6,
+    name: "Isha Mehta",
+    department: "Electronics",
+    year: "Third Year",
+    targetRole: "Data Analyst",
+    skills: [
+      { name: "Python", current: 60, required: 85 },
+      { name: "SQL", current: 65, required: 90 },
+      { name: "Statistics", current: 55, required: 85 },
+      { name: "Data Visualization", current: 50, required: 85 },
+      { name: "Communication", current: 70, required: 80 },
+    ],
+  },
+];
+
+const learningResources: Record<
+  string,
+  { description: string; resource: string; url: string }
+> = {
+  Programming: {
+    description: "Practice programming fundamentals and coding exercises.",
+    resource: "freeCodeCamp",
+    url: "https://www.freecodecamp.org/",
+  },
+  "Data Structures": {
+    description: "Learn arrays, linked lists, trees, graphs, and algorithms.",
+    resource: "GeeksforGeeks",
+    url: "https://www.geeksforgeeks.org/",
+  },
+  SQL: {
+    description: "Practice SQL queries, joins, grouping, and database design.",
+    resource: "SQLBolt",
+    url: "https://sqlbolt.com/",
+  },
+  Communication: {
+    description: "Improve speaking, presentations, and professional writing.",
+    resource: "Toastmasters",
+    url: "https://www.toastmasters.org/",
+  },
+  "Problem Solving": {
+    description: "Build structured problem-solving skills through challenges.",
+    resource: "HackerRank",
+    url: "https://www.hackerrank.com/",
+  },
+  Python: {
+    description: "Develop Python skills through practical coding exercises.",
+    resource: "Python Tutorial",
+    url: "https://docs.python.org/3/tutorial/",
+  },
+  Statistics: {
+    description: "Strengthen probability, statistics, and data interpretation.",
+    resource: "Khan Academy",
+    url: "https://www.khanacademy.org/math/statistics-probability",
+  },
+  "Data Visualization": {
+    description: "Learn to communicate insights through charts and dashboards.",
+    resource: "Tableau Learning",
+    url: "https://www.tableau.com/learn/training",
+  },
+  "C/C++": {
+    description: "Improve C/C++ programming and memory-management skills.",
+    resource: "LearnCpp",
+    url: "https://www.learncpp.com/",
+  },
+  Microcontrollers: {
+    description: "Explore embedded programming and microcontroller projects.",
+    resource: "Arduino Docs",
+    url: "https://docs.arduino.cc/",
+  },
+  "Digital Electronics": {
+    description: "Review logic gates, circuits, and digital systems.",
+    resource: "All About Circuits",
+    url: "https://www.allaboutcircuits.com/",
+  },
+  Debugging: {
+    description: "Practice identifying errors and systematically testing code.",
+    resource: "Visual Studio Code Docs",
+    url: "https://code.visualstudio.com/docs",
+  },
+  "HTML/CSS": {
+    description: "Learn accessible HTML and responsive CSS layouts.",
+    resource: "MDN Web Docs",
+    url: "https://developer.mozilla.org/",
+  },
+  JavaScript: {
+    description: "Practice JavaScript fundamentals and modern language features.",
+    resource: "JavaScript.info",
+    url: "https://javascript.info/",
+  },
+  React: {
+    description: "Build component-based applications with React.",
+    resource: "React Documentation",
+    url: "https://react.dev/learn",
+  },
+  Git: {
+    description: "Learn version control, branching, and collaboration.",
+    resource: "Git Documentation",
+    url: "https://git-scm.com/doc",
+  },
+};
+
+const departments = [
+  "All Departments",
+  "Computer Engineering",
+  "Information Technology",
+  "Electronics",
+];
+
+const roles = [
+  "All Roles",
+  "Software Developer",
+  "Data Analyst",
+  "Embedded Engineer",
+  "Web Developer",
+];
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 
 function getAverageSkillScore(student: Student) {
   return Math.round(
@@ -167,7 +364,11 @@ export default function SkillGapPage() {
   const [search, setSearch] = useState("");
   const [department, setDepartment] = useState("All Departments");
   const [role, setRole] = useState("All Roles");
+<<<<<<< HEAD
   const [selectedStudentId, setSelectedStudentId] = useState(initialStudents[0].id);
+=======
+  const [selectedStudentId, setSelectedStudentId] = useState(1);
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 
   const filteredStudents = useMemo(() => {
     const normalizedSearch = search.trim().toLowerCase();
@@ -197,8 +398,11 @@ export default function SkillGapPage() {
     [filteredStudents, selectedStudentId]
   );
 
+<<<<<<< HEAD
   const paged = usePaged(filteredStudents, `${search}|${department}|${role}`, 20);
 
+=======
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   const averageScore = useMemo(() => {
     if (filteredStudents.length === 0) return 0;
 
@@ -262,7 +466,11 @@ export default function SkillGapPage() {
     setSearch("");
     setDepartment("All Departments");
     setRole("All Roles");
+<<<<<<< HEAD
     setSelectedStudentId(initialStudents[0].id);
+=======
+    setSelectedStudentId(1);
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   };
 
   const handleExport = () => {
@@ -312,7 +520,11 @@ export default function SkillGapPage() {
   };
 
   const updateSkillLevel = (
+<<<<<<< HEAD
     studentId: string,
+=======
+    studentId: number,
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
     skillName: string,
     value: number
   ) => {
@@ -338,7 +550,11 @@ export default function SkillGapPage() {
         {/* Page heading */}
         <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
+<<<<<<< HEAD
             <div className="mb-2 flex items-center gap-2 text-[15px] font-medium text-indigo-600">
+=======
+            <div className="mb-2 flex items-center gap-2 text-sm font-medium text-indigo-600">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
               <GraduationCap size={18} />
               GrowthTrack / Student Development
             </div>
@@ -347,7 +563,11 @@ export default function SkillGapPage() {
               Skill Gap Analysis
             </h1>
 
+<<<<<<< HEAD
             <p className="mt-2 max-w-2xl text-[15px] leading-6 text-[#4b564e]">
+=======
+            <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
               Compare current student skills with target-role requirements,
               identify areas for improvement, and plan focused learning.
             </p>
@@ -357,7 +577,11 @@ export default function SkillGapPage() {
             type="button"
             onClick={handleExport}
             disabled={filteredStudents.length === 0}
+<<<<<<< HEAD
             className="inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-4 py-2.5 text-[15px] font-semibold text-white shadow-sm transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50"
+=======
+            className="inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50"
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
           >
             <Download size={17} />
             Export Report
@@ -404,15 +628,24 @@ export default function SkillGapPage() {
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
             <div>
               <h2 className="font-semibold">Explore student skills</h2>
+<<<<<<< HEAD
               <p className="mt-1 text-[13.5px] text-[#4b564e]">
                 Search and filter students.
+=======
+              <p className="mt-1 text-xs text-slate-500">
+                Search and filter the sample student dataset.
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
               </p>
             </div>
 
             <button
               type="button"
               onClick={handleReset}
+<<<<<<< HEAD
               className="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-[15px] font-medium text-[#4b564e] transition hover:bg-slate-100 hover:text-slate-800"
+=======
+              className="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-slate-500 transition hover:bg-slate-100 hover:text-slate-800"
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
             >
               <RotateCcw size={15} />
               Reset filters
@@ -423,21 +656,33 @@ export default function SkillGapPage() {
             <div className="relative">
               <Search
                 size={18}
+<<<<<<< HEAD
                 className="absolute left-3 top-1/2 -translate-y-1/2 text-[#556057]"
+=======
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
               />
               <input
                 type="search"
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}
                 placeholder="Search name, department, or role..."
+<<<<<<< HEAD
                 className="w-full rounded-xl border border-slate-200 bg-white py-3 pl-10 pr-3 text-[15px] outline-none transition placeholder:text-[#556057] focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
+=======
+                className="w-full rounded-xl border border-slate-200 bg-white py-3 pl-10 pr-3 text-sm outline-none transition placeholder:text-slate-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
               />
             </div>
 
             <select
               value={department}
               onChange={(event) => setDepartment(event.target.value)}
+<<<<<<< HEAD
               className="w-full rounded-xl border border-slate-200 bg-white px-3 py-3 text-[15px] outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
+=======
+              className="w-full rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
               aria-label="Filter by department"
             >
               {departments.map((item) => (
@@ -450,7 +695,11 @@ export default function SkillGapPage() {
             <select
               value={role}
               onChange={(event) => setRole(event.target.value)}
+<<<<<<< HEAD
               className="w-full rounded-xl border border-slate-200 bg-white px-3 py-3 text-[15px] outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
+=======
+              className="w-full rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
               aria-label="Filter by target role"
             >
               {roles.map((item) => (
@@ -467,7 +716,11 @@ export default function SkillGapPage() {
           <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6 xl:col-span-2">
             <div className="mb-5">
               <h2 className="font-semibold">Current vs. required skills</h2>
+<<<<<<< HEAD
               <p className="mt-1 text-[15px] text-[#4b564e]">
+=======
+              <p className="mt-1 text-sm text-slate-500">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                 Average skill levels for students matching your filters.
               </p>
             </div>
@@ -491,13 +744,21 @@ export default function SkillGapPage() {
                       textAnchor="end"
                       interval={0}
                       height={72}
+<<<<<<< HEAD
                       tick={{ fontSize: 13, fill: "#64748b" }}
+=======
+                      tick={{ fontSize: 11, fill: "#64748b" }}
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                       axisLine={false}
                       tickLine={false}
                     />
                     <YAxis
                       domain={[0, 100]}
+<<<<<<< HEAD
                       tick={{ fontSize: 13, fill: "#64748b" }}
+=======
+                      tick={{ fontSize: 11, fill: "#64748b" }}
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                       axisLine={false}
                       tickLine={false}
                     />
@@ -511,7 +772,11 @@ export default function SkillGapPage() {
                     <Legend
                       verticalAlign="top"
                       align="right"
+<<<<<<< HEAD
                       wrapperStyle={{ fontSize: "14px", paddingBottom: "16px" }}
+=======
+                      wrapperStyle={{ fontSize: "12px", paddingBottom: "16px" }}
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                       formatter={(value) =>
                         value === "current"
                           ? "Current level"
@@ -544,7 +809,11 @@ export default function SkillGapPage() {
             <div className="mb-5 flex items-start justify-between gap-3">
               <div>
                 <h2 className="font-semibold">Priority skill gaps</h2>
+<<<<<<< HEAD
                 <p className="mt-1 text-[15px] text-[#4b564e]">
+=======
+                <p className="mt-1 text-sm text-slate-500">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                   Largest average differences
                 </p>
               </div>
@@ -558,8 +827,13 @@ export default function SkillGapPage() {
                 {topGaps.map((skill) => (
                   <div key={skill.name}>
                     <div className="mb-2 flex items-center justify-between gap-2">
+<<<<<<< HEAD
                       <span className="text-[15px] font-medium">{skill.name}</span>
                       <span className="text-[15px] font-semibold text-rose-600">
+=======
+                      <span className="text-sm font-medium">{skill.name}</span>
+                      <span className="text-sm font-semibold text-rose-600">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                         -{skill.gap} pts
                       </span>
                     </div>
@@ -573,7 +847,11 @@ export default function SkillGapPage() {
                       />
                     </div>
 
+<<<<<<< HEAD
                     <p className="mt-1.5 text-[13.5px] text-[#4b564e]">
+=======
+                    <p className="mt-1.5 text-xs text-slate-500">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                       Current {skill.current}% · Target {skill.required}%
                     </p>
                   </div>
@@ -584,11 +862,19 @@ export default function SkillGapPage() {
             )}
 
             <div className="mt-6 rounded-xl bg-indigo-50 p-4">
+<<<<<<< HEAD
               <div className="flex items-center gap-2 text-[15px] font-semibold text-indigo-900">
                 <BookOpen size={17} />
                 Suggested next step
               </div>
               <p className="mt-2 text-[15px] leading-6 text-indigo-800">
+=======
+              <div className="flex items-center gap-2 text-sm font-semibold text-indigo-900">
+                <BookOpen size={17} />
+                Suggested next step
+              </div>
+              <p className="mt-2 text-sm leading-6 text-indigo-800">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                 Focus learning plans on the skills with the largest gaps, then
                 reassess proficiency after practice.
               </p>
@@ -601,12 +887,20 @@ export default function SkillGapPage() {
           <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 p-4 sm:p-6">
             <div>
               <h2 className="font-semibold">Student skill overview</h2>
+<<<<<<< HEAD
               <p className="mt-1 text-[15px] text-[#4b564e]">
+=======
+              <p className="mt-1 text-sm text-slate-500">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                 Select a student to inspect individual skill gaps.
               </p>
             </div>
 
+<<<<<<< HEAD
             <span className="rounded-full bg-slate-100 px-3 py-1.5 text-[13.5px] font-medium text-slate-600">
+=======
+            <span className="rounded-full bg-slate-100 px-3 py-1.5 text-xs font-medium text-slate-600">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
               {filteredStudents.length} student
               {filteredStudents.length === 1 ? "" : "s"}
             </span>
@@ -614,8 +908,13 @@ export default function SkillGapPage() {
 
           {filteredStudents.length > 0 ? (
             <div className="overflow-x-auto">
+<<<<<<< HEAD
               <table className="w-full min-w-[760px] text-left text-[15px]">
                 <thead className="bg-slate-50 text-[13.5px] uppercase tracking-wide text-[#4b564e]">
+=======
+              <table className="w-full min-w-[760px] text-left text-sm">
+                <thead className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                   <tr>
                     <th className="px-6 py-4 font-semibold">Student</th>
                     <th className="px-6 py-4 font-semibold">Department</th>
@@ -627,7 +926,11 @@ export default function SkillGapPage() {
                 </thead>
 
                 <tbody className="divide-y divide-slate-100">
+<<<<<<< HEAD
                   {paged.pageItems.map((student) => {
+=======
+                  {filteredStudents.map((student) => {
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                     const score = getAverageSkillScore(student);
                     const gap = getAverageGap(student);
                     const isSelected =
@@ -651,7 +954,11 @@ export default function SkillGapPage() {
                       >
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-3">
+<<<<<<< HEAD
                             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-indigo-100 text-[15px] font-bold text-indigo-700">
+=======
+                            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-indigo-100 text-sm font-bold text-indigo-700">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                               {student.name
                                 .split(" ")
                                 .map((part) => part[0])
@@ -662,7 +969,11 @@ export default function SkillGapPage() {
                               <p className="font-semibold text-slate-800">
                                 {student.name}
                               </p>
+<<<<<<< HEAD
                               <p className="mt-1 text-[13.5px] text-[#4b564e]">
+=======
+                              <p className="mt-1 text-xs text-slate-500">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                                 {student.year}
                               </p>
                             </div>
@@ -695,7 +1006,11 @@ export default function SkillGapPage() {
 
                         <td className="px-6 py-4">
                           <span
+<<<<<<< HEAD
                             className={`whitespace-nowrap rounded-full px-2.5 py-1 text-[13.5px] font-semibold ${getGapColor(gap)}`}
+=======
+                            className={`whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-semibold ${getGapColor(gap)}`}
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                           >
                             {getGapLabel(gap)}
                           </span>
@@ -705,9 +1020,12 @@ export default function SkillGapPage() {
                   })}
                 </tbody>
               </table>
+<<<<<<< HEAD
               <div className="border-t border-slate-100 px-4">
                 <Pager paged={paged} noun="students" />
               </div>
+=======
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
             </div>
           ) : (
             <div className="p-8">
@@ -730,12 +1048,20 @@ export default function SkillGapPage() {
                   </h2>
                 </div>
 
+<<<<<<< HEAD
                 <p className="mt-2 text-[15px] text-[#4b564e]">
+=======
+                <p className="mt-2 text-sm text-slate-500">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                   {selectedStudent.department} · {selectedStudent.targetRole}
                 </p>
               </div>
 
+<<<<<<< HEAD
               <span className="w-fit rounded-full bg-slate-100 px-3 py-1.5 text-[13.5px] font-medium text-slate-600">
+=======
+              <span className="w-fit rounded-full bg-slate-100 px-3 py-1.5 text-xs font-medium text-slate-600">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                 {selectedStudent.skills.length} skills assessed
               </span>
             </div>
@@ -753,14 +1079,22 @@ export default function SkillGapPage() {
                     <div className="flex flex-col justify-between gap-2 sm:flex-row sm:items-center">
                       <div>
                         <h3 className="font-semibold">{skill.name}</h3>
+<<<<<<< HEAD
                         <p className="mt-1 text-[13.5px] text-[#4b564e]">
+=======
+                        <p className="mt-1 text-xs text-slate-500">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                           Current: {skill.current}% · Required:{" "}
                           {skill.required}%
                         </p>
                       </div>
 
                       <span
+<<<<<<< HEAD
                         className={`w-fit rounded-full px-2.5 py-1 text-[13.5px] font-semibold ${getGapColor(gap)}`}
+=======
+                        className={`w-fit rounded-full px-2.5 py-1 text-xs font-semibold ${getGapColor(gap)}`}
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                       >
                         {gap === 0 ? "Target reached" : `${gap}-point gap`}
                       </span>
@@ -794,7 +1128,11 @@ export default function SkillGapPage() {
                         )}
 
                         <div>
+<<<<<<< HEAD
                           <p className="text-[15px] font-medium text-slate-700">
+=======
+                          <p className="text-sm font-medium text-slate-700">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                             {gap === 0
                               ? "Required level achieved"
                               : gap <= 10
@@ -802,7 +1140,11 @@ export default function SkillGapPage() {
                                 : "Recommended learning focus"}
                           </p>
 
+<<<<<<< HEAD
                           <p className="mt-1 text-[13.5px] leading-5 text-[#4b564e]">
+=======
+                          <p className="mt-1 text-xs leading-5 text-slate-500">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                             {resource?.description ??
                               "Continue practicing this skill and reassess your progress."}
                           </p>
@@ -814,7 +1156,11 @@ export default function SkillGapPage() {
                           href={resource.url}
                           target="_blank"
                           rel="noreferrer"
+<<<<<<< HEAD
                           className="shrink-0 text-[15px] font-semibold text-indigo-600 hover:text-indigo-800"
+=======
+                          className="shrink-0 text-sm font-semibold text-indigo-600 hover:text-indigo-800"
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                         >
                           {resource.resource} ↗
                         </a>
@@ -825,9 +1171,15 @@ export default function SkillGapPage() {
                     <div className="mt-4 flex flex-wrap items-center gap-3">
                       <label
                         htmlFor={`skill-${selectedStudent.id}-${skill.name}`}
+<<<<<<< HEAD
                         className="text-[13.5px] font-medium text-[#4b564e]"
                       >
                         Update level
+=======
+                        className="text-xs font-medium text-slate-500"
+                      >
+                        Update demo level
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                       </label>
 
                       <input
@@ -847,7 +1199,11 @@ export default function SkillGapPage() {
                         className="w-36 accent-indigo-600"
                       />
 
+<<<<<<< HEAD
                       <span className="min-w-10 text-[13.5px] font-semibold text-slate-700">
+=======
+                      <span className="min-w-10 text-xs font-semibold text-slate-700">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                         {skill.current}%
                       </span>
                     </div>
@@ -858,10 +1214,21 @@ export default function SkillGapPage() {
           </section>
         )}
 
+<<<<<<< HEAD
         <footer className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-[15px] leading-6 text-amber-900">
           <p className="font-semibold">About this analysis</p>
           <p className="mt-1">
             Levels, role requirements and gap labels are estimates to guide practice, not verified assessments. Slider changes update this page only and are not saved.
+=======
+        <footer className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm leading-6 text-amber-900">
+          <p className="font-semibold">About this analysis</p>
+          <p className="mt-1">
+            This page uses sample student records and illustrative proficiency
+            scores. The current levels, role requirements, gap labels, and
+            recommendations are demo data—not verified student assessments or
+            AI-generated predictions. Slider changes update the page state
+            only and are not saved to a database.
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
           </p>
         </footer>
       </div>
@@ -886,12 +1253,20 @@ function SummaryCard({
     <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
       <div className="flex items-start justify-between gap-3">
         <div>
+<<<<<<< HEAD
           <p className="text-[15px] font-medium text-[#4b564e]">{title}</p>
+=======
+          <p className="text-sm font-medium text-slate-500">{title}</p>
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
           <p className="mt-3 text-3xl font-bold tracking-tight">{value}</p>
         </div>
         <div className={`rounded-xl p-3 ${iconClass}`}>{icon}</div>
       </div>
+<<<<<<< HEAD
       <p className="mt-3 text-[13.5px] leading-5 text-[#4b564e]">{subtitle}</p>
+=======
+      <p className="mt-3 text-xs leading-5 text-slate-500">{subtitle}</p>
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
     </div>
   );
 }
@@ -907,8 +1282,13 @@ function SkillBar({
 }) {
   return (
     <div>
+<<<<<<< HEAD
       <div className="mb-1.5 flex items-center justify-between text-[13.5px]">
         <span className="text-[#4b564e]">{label}</span>
+=======
+      <div className="mb-1.5 flex items-center justify-between text-xs">
+        <span className="text-slate-500">{label}</span>
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
         <span className="font-semibold text-slate-700">{value}%</span>
       </div>
 
@@ -926,7 +1306,11 @@ function EmptyState({ message }: { message: string }) {
   return (
     <div className="flex min-h-40 flex-col items-center justify-center text-center">
       <Search size={28} className="mb-3 text-slate-300" />
+<<<<<<< HEAD
       <p className="max-w-sm text-[15px] text-[#4b564e]">{message}</p>
+=======
+      <p className="max-w-sm text-sm text-slate-500">{message}</p>
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
     </div>
   );
 }

@@ -1,8 +1,14 @@
 import type { Metadata } from "next";
+<<<<<<< HEAD
 import { Suspense } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AnalyticsCopilot } from "@/components/analytics-copilot";
+=======
+import { Geist, Geist_Mono } from "next/font/google";
+import { AnalyticsCopilot } from "@/app/admin/dashboard/analytics-copilot";
+import "./globals.css";
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,9 +35,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col">
         {children}
+<<<<<<< HEAD
         <Suspense fallback={null}>
           <AnalyticsCopilot />
         </Suspense>
+=======
+        <AnalyticsCopilot />
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
       </body>
     </html>
   );

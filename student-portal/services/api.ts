@@ -12,8 +12,13 @@ import type {
   TeacherFeedback, TechSkill,
 } from '@student/types'
 import { clearLocalFeedbackData } from '@student/services/localFeedback'
+<<<<<<< HEAD
 import { DEFAULT_STUDENT_ID } from '@student/data/students'
 import { rebuildAttendance } from '@/lib/dataset/attendance-rebuild'
+=======
+import { ALL_STUDENTS, DEFAULT_STUDENT_ID } from '@student/data/students'
+import { attendanceBySubject, avg, cohortAverageComponents } from '@student/lib/scoring'
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 
 interface Overlay {
   activities: Activity[]
@@ -70,6 +75,7 @@ function merge(base: Student): Student {
   }
 }
 
+<<<<<<< HEAD
 /* --------------------------- unified dataset files --------------------------- */
 // Records are static JSON written by `npm run generate:data` (see data/DATASET.md). One file per student keeps
 // the page light: the browser only ever downloads the students it opens.
@@ -101,6 +107,41 @@ export async function getStudent(id: string = DEFAULT_STUDENT_ID): Promise<Stude
 export function getCohort(): Promise<CohortStats> { return (cohortPromise ??= fetchJson<CohortStats>('/data/cohort.json')) }
 export function listStudents(): Promise<{ id: string; name: string; rollNo: string; branch: string }[]> {
   return (listPromise ??= fetchJson('/data/students-lite.json'))
+=======
+let cohortCache: CohortStats | null = null
+function buildCohort(): CohortStats {
+  if (cohortCache) return cohortCache
+  const students = ALL_STUDENTS
+  const maxLogins = Math.max(...students.map((s) => s.lms.loginsLast30))
+  const stub: CohortStats = {
+    size: students.length, maxLogins, avgComponents: {}, classAvgBySubject: {}, avgAttendanceBySubject: {},
+    avgTech: {} as CohortStats['avgTech'], avgSoft: {} as CohortStats['avgSoft'], avgCgpa: 0,
+  }
+  const codes = [...new Set(students.flatMap((s) => s.results.map((r) => r.code)))]
+  codes.forEach((c) => {
+    const rs = students.flatMap((s) => s.results.filter((r) => r.code === c).map((r) => r.total))
+    stub.classAvgBySubject[c] = Math.round(avg(rs))
+  })
+  students.forEach((s) => attendanceBySubject(s).forEach((a) => (stub.avgAttendanceBySubject[a.code] = (stub.avgAttendanceBySubject[a.code] ?? 0) + a.percent / students.length)))
+  ;(['DSA', 'Web Dev', 'DBMS', 'Python', 'Java', 'C', 'SQL'] as TechSkill[]).forEach((k) => {
+    const v = students.map((s) => s.skills.technical[k]).filter((x): x is number => x !== undefined)
+    if (v.length) stub.avgTech[k] = Math.round(avg(v))
+  })
+  ;(['Communication', 'Teamwork', 'Problem Solving', 'Leadership', 'Time Management'] as SoftSkill[]).forEach((k) => (stub.avgSoft[k] = Math.round(avg(students.map((s) => s.skills.soft[k])))))
+  stub.avgComponents = cohortAverageComponents(students, stub)
+  cohortCache = stub
+  return stub
+}
+
+export async function getStudent(id: string = DEFAULT_STUDENT_ID): Promise<Student> {
+  await latency()
+  const base = ALL_STUDENTS.find((s) => s.id === id) ?? ALL_STUDENTS[0]
+  return merge(base)
+}
+export async function getCohort(): Promise<CohortStats> { return buildCohort() }
+export async function listStudents(): Promise<{ id: string; name: string; rollNo: string }[]> {
+  return ALL_STUDENTS.map(({ id, name, rollNo }) => ({ id, name, rollNo }))
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 }
 
 /* ------------------------------- write APIs -------------------------------- */

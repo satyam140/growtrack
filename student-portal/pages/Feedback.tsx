@@ -3,9 +3,12 @@ import {
   ArrowLeft, ArrowRight, CheckCircle2, ClipboardList, Clock3, EyeOff, MessageSquare, Plus, Search,
   ShieldCheck, Star, UserRound,
 } from 'lucide-react'
+<<<<<<< HEAD
 import { Lock } from 'lucide-react'
 import { useFeedbackWindow } from '@student/hooks/useFeedbackWindow'
 import { Skeleton } from '@student/components/ui/misc'
+=======
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 import { Badge } from '@student/components/ui/badge'
 import { Button } from '@student/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@student/components/ui/card'
@@ -93,7 +96,11 @@ function feedbackEntry(
   }
 }
 
+<<<<<<< HEAD
 function FeedbackContent({ banner }: { banner?: string }) {
+=======
+export default function Feedback() {
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   const { student, studentId } = useStudent()
   const { items, error, loading, refresh } = useLocalFeedback(studentId)
   const [view, setView] = useState<View>('overview')
@@ -115,7 +122,11 @@ function FeedbackContent({ banner }: { banner?: string }) {
     })
   }, [categoryFilter, generalItems, search, statusFilter])
   const average = items.length ? items.reduce((sum, item) => sum + item.rating, 0) / items.length : null
+<<<<<<< HEAD
   const subjects = student ? subjectsOfSemester(student.semester, student.branchCode) : []
+=======
+  const subjects = student ? subjectsOfSemester(student.semester) : []
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 
   const save = (entry: LocalFeedbackEntry) => {
     try {
@@ -141,7 +152,10 @@ function FeedbackContent({ banner }: { banner?: string }) {
 
   return (
     <div className="space-y-6">
+<<<<<<< HEAD
       {banner && <div role="status" className="rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-[15px] font-medium text-green-900">{banner}</div>}
+=======
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
       <PageHeader
         title={pageTitle}
         description="Share your experience, rate your courses and teachers, and keep track of your submissions."
@@ -612,6 +626,7 @@ function DetailValue({ label, value }: { label: string; value: string }) {
 function EmptyPanel({ title, description }: { title: string; description: string }) {
   return <Card><CardContent className="flex flex-col items-center py-12 text-center"><MessageSquare className="mb-3 h-9 w-9 text-muted-foreground/50" /><p className="font-medium">{title}</p><p className="mt-1 text-sm text-muted-foreground">{description}</p></CardContent></Card>
 }
+<<<<<<< HEAD
 
 /**
  * Feedback is locked until the Head of Department opens it for this student's department. While locked nothing can be filled in;
@@ -653,3 +668,5 @@ export default function Feedback() {
   const until = w.closesAt ? `Open until ${fmtDate(w.closesAt)}. ` : ''
   return <FeedbackContent banner={`${until}${w.message}`.trim() || undefined} />
 }
+=======
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd

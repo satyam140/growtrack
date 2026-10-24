@@ -53,11 +53,14 @@
   --brand-50-rgb: 239 246 255;
   --accent: #22d3ee;
   --accent-rgb: 34 211 238;
+<<<<<<< HEAD
   /* status colours as plain colours too: charts read var(--success) etc. directly, and an undefined variable paints black */
   --success: #16a34a;
   --warning: #d97706;
   --danger: #dc2626;
   --info: #2563eb;
+=======
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   --success-rgb: 22 163 74;
   --warning-rgb: 217 119 6;
   --danger-rgb: 220 38 38;
@@ -66,8 +69,13 @@
   --card: 255 255 255;
   --border: 226 232 240;
   --foreground: 15 23 42;
+<<<<<<< HEAD
   --muted-foreground: 51 65 85;
   --text-muted-rgb: 100 116 139;
+=======
+  --muted-foreground: 71 85 105;
+  --text-muted-rgb: 148 163 184;
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   --muted: 241 245 249;
   --primary: 37 99 235;
   --primary-foreground: 255 255 255;
@@ -1076,7 +1084,11 @@ h1 {
 .directory-breadcrumb {
   margin-bottom: 30px;
   color: var(--muted);
+<<<<<<< HEAD
   font-size: 14.5px;
+=======
+  font-size: 12px;
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 }
 
 .directory-breadcrumb span {
@@ -1104,7 +1116,11 @@ h1 {
   max-width: 650px;
   margin-top: 8px;
   color: var(--muted);
+<<<<<<< HEAD
   font-size: 14.5px;
+=======
+  font-size: 12px;
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   line-height: 1.6;
 }
 
@@ -1118,7 +1134,11 @@ h1 {
   color: var(--green);
   background: #f5faf6;
   white-space: nowrap;
+<<<<<<< HEAD
   font-size: 13px;
+=======
+  font-size: 10px;
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 }
 
 .directory-demo-label > span {
@@ -1149,7 +1169,11 @@ h1 {
   justify-content: space-between;
   gap: 8px;
   color: #69736b;
+<<<<<<< HEAD
   font-size: 14px;
+=======
+  font-size: 11px;
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 }
 
 .directory-metric-icon {
@@ -1172,8 +1196,13 @@ h1 {
 
 .directory-metric-detail {
   margin-top: 8px;
+<<<<<<< HEAD
   color: #4b564e;
   font-size: 13px;
+=======
+  color: #899289;
+  font-size: 10px;
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   line-height: 1.5;
 }
 
@@ -1200,7 +1229,11 @@ h1 {
 .directory-panel-heading p {
   margin-top: 6px;
   color: var(--muted);
+<<<<<<< HEAD
   font-size: 14px;
+=======
+  font-size: 11px;
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   line-height: 1.5;
 }
 
@@ -1209,7 +1242,11 @@ h1 {
   border-radius: 4px;
   color: #5e6d61;
   background: #f0f2ee;
+<<<<<<< HEAD
   font-size: 13px;
+=======
+  font-size: 10px;
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   white-space: nowrap;
 }
 
@@ -1233,7 +1270,11 @@ h1 {
   padding: 0 10px;
   border: 1px solid #dfe4dd;
   border-radius: 5px;
+<<<<<<< HEAD
   color: #4b564e;
+=======
+  color: #899289;
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   background: #ffffff;
 }
 
@@ -1249,7 +1290,11 @@ h1 {
   border: 0;
   outline: none;
   background: transparent;
+<<<<<<< HEAD
   font-size: 14px;
+=======
+  font-size: 11px;
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 }
 
 .directory-search input:focus-visible {
@@ -1266,7 +1311,11 @@ h1 {
   place-items: center;
   padding: 3px;
   border: 0;
+<<<<<<< HEAD
   color: #4b564e;
+=======
+  color: #7a847b;
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   background: transparent;
 }
 
@@ -1290,7 +1339,11 @@ h1 {
   outline: none;
   color: #49564c;
   background: #ffffff;
+<<<<<<< HEAD
   font-size: 14px;
+=======
+  font-size: 11px;
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 }
 
 .directory-select-wrap select:focus {
@@ -1301,7 +1354,11 @@ h1 {
   position: absolute;
   right: 10px;
   pointer-events: none;
+<<<<<<< HEAD
   color: #4b564e;
+=======
+  color: #7a847b;
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 }
 
 .directory-table-wrap {
@@ -1320,7 +1377,11 @@ h1 {
   padding: 13px 14px;
   color: #818a81;
   background: #ffffff;
+<<<<<<< HEAD
   font-size: 13px;
+=======
+  font-size: 9px;
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   font-weight: 650;
   letter-spacing: 0.4px;
 }
@@ -1334,7 +1395,11 @@ h1 {
   padding: 13px 14px;
   border-top: 1px solid #edf0eb;
   color: #536056;
+<<<<<<< HEAD
   font-size: 14px;
+=======
+  font-size: 11px;
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 }
 
 .directory-table tbody tr {
@@ -1360,7 +1425,11 @@ h1 {
   border-radius: 50%;
   color: #355b46;
   background: #e8efe8;
+<<<<<<< HEAD
   font-size: 13px;
+=======
+  font-size: 10px;
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   font-weight: 700;
 }
 
@@ -1372,8 +1441,13 @@ h1 {
 .directory-student-id,
 .directory-year {
   margin-top: 4px;
+<<<<<<< HEAD
   color: #4b564e;
   font-size: 13px;
+=======
+  color: #939b93;
+  font-size: 9px;
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 }
 
 .directory-department {
@@ -1421,12 +1495,20 @@ h1 {
 
 .directory-score {
   color: #303b32;
+<<<<<<< HEAD
   font-size: 14.5px;
+=======
+  font-size: 12px;
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 }
 
 .directory-score-total {
   color: #929a92;
+<<<<<<< HEAD
   font-size: 13px;
+=======
+  font-size: 10px;
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 }
 
 .directory-risk {
@@ -1435,7 +1517,11 @@ h1 {
   gap: 6px;
   padding: 5px 8px;
   border-radius: 4px;
+<<<<<<< HEAD
   font-size: 13px;
+=======
+  font-size: 10px;
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   font-weight: 600;
 }
 
@@ -1484,7 +1570,11 @@ h1 {
   border-radius: 4px;
   color: var(--green);
   background: #ffffff;
+<<<<<<< HEAD
   font-size: 13px;
+=======
+  font-size: 10px;
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   font-weight: 600;
   text-decoration: none;
 }
@@ -1496,7 +1586,11 @@ h1 {
 
 .directory-empty {
   height: 100px;
+<<<<<<< HEAD
   color: #4b564e !important;
+=======
+  color: #899289 !important;
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   text-align: center;
 }
 
@@ -1507,8 +1601,13 @@ h1 {
   gap: 12px;
   padding: 13px 20px;
   border-top: 1px solid #edf0eb;
+<<<<<<< HEAD
   color: #4b564e;
   font-size: 13px;
+=======
+  color: #899289;
+  font-size: 10px;
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 }
 
 .directory-reset-button {
@@ -1517,7 +1616,11 @@ h1 {
   border-radius: 4px;
   color: #526257;
   background: #ffffff;
+<<<<<<< HEAD
   font-size: 13px;
+=======
+  font-size: 10px;
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 }
 
 .directory-reset-button:hover {
@@ -1580,7 +1683,11 @@ h1 {
   border: 0;
   color: #637066;
   background: transparent;
+<<<<<<< HEAD
   font-size: 14px;
+=======
+  font-size: 11px;
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 }
 
 .student-modal-back:hover {
@@ -1635,7 +1742,11 @@ h1 {
 .student-detail-identity p {
   margin-top: 6px;
   color: #7c877d;
+<<<<<<< HEAD
   font-size: 14px;
+=======
+  font-size: 11px;
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   line-height: 1.6;
 }
 
@@ -1659,7 +1770,11 @@ h1 {
 
 .student-detail-score > div > span {
   color: #657267;
+<<<<<<< HEAD
   font-size: 14px;
+=======
+  font-size: 11px;
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 }
 
 .student-detail-score strong {
@@ -1671,13 +1786,21 @@ h1 {
 .student-detail-score small {
   margin-left: 3px;
   color: #859086;
+<<<<<<< HEAD
   font-size: 14.5px;
+=======
+  font-size: 12px;
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   font-weight: 400;
 }
 
 .student-detail-section-title {
   margin: 24px 0 15px;
+<<<<<<< HEAD
   font-size: 14.5px;
+=======
+  font-size: 12px;
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   font-weight: 650;
 }
 
@@ -1698,12 +1821,20 @@ h1 {
   gap: 8px;
   margin-bottom: 8px;
   color: #637066;
+<<<<<<< HEAD
   font-size: 13px;
+=======
+  font-size: 10px;
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 }
 
 .student-breakdown-heading strong {
   color: #344438;
+<<<<<<< HEAD
   font-size: 14px;
+=======
+  font-size: 11px;
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 }
 
 .student-breakdown-row .directory-progress-track {
@@ -1726,7 +1857,11 @@ h1 {
   border-radius: 4px;
   color: #8b5540;
   background: #fdf9f5;
+<<<<<<< HEAD
   font-size: 14px;
+=======
+  font-size: 11px;
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   line-height: 1.5;
 }
 
@@ -1743,7 +1878,11 @@ h1 {
   border-radius: 4px;
   color: #28654d;
   background: #f5faf6;
+<<<<<<< HEAD
   font-size: 14px;
+=======
+  font-size: 11px;
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   line-height: 1.6;
 }
 
@@ -1759,7 +1898,11 @@ h1 {
   padding-top: 15px;
   border-top: 1px solid #edf0eb;
   color: #818a81;
+<<<<<<< HEAD
   font-size: 13px;
+=======
+  font-size: 10px;
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   line-height: 1.6;
 }
 
@@ -1891,7 +2034,11 @@ h1 {
 
   .breadcrumb {
     overflow: hidden;
+<<<<<<< HEAD
     font-size: 13px;
+=======
+    font-size: 10px;
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
     text-overflow: ellipsis;
     white-space: nowrap;
   }
@@ -1912,7 +2059,11 @@ h1 {
   .data-status {
     gap: 5px;
     padding: 5px 7px;
+<<<<<<< HEAD
     font-size: 13px;
+=======
+    font-size: 9px;
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   }
 
   .dashboard-content {
@@ -1937,7 +2088,11 @@ h1 {
 
   .metric-label,
   .directory-metric-heading {
+<<<<<<< HEAD
     font-size: 13px;
+=======
+    font-size: 10px;
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   }
 
   .metric-icon,
@@ -1962,7 +2117,11 @@ h1 {
 
   .metric-description,
   .directory-metric-detail {
+<<<<<<< HEAD
     font-size: 13px;
+=======
+    font-size: 9px;
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
     line-height: 1.5;
   }
 
@@ -1972,7 +2131,11 @@ h1 {
   }
 
   .chart-legend {
+<<<<<<< HEAD
     font-size: 13px;
+=======
+    font-size: 9px;
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   }
 
   .chart-container {
@@ -2314,6 +2477,7 @@ h1 {
   .copilot-launcher-tooltip {
     transition: none;
   }
+<<<<<<< HEAD
 }
 
 /* ------------------------------------------------------------------ landing page */
@@ -2359,3 +2523,6 @@ h1 {
 .lp-btn, .lp-btn:hover, .lp-btn:visited { color: #ffffff; text-decoration: none; }
 
 .lp-on-dark, .lp-on-dark a { color: #ffffff; }
+=======
+}
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd

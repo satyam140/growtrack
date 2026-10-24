@@ -16,7 +16,10 @@ import {
   ClipboardCheck,
 } from "lucide-react";
 
+<<<<<<< HEAD
 import { StudentSelect } from "@/components/student-select";
+=======
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 import {
   attendanceStudents,
   attendanceSubjects,
@@ -90,13 +93,21 @@ export default function StudentAttendancePage() {
         <header className="space-y-4">
           <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
             <div>
+<<<<<<< HEAD
               <p className="mb-2 text-[15px] font-medium text-indigo-600">
+=======
+              <p className="mb-2 text-sm font-medium text-indigo-600">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                 GrowthTrack / Student Portal
               </p>
               <h1 className="text-3xl font-bold tracking-tight">
                 My Attendance
               </h1>
+<<<<<<< HEAD
               <p className="mt-2 text-[15px] text-slate-500">
+=======
+              <p className="mt-2 text-sm text-slate-500">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                 Monitor attendance, review each subject, and stay on track.
               </p>
             </div>
@@ -104,6 +115,7 @@ export default function StudentAttendancePage() {
             <div className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2">
               <GraduationCap size={19} className="text-indigo-600" />
               <label htmlFor="student-select" className="sr-only">
+<<<<<<< HEAD
                 Select student
               </label>
               <StudentSelect
@@ -113,6 +125,22 @@ export default function StudentAttendancePage() {
                 onChange={(id) => id && setStudentId(id)}
                 className="w-[230px] bg-transparent py-1 text-[15px] font-medium outline-none"
               />
+=======
+                Select demo student
+              </label>
+              <select
+                id="student-select"
+                value={studentId}
+                onChange={(event) => setStudentId(event.target.value)}
+                className="max-w-[220px] bg-transparent py-1 text-sm font-medium outline-none"
+              >
+                {attendanceStudents.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
             </div>
           </div>
 
@@ -122,14 +150,22 @@ export default function StudentAttendancePage() {
           >
             <Link
               href="/admin/dashboard"
+<<<<<<< HEAD
               className="inline-flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-[15px] font-medium text-slate-600 transition-colors hover:bg-white hover:text-indigo-700"
+=======
+              className="inline-flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition-colors hover:bg-white hover:text-indigo-700"
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
             >
               <House size={17} />
               Dashboard
             </Link>
             <Link
               href="/students"
+<<<<<<< HEAD
               className="inline-flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-[15px] font-medium text-slate-600 transition-colors hover:bg-white hover:text-indigo-700"
+=======
+              className="inline-flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition-colors hover:bg-white hover:text-indigo-700"
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
             >
               <Users size={17} />
               Students
@@ -137,21 +173,33 @@ export default function StudentAttendancePage() {
             <Link
               href="/students/attendance"
               aria-current="page"
+<<<<<<< HEAD
               className="inline-flex shrink-0 items-center gap-2 rounded-lg bg-indigo-50 px-3 py-2 text-[15px] font-semibold text-indigo-700"
+=======
+              className="inline-flex shrink-0 items-center gap-2 rounded-lg bg-indigo-50 px-3 py-2 text-sm font-semibold text-indigo-700"
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
             >
               <GraduationCap size={17} />
               My attendance
             </Link>
             <Link
               href="/attendance"
+<<<<<<< HEAD
               className="inline-flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-[15px] font-medium text-slate-600 transition-colors hover:bg-white hover:text-indigo-700"
+=======
+              className="inline-flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition-colors hover:bg-white hover:text-indigo-700"
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
             >
               <CalendarDays size={17} />
               Attendance overview
             </Link>
             <Link
               href="/admin/attendance"
+<<<<<<< HEAD
               className="inline-flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-[15px] font-medium text-slate-600 transition-colors hover:bg-white hover:text-indigo-700"
+=======
+              className="inline-flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition-colors hover:bg-white hover:text-indigo-700"
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
             >
               <ClipboardCheck size={17} />
               Manage attendance
@@ -162,6 +210,7 @@ export default function StudentAttendancePage() {
         <section className="rounded-2xl bg-gradient-to-r from-indigo-700 to-violet-700 p-6 text-white shadow-sm sm:p-8">
           <div className="flex flex-col justify-between gap-6 md:flex-row md:items-center">
             <div>
+<<<<<<< HEAD
               <p className="text-[15px] font-medium text-indigo-100">
                 Attendance overview
               </p>
@@ -172,12 +221,28 @@ export default function StudentAttendancePage() {
               <p className="mt-4 max-w-xl text-[15px] leading-6 text-indigo-100">
                 Your attendance percentage is calculated from submitted
                 attendance sessions. Late attendance counts as attended .
+=======
+              <p className="text-sm font-medium text-indigo-100">
+                Attendance overview
+              </p>
+              <h2 className="mt-2 text-2xl font-bold">{student.name}</h2>
+              <p className="mt-2 text-sm text-indigo-100">
+                {student.rollNo} · {student.department} · {student.year}
+              </p>
+              <p className="mt-4 max-w-xl text-sm leading-6 text-indigo-100">
+                Your attendance percentage is calculated from submitted
+                attendance sessions. Late attendance counts as attended in this demo.
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
               </p>
             </div>
 
             <div className="flex items-center gap-5 self-start rounded-2xl bg-white/10 p-5 md:self-auto">
               <div>
+<<<<<<< HEAD
                 <p className="text-[15px] text-indigo-100">Overall attendance</p>
+=======
+                <p className="text-sm text-indigo-100">Overall attendance</p>
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                 <p className="mt-1 text-4xl font-bold">{attendanceRate}%</p>
                 <p className="mt-2 text-xs text-indigo-100">
                   Target: {REQUIRED_PERCENTAGE}%
@@ -211,7 +276,11 @@ export default function StudentAttendancePage() {
                     className="text-white"
                   />
                 </svg>
+<<<<<<< HEAD
                 <span className="relative text-[15px] font-bold">{attendanceRate}%</span>
+=======
+                <span className="relative text-sm font-bold">{attendanceRate}%</span>
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
               </div>
             </div>
           </div>
@@ -222,17 +291,28 @@ export default function StudentAttendancePage() {
             <AlertTriangle size={21} className="mt-0.5 shrink-0" />
             <div>
               <p className="font-semibold">Attendance below target</p>
+<<<<<<< HEAD
               <p className="mt-1 text-[15px] leading-6">
                 Your attendance is below {REQUIRED_PERCENTAGE}%. Review the
                 subjects with the lowest percentages and plan to attend upcoming
                 classes. This is a warning, not an official academic notice.
+=======
+              <p className="mt-1 text-sm leading-6">
+                Your attendance is below {REQUIRED_PERCENTAGE}%. Review the
+                subjects with the lowest percentages and plan to attend upcoming
+                classes. This is a demo warning, not an official academic notice.
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
               </p>
             </div>
           </section>
         )}
 
         {overall.total === 0 && (
+<<<<<<< HEAD
           <section className="rounded-xl border border-blue-200 bg-blue-50 p-4 text-[15px] leading-6 text-blue-900">
+=======
+          <section className="rounded-xl border border-blue-200 bg-blue-50 p-4 text-sm leading-6 text-blue-900">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
             <p className="font-semibold">No attendance records yet</p>
             <p className="mt-1">
               Once an administrator submits an attendance session for your
@@ -287,7 +367,11 @@ export default function StudentAttendancePage() {
           <div className="mb-5 flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
             <div>
               <h2 className="text-lg font-semibold">Subject-wise attendance</h2>
+<<<<<<< HEAD
               <p className="mt-1 text-[15px] text-slate-500">
+=======
+              <p className="mt-1 text-sm text-slate-500">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                 Compare your attendance across subjects.
               </p>
             </div>
@@ -362,7 +446,11 @@ export default function StudentAttendancePage() {
           <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
             <div>
               <h2 className="text-lg font-semibold">Attendance history</h2>
+<<<<<<< HEAD
               <p className="mt-1 text-[15px] text-slate-500">
+=======
+              <p className="mt-1 text-sm text-slate-500">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                 Review each submitted class session and your recorded status.
               </p>
             </div>
@@ -370,7 +458,11 @@ export default function StudentAttendancePage() {
             <select
               value={subjectFilter}
               onChange={(event) => setSubjectFilter(event.target.value)}
+<<<<<<< HEAD
               className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-[15px] outline-none focus:border-indigo-400 sm:w-auto"
+=======
+              className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-indigo-400 sm:w-auto"
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
               aria-label="Filter attendance history by subject"
             >
               <option>All Subjects</option>
@@ -384,7 +476,11 @@ export default function StudentAttendancePage() {
             <EmptyState message="No submitted attendance records match this selection." />
           ) : (
             <div className="mt-5 overflow-x-auto rounded-xl border border-slate-200">
+<<<<<<< HEAD
               <table className="w-full min-w-[640px] text-left text-[15px]">
+=======
+              <table className="w-full min-w-[640px] text-left text-sm">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                 <thead className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
                   <tr>
                     <th className="px-4 py-3">Date and time</th>
@@ -423,7 +519,11 @@ export default function StudentAttendancePage() {
         </section>
 
         <p className="text-xs leading-5 text-slate-400">
+<<<<<<< HEAD
           Percentages use submitted sessions only. Present and Late
+=======
+          Demo mode: percentages use submitted sessions only. Present and Late
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
           count as attended. These records are browser-local and are not official
           academic records.
         </p>
@@ -449,7 +549,11 @@ function SummaryCard({
     <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
       <div className="flex items-start justify-between gap-3">
         <div>
+<<<<<<< HEAD
           <p className="text-[15px] font-medium text-slate-500">{title}</p>
+=======
+          <p className="text-sm font-medium text-slate-500">{title}</p>
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
           <p className="mt-3 text-3xl font-bold tracking-tight">{value}</p>
         </div>
         <span className={`rounded-xl p-3 ${iconClass}`}>{icon}</span>
@@ -482,7 +586,11 @@ function EmptyState({ message }: { message: string }) {
   return (
     <div className="flex min-h-36 flex-col items-center justify-center p-6 text-center">
       <CalendarDays size={28} className="mb-3 text-slate-300" />
+<<<<<<< HEAD
       <p className="max-w-md text-[15px] text-slate-500">{message}</p>
+=======
+      <p className="max-w-md text-sm text-slate-500">{message}</p>
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
     </div>
   );
 }

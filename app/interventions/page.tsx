@@ -1,6 +1,10 @@
 "use client";
 
+<<<<<<< HEAD
 import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
+=======
+import { useEffect, useMemo, useState, type FormEvent } from "react";
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 import {
   AlertTriangle,
   CheckCircle2,
@@ -30,8 +34,11 @@ import {
   type InterventionStatus,
 } from "@/lib/interventions";
 import { studentProfiles } from "@/lib/students";
+<<<<<<< HEAD
 import { Pager, usePaged } from "@/components/pager";
 import { StudentSelect } from "@/components/student-select";
+=======
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 
 type SupportStudent = {
   id: string;
@@ -80,8 +87,11 @@ function localDateString() {
   ].join("-");
 }
 
+<<<<<<< HEAD
 const priorityRank: Record<string, number> = { High: 0, Medium: 1, Low: 2 };
 
+=======
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 export default function InterventionsPage() {
   const [interventions, setInterventions] = useState<Intervention[]>([]);
   const [sessions, setSessions] = useState<AttendanceSession[]>([]);
@@ -94,9 +104,12 @@ export default function InterventionsPage() {
   const [minimumAttendance, setMinimumAttendance] = useState(75);
   const [minimumAcademicScore, setMinimumAcademicScore] = useState(60);
   const [studentId, setStudentId] = useState("");
+<<<<<<< HEAD
   const formRef = useRef<HTMLElement>(null);
   const [formFocus, setFormFocus] = useState(0);
   const [highlight, setHighlight] = useState(false);
+=======
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   const [reason, setReason] = useState("");
   const [actionPlan, setActionPlan] = useState("");
   const [priority, setPriority] = useState<Priority>("Medium");
@@ -184,12 +197,16 @@ export default function InterventionsPage() {
           reason: reasons.join(" "),
         };
       })
+<<<<<<< HEAD
       .filter((student): student is SupportStudent => student !== null)
       .sort(
         (a, b) =>
           priorityRank[a.priority] - priorityRank[b.priority] ||
           a.attendance - b.attendance,
       );
+=======
+      .filter((student): student is SupportStudent => student !== null);
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   }, [minimumAcademicScore, minimumAttendance, sessions]);
 
   const visibleSupportStudents = supportStudents.filter((student) => {
@@ -200,7 +217,10 @@ export default function InterventionsPage() {
       student.id.toLowerCase().includes(query)
     );
   });
+<<<<<<< HEAD
   const pagedSupport = usePaged(visibleSupportStudents, search, 15);
+=======
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   const studentById = new Map(studentProfiles.map((student) => [student.id, student]));
   const completedCount = interventions.filter(
     (intervention) => intervention.status === "Completed",
@@ -236,7 +256,10 @@ export default function InterventionsPage() {
     setStatus("Planned");
     setNotice("");
     setFormOpen(true);
+<<<<<<< HEAD
     setFormFocus((n) => n + 1);
+=======
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   }
 
   function openEditForm(intervention: Intervention) {
@@ -249,6 +272,7 @@ export default function InterventionsPage() {
     setStatus(intervention.status);
     setNotice("");
     setFormOpen(true);
+<<<<<<< HEAD
     setFormFocus((n) => n + 1);
   }
 
@@ -265,6 +289,10 @@ export default function InterventionsPage() {
     return () => { window.clearTimeout(focusTimer); window.clearTimeout(on); window.clearTimeout(off); };
   }, [formFocus, formOpen]);
 
+=======
+  }
+
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setNotice("");
@@ -318,19 +346,31 @@ export default function InterventionsPage() {
   }
 
   const inputClass =
+<<<<<<< HEAD
     "w-full rounded-md border border-[#dfe5dc] bg-white px-3 py-2.5 text-[15px] text-[#2b382e] outline-none focus:border-[#57906f] focus:ring-2 focus:ring-[#e0eee4]";
+=======
+    "w-full rounded-md border border-[#dfe5dc] bg-white px-3 py-2.5 text-sm text-[#2b382e] outline-none focus:border-[#57906f] focus:ring-2 focus:ring-[#e0eee4]";
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 
   return (
     <AdminPageShell title="Interventions">
       <section className="mb-7 flex flex-wrap items-end justify-between gap-4">
         <div>
+<<<<<<< HEAD
           <p className="mb-2 text-[13px] font-bold tracking-[1.7px] text-[#28684e]">
+=======
+          <p className="mb-2 text-[10px] font-bold tracking-[1.7px] text-[#28684e]">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
             STUDENT SUPPORT
           </p>
           <h1 className="text-[27px] font-semibold leading-tight tracking-[-1px] sm:text-[30px]">
             Intervention management
           </h1>
+<<<<<<< HEAD
           <p className="mt-2 max-w-2xl text-[14.5px] leading-5 text-[#7a847b]">
+=======
+          <p className="mt-2 max-w-2xl text-[12px] leading-5 text-[#7a847b]">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
             Identify students who need academic support, plan follow-ups, and
             track intervention progress.
           </p>
@@ -338,7 +378,11 @@ export default function InterventionsPage() {
         <button
           type="button"
           onClick={() => openCreateForm()}
+<<<<<<< HEAD
           className="inline-flex items-center gap-2 rounded-md bg-[#28684e] px-4 py-2.5 text-[15px] font-semibold text-white hover:bg-[#1e573f]"
+=======
+          className="inline-flex items-center gap-2 rounded-md bg-[#28684e] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#1e573f]"
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
         >
           <Plus size={17} />
           Create intervention
@@ -348,7 +392,11 @@ export default function InterventionsPage() {
       {error && (
         <div
           role="alert"
+<<<<<<< HEAD
           className="mb-5 flex items-start gap-2 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-[15px] text-red-800"
+=======
+          className="mb-5 flex items-start gap-2 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800"
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
         >
           <AlertTriangle size={17} className="mt-0.5 shrink-0" />
           <span>{error}</span>
@@ -357,7 +405,11 @@ export default function InterventionsPage() {
       {notice && (
         <div
           role="status"
+<<<<<<< HEAD
           className="mb-5 flex items-center justify-between rounded-md border border-[#dce8df] bg-[#f5faf6] px-4 py-3 text-[15px] text-[#28654d]"
+=======
+          className="mb-5 flex items-center justify-between rounded-md border border-[#dce8df] bg-[#f5faf6] px-4 py-3 text-sm text-[#28654d]"
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
         >
           {notice}
           <button
@@ -389,6 +441,7 @@ export default function InterventionsPage() {
       </section>
 
       {formOpen && (
+<<<<<<< HEAD
         <section
           ref={formRef}
           aria-label={editingId ? "Edit intervention" : "Action plan form"}
@@ -400,6 +453,15 @@ export default function InterventionsPage() {
                 {editingId ? "Edit intervention" : "Action plan"}
               </h2>
               <p className="mt-1 text-[13.5px] text-[#556057]">
+=======
+        <section className="mb-6 rounded-lg border border-[#e2e7df] bg-white p-5 sm:p-6">
+          <div className="mb-5 flex items-start justify-between gap-3">
+            <div>
+              <h2 className="text-lg font-semibold text-[#2c4031]">
+                {editingId ? "Edit intervention" : "Create intervention"}
+              </h2>
+              <p className="mt-1 text-xs text-[#89938a]">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                 Save a clear support plan and follow-up date for the selected
                 student.
               </p>
@@ -415,6 +477,7 @@ export default function InterventionsPage() {
           </div>
           <form onSubmit={handleSubmit} className="grid gap-4 md:grid-cols-2">
             <Field label="Student">
+<<<<<<< HEAD
               <StudentSelect
                 className={inputClass}
                 students={studentProfiles}
@@ -422,6 +485,21 @@ export default function InterventionsPage() {
                 onChange={setStudentId}
                 required
               />
+=======
+              <select
+                className={inputClass}
+                value={studentId}
+                onChange={(event) => setStudentId(event.target.value)}
+                required
+              >
+                <option value="">Select a student</option>
+                {studentProfiles.map((student) => (
+                  <option key={student.id} value={student.id}>
+                    {student.name} · {student.department}
+                  </option>
+                ))}
+              </select>
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
             </Field>
             <Field label="Priority">
               <select
@@ -478,14 +556,22 @@ export default function InterventionsPage() {
             <div className="flex flex-wrap gap-2 md:col-span-2">
               <button
                 type="submit"
+<<<<<<< HEAD
                 className="rounded-md bg-[#28684e] px-4 py-2.5 text-[15px] font-semibold text-white hover:bg-[#1e573f]"
+=======
+                className="rounded-md bg-[#28684e] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#1e573f]"
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
               >
                 {editingId ? "Save changes" : "Save intervention"}
               </button>
               <button
                 type="button"
                 onClick={() => setFormOpen(false)}
+<<<<<<< HEAD
                 className="rounded-md border border-[#dfe5dc] px-4 py-2.5 text-[15px] font-semibold text-[#46564a] hover:bg-[#f5f7f4]"
+=======
+                className="rounded-md border border-[#dfe5dc] px-4 py-2.5 text-sm font-semibold text-[#46564a] hover:bg-[#f5f7f4]"
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
               >
                 Cancel
               </button>
@@ -500,7 +586,11 @@ export default function InterventionsPage() {
             <h2 className="font-semibold text-[#2c4031]">
               Students needing support
             </h2>
+<<<<<<< HEAD
             <p className="mt-1 text-[13.5px] text-[#556057]">
+=======
+            <p className="mt-1 text-xs text-[#89938a]">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
               High priority: attendance below 65% or score below 50. Medium:
               below 75% attendance or 60 score. Lower-priority alerts follow
               your saved settings thresholds.
@@ -521,8 +611,13 @@ export default function InterventionsPage() {
           </div>
         </div>
         <div className="overflow-x-auto">
+<<<<<<< HEAD
           <table className="w-full min-w-[760px] text-left text-[15px]">
             <thead className="border-b border-[#e8ece6] text-[13.5px] text-[#748075]">
+=======
+          <table className="w-full min-w-[760px] text-left text-sm">
+            <thead className="border-b border-[#e8ece6] text-xs text-[#748075]">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
               <tr>
                 <th className="px-3 py-3 font-semibold">Student</th>
                 <th className="px-3 py-3 font-semibold">Department</th>
@@ -533,13 +628,21 @@ export default function InterventionsPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-[#edf0eb]">
+<<<<<<< HEAD
               {pagedSupport.pageItems.map((student) => (
+=======
+              {visibleSupportStudents.map((student) => (
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                 <tr key={student.id}>
                   <td className="px-3 py-4">
                     <p className="font-semibold text-[#2c4031]">
                       {student.name}
                     </p>
+<<<<<<< HEAD
                     <p className="mt-1 text-[13.5px] text-[#556057]">{student.id}</p>
+=======
+                    <p className="mt-1 text-xs text-[#89938a]">{student.id}</p>
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                   </td>
                   <td className="px-3 py-4 text-[#56645a]">
                     {student.department}
@@ -548,11 +651,19 @@ export default function InterventionsPage() {
                   <td className="px-3 py-4">{student.attendance}%</td>
                   <td className="max-w-[310px] px-3 py-4">
                     <span
+<<<<<<< HEAD
                       className={`inline-flex rounded-full px-2.5 py-1 text-[13.5px] font-semibold ${getPriorityClass(student.priority)}`}
                     >
                       {student.priority}
                     </span>
                     <p className="mt-2 text-[13.5px] leading-5 text-[#748075]">
+=======
+                      className={`inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ${getPriorityClass(student.priority)}`}
+                    >
+                      {student.priority}
+                    </span>
+                    <p className="mt-2 text-xs leading-5 text-[#748075]">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                       {student.reason}
                     </p>
                   </td>
@@ -560,10 +671,17 @@ export default function InterventionsPage() {
                     <button
                       type="button"
                       onClick={() => openCreateForm(student.id)}
+<<<<<<< HEAD
                       className="inline-flex items-center gap-1.5 rounded-md border border-[#cfe1d3] px-3 py-2 text-[13.5px] font-semibold text-[#28684e] hover:bg-[#f2f8f3]"
                     >
                       <Plus size={14} />
                       Create action plan
+=======
+                      className="inline-flex items-center gap-1.5 rounded-md border border-[#cfe1d3] px-3 py-2 text-xs font-semibold text-[#28684e] hover:bg-[#f2f8f3]"
+                    >
+                      <Plus size={14} />
+                      Create
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                     </button>
                   </td>
                 </tr>
@@ -572,7 +690,11 @@ export default function InterventionsPage() {
                 <tr>
                   <td
                     colSpan={6}
+<<<<<<< HEAD
                     className="px-3 py-8 text-center text-[15px] text-[#556057]"
+=======
+                    className="px-3 py-8 text-center text-sm text-[#89938a]"
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                   >
                     {supportStudents.length === 0
                       ? "No students currently fall below the saved support thresholds."
@@ -583,11 +705,18 @@ export default function InterventionsPage() {
             </tbody>
           </table>
         </div>
+<<<<<<< HEAD
         <Pager paged={pagedSupport} noun="students" />
         <p className="mt-3 flex items-center gap-1.5 text-[14px] text-[#556057]">
           <Users size={14} />
           Attendance uses submitted attendance sessions when a directory
           student can be matched by name; otherwise the recorded
+=======
+        <p className="mt-3 flex items-center gap-1.5 text-[11px] text-[#89938a]">
+          <Users size={14} />
+          Attendance uses submitted attendance sessions when a directory
+          student can be matched by name; otherwise the existing demo-directory
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
           percentage is shown.
         </p>
       </section>
@@ -599,10 +728,17 @@ export default function InterventionsPage() {
         {interventions.length === 0 ? (
           <div className="rounded-md border border-dashed border-[#dfe5dc] px-4 py-8 text-center">
             <ClipboardList className="mx-auto text-[#819085]" size={24} />
+<<<<<<< HEAD
             <p className="mt-2 text-[15px] font-medium text-[#46564a]">
               No interventions created yet
             </p>
             <p className="mt-1 text-[13.5px] text-[#556057]">
+=======
+            <p className="mt-2 text-sm font-medium text-[#46564a]">
+              No interventions created yet
+            </p>
+            <p className="mt-1 text-xs text-[#89938a]">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
               Create a plan from the student list above or start a new one.
             </p>
           </div>
@@ -622,16 +758,25 @@ export default function InterventionsPage() {
                           {student?.name ?? "Unknown student"}
                         </h3>
                         <span
+<<<<<<< HEAD
                           className={`rounded-full px-2.5 py-1 text-[14px] font-semibold ${getPriorityClass(intervention.priority)}`}
+=======
+                          className={`rounded-full px-2.5 py-1 text-[11px] font-semibold ${getPriorityClass(intervention.priority)}`}
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                         >
                           {intervention.priority} priority
                         </span>
                         <span
+<<<<<<< HEAD
                           className={`rounded-full px-2.5 py-1 text-[14px] font-semibold ${getStatusClass(intervention.status)}`}
+=======
+                          className={`rounded-full px-2.5 py-1 text-[11px] font-semibold ${getStatusClass(intervention.status)}`}
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                         >
                           {intervention.status}
                         </span>
                       </div>
+<<<<<<< HEAD
                       <p className="mt-2 text-[15px] text-[#56645a]">
                         {intervention.reason}
                       </p>
@@ -639,6 +784,15 @@ export default function InterventionsPage() {
                         Action plan: {intervention.actionPlan}
                       </p>
                       <p className="mt-2 text-[13.5px] text-[#556057]">
+=======
+                      <p className="mt-2 text-sm text-[#56645a]">
+                        {intervention.reason}
+                      </p>
+                      <p className="mt-1 text-sm leading-5 text-[#748075]">
+                        Action plan: {intervention.actionPlan}
+                      </p>
+                      <p className="mt-2 text-xs text-[#89938a]">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                         Follow-up: {intervention.followUpDate}
                       </p>
                     </div>
@@ -652,7 +806,11 @@ export default function InterventionsPage() {
                             event.target.value as InterventionStatus,
                           )
                         }
+<<<<<<< HEAD
                         className="rounded-md border border-[#dfe5dc] bg-white px-2.5 py-2 text-[13.5px]"
+=======
+                        className="rounded-md border border-[#dfe5dc] bg-white px-2.5 py-2 text-xs"
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                       >
                         {statusOptions.map((option) => (
                           <option key={option}>{option}</option>
@@ -661,7 +819,11 @@ export default function InterventionsPage() {
                       <button
                         type="button"
                         onClick={() => openEditForm(intervention)}
+<<<<<<< HEAD
                         className="inline-flex items-center gap-1 rounded-md border border-[#dfe5dc] px-2.5 py-2 text-[13.5px] font-semibold text-[#46564a] hover:bg-[#f5f7f4]"
+=======
+                        className="inline-flex items-center gap-1 rounded-md border border-[#dfe5dc] px-2.5 py-2 text-xs font-semibold text-[#46564a] hover:bg-[#f5f7f4]"
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                       >
                         <Pencil size={13} />
                         Edit
@@ -669,7 +831,11 @@ export default function InterventionsPage() {
                       <button
                         type="button"
                         onClick={() => deleteIntervention(intervention.id)}
+<<<<<<< HEAD
                         className="inline-flex items-center gap-1 rounded-md border border-red-200 px-2.5 py-2 text-[13.5px] font-semibold text-red-700 hover:bg-red-50"
+=======
+                        className="inline-flex items-center gap-1 rounded-md border border-red-200 px-2.5 py-2 text-xs font-semibold text-red-700 hover:bg-red-50"
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                       >
                         <Trash2 size={13} />
                         Delete
@@ -698,7 +864,11 @@ function SummaryCard({
   return (
     <section className="rounded-md border border-[#e2e7df] bg-white p-5">
       <div className="flex items-start justify-between gap-3">
+<<<<<<< HEAD
         <p className="text-[14.5px] text-[#4b564e]">{label}</p>
+=======
+        <p className="text-[12px] text-[#737e74]">{label}</p>
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
         <span className="flex h-9 w-9 items-center justify-center rounded-md bg-[#edf4ef] text-[#28684e]">
           <Icon size={18} strokeWidth={1.8} />
         </span>
@@ -712,7 +882,11 @@ function SummaryCard({
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
+<<<<<<< HEAD
     <label className="block text-[15px] font-medium text-[#46564a]">
+=======
+    <label className="block text-sm font-medium text-[#46564a]">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
       <span className="mb-1.5 block">{label}</span>
       {children}
     </label>

@@ -1,23 +1,40 @@
 import { useEffect, useMemo, useState } from 'react'
+<<<<<<< HEAD
+=======
+import NextLink from 'next/link'
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import {
   AlertTriangle, Award, Bell, Briefcase, CalendarCheck, ChevronRight, Code2, Database, GraduationCap, Home as HomeIcon, LogOut, Menu, MessageSquare,
+<<<<<<< HEAD
   Mic, Moon, PanelLeftClose, PanelLeftOpen, PenLine, Search, Sun, Users, X, Zap,
+=======
+  Mic, Moon, PanelLeftClose, PanelLeftOpen, PenLine, Search, Sun, X, Zap,
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 } from 'lucide-react'
 import { cn } from '@student/lib/utils'
 import { StudentProvider, useStudent } from '@student/hooks/useStudent'
 import { useTheme } from '@student/hooks/useTheme'
 import { listStudents, resetDemoData } from '@student/services/api'
+<<<<<<< HEAD
 import { useFeedbackWindow } from '@student/hooks/useFeedbackWindow'
+=======
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 import { useLocalFeedback } from '@student/hooks/useLocalFeedback'
 import { countPendingFacultyEvaluations } from '@student/services/localFeedback'
 import { attendanceBySubject } from '@student/lib/scoring'
 import { subjectsOfSemester } from '@student/data/catalog'
+<<<<<<< HEAD
 import { Skeleton } from '@student/components/ui/misc'
 import { Logo } from '@student/components/Logo'
 import { LogoutControl } from '@/components/logout-control'
 import { StudentPicker, type Person } from '@student/components/StudentPicker'
+=======
+import { DEFAULT_STUDENT_ID } from '@student/data/students'
+import { Skeleton } from '@student/components/ui/misc'
+import { Logo } from '@student/components/Logo'
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 
 export const DASH = '/dashboard'
 
@@ -32,7 +49,10 @@ const NAV: NavItem[] = [
     children: [
       { to: '/placement/aptitude', label: 'Aptitude Test', icon: PenLine, keywords: 'quant logical verbal tcs infosys' },
       { to: '/placement/interview', label: 'Mock Interview', icon: Mic, keywords: 'hr technical voice' },
+<<<<<<< HEAD
       { to: '/placement/soft-skills', label: 'Soft Skills', icon: Users, keywords: 'communication teamwork leadership situational video introduction' },
+=======
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
     ],
   },
   { to: '/skills', label: 'Skills', icon: Zap, keywords: 'technical soft radar', children: [{ to: '/skills/coding', label: 'Coding Test', icon: Code2, keywords: 'java python c sql' }] },
@@ -40,15 +60,26 @@ const NAV: NavItem[] = [
 ]
 const FLAT = NAV.flatMap((n) => [n, ...(n.children ?? [])])
 
+<<<<<<< HEAD
 export function Shell({ studentId, base, homeId, canSwitch }: { studentId: string; base: string; homeId: string; canSwitch: boolean }) {
   return (
     <StudentProvider studentId={studentId} base={base}>
       <Layout homeId={homeId} canSwitch={canSwitch} />
+=======
+export function Shell({ studentId, base }: { studentId: string; base: string }) {
+  return (
+    <StudentProvider studentId={studentId} base={base}>
+      <Layout />
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
     </StudentProvider>
   )
 }
 
+<<<<<<< HEAD
 function Layout({ homeId, canSwitch }: { homeId: string; canSwitch: boolean }) {
+=======
+function Layout() {
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   const loc = useLocation()
   const [openAt, setOpenAt] = useState<string | null>(null)
   const open = openAt === loc.pathname
@@ -63,7 +94,11 @@ function Layout({ homeId, canSwitch }: { homeId: string; canSwitch: boolean }) {
       {open && <div className="fixed inset-0 z-30 bg-black/50 lg:hidden" onClick={() => setOpenAt(null)} />}
       <Sidebar open={open} collapsed={collapsed} onClose={() => setOpenAt(null)} onToggle={() => setCollapsed((c) => !c)} />
       <div className="flex min-w-0 flex-1 flex-col">
+<<<<<<< HEAD
         <Topbar onMenu={() => setOpenAt(loc.pathname)} homeId={homeId} canSwitch={canSwitch} />
+=======
+        <Topbar onMenu={() => setOpenAt(loc.pathname)} />
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
         <main id="main" className="mx-auto w-full max-w-[1400px] flex-1 p-4 sm:p-6">
           <AnimatePresence mode="wait" initial={false}>
             <motion.div key={loc.pathname} initial={reduce ? false : { opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
@@ -103,6 +138,7 @@ function Sidebar({ open, collapsed, onClose, onToggle }: { open: boolean; collap
         ))}
       </nav>
       <div className="shrink-0 space-y-1 border-t border-white/10 p-3">
+<<<<<<< HEAD
         <LogoutControl className={cn('flex h-10 items-center gap-3 rounded-lg px-3 text-sm text-brand-100 hover:bg-white/[0.06]', collapsed && 'lg:justify-center lg:px-0')} title={collapsed ? 'Logout' : undefined}>
           <LogOut className="h-[18px] w-[18px] shrink-0" /><span className={cn(collapsed && 'lg:hidden')}>Logout</span>
         </LogoutControl>
@@ -111,12 +147,23 @@ function Sidebar({ open, collapsed, onClose, onToggle }: { open: boolean; collap
         </button>
         <button className={cn('flex h-10 w-full items-center gap-3 rounded-lg px-3 text-sm text-brand-100 hover:bg-white/[0.06]', collapsed && 'lg:justify-center lg:px-0')} onClick={() => resetDemoData()} title="Reset data">
           <Database className="h-[18px] w-[18px] shrink-0" /><span className={cn(collapsed && 'lg:hidden')}>Reset data</span>
+=======
+        <NextLink href="/" className={cn('flex h-10 items-center gap-3 rounded-lg px-3 text-sm text-brand-100 hover:bg-white/[0.06]', collapsed && 'lg:justify-center lg:px-0')} title={collapsed ? 'Logout' : undefined}>
+          <LogOut className="h-[18px] w-[18px] shrink-0" /><span className={cn(collapsed && 'lg:hidden')}>Logout</span>
+        </NextLink>
+        <button onClick={onToggle} className="hidden h-10 w-full items-center gap-3 rounded-lg px-3 text-sm text-brand-100 hover:bg-white/[0.06] lg:flex" aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'} title={collapsed ? 'Expand sidebar' : undefined}>
+          {collapsed ? <PanelLeftOpen className="mx-auto h-[18px] w-[18px]" /> : <><PanelLeftClose className="h-[18px] w-[18px]" />Collapse</>}
+        </button>
+        <button className={cn('flex h-10 w-full items-center gap-3 rounded-lg px-3 text-sm text-brand-100 hover:bg-white/[0.06]', collapsed && 'lg:justify-center lg:px-0')} onClick={() => resetDemoData()} title="Reset demo data">
+          <Database className="h-[18px] w-[18px] shrink-0" /><span className={cn(collapsed && 'lg:hidden')}>Reset demo data</span>
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
         </button>
       </div>
     </aside>
   )
 }
 
+<<<<<<< HEAD
 function Topbar({ onMenu, homeId, canSwitch }: { onMenu: () => void; homeId: string; canSwitch: boolean }) {
   const { student, base, studentId } = useStudent()
   const feedback = useLocalFeedback(studentId)
@@ -129,15 +176,35 @@ function Topbar({ onMenu, homeId, canSwitch }: { onMenu: () => void; homeId: str
   const [q, setQ] = useState('')
   const [searchOpen, setSearchOpen] = useState(false)
   useEffect(() => { if (canSwitch) listStudents().then(setPeople) }, [canSwitch])
+=======
+function Topbar({ onMenu }: { onMenu: () => void }) {
+  const { student, base, studentId } = useStudent()
+  const feedback = useLocalFeedback(studentId)
+  const { dark, toggle } = useTheme()
+  const nav = useNavigate()
+  const loc = useLocation()
+  const [people, setPeople] = useState<{ id: string; name: string; rollNo: string }[]>([])
+  const [bell, setBell] = useState(false)
+  const [q, setQ] = useState('')
+  const [searchOpen, setSearchOpen] = useState(false)
+  useEffect(() => { listStudents().then(setPeople) }, [])
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 
   const notes = useMemo(() => {
     if (!student) return []
     const out: { text: string; href: string; tone: 'warn' | 'bad' | 'info' }[] = []
+<<<<<<< HEAD
     if (feedbackWindow.open) out.push({ text: feedbackWindow.window?.message ? `Feedback is open: ${feedbackWindow.window.message}` : 'Feedback is now open. Share your feedback.', href: '/feedback', tone: 'info' })
     attendanceBySubject(student).filter((a) => a.percent < 75).forEach((a) => out.push({ text: `${a.name} attendance is ${a.percent}%, below 75%`, href: '/attendance', tone: 'bad' }))
     const pendingFacultyEvaluations = countPendingFacultyEvaluations(
       feedback.items,
       subjectsOfSemester(student.semester, student.branchCode).map((subject) => subject.code),
+=======
+    attendanceBySubject(student).filter((a) => a.percent < 75).forEach((a) => out.push({ text: `${a.name} attendance is ${a.percent}%, below 75%`, href: '/attendance', tone: 'bad' }))
+    const pendingFacultyEvaluations = countPendingFacultyEvaluations(
+      feedback.items,
+      subjectsOfSemester(student.semester).map((subject) => subject.code),
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
     )
     if (!feedback.loading && !feedback.error && pendingFacultyEvaluations) {
       out.push({ text: `${pendingFacultyEvaluations} faculty evaluation${pendingFacultyEvaluations > 1 ? 's' : ''} pending`, href: '/feedback', tone: 'warn' })
@@ -145,7 +212,11 @@ function Topbar({ onMenu, homeId, canSwitch }: { onMenu: () => void; homeId: str
     if (student.lms.assignments.pending) out.push({ text: `${student.lms.assignments.pending} assignments pending on LMS`, href: '', tone: 'warn' })
     student.activities.filter((a) => a.status === 'Rejected').forEach((a) => out.push({ text: `"${a.title}" was rejected. Re-submit proof.`, href: '/engagement', tone: 'info' }))
     return out
+<<<<<<< HEAD
   }, [feedback.error, feedback.items, feedback.loading, feedbackWindow.open, feedbackWindow.window, student])
+=======
+  }, [feedback.error, feedback.items, feedback.loading, student])
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 
   const results = q.trim() ? FLAT.filter((n) => (n.label + ' ' + (n.keywords ?? '')).toLowerCase().includes(q.trim().toLowerCase())).slice(0, 6) : []
   const go = (n: { to: string }) => { setQ(''); setSearchOpen(false); nav(base + n.to) }
@@ -157,7 +228,11 @@ function Topbar({ onMenu, homeId, canSwitch }: { onMenu: () => void; homeId: str
   void crumbs
 
   const initials = student?.name.split(' ').map((p) => p[0]).join('') ?? ''
+<<<<<<< HEAD
   const switchTo = (id: string) => nav(`${id === homeId ? DASH : `${DASH}/student/${id}`}${sub}`)
+=======
+  const switchTo = (id: string) => nav(`${id === DEFAULT_STUDENT_ID ? DASH : `${DASH}/student/${id}`}${sub}`)
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 
   return (
     <header className="sticky top-0 z-20 flex h-16 items-center gap-3 border-b border-border bg-card px-4 sm:px-6">
@@ -185,7 +260,16 @@ function Topbar({ onMenu, homeId, canSwitch }: { onMenu: () => void; homeId: str
         )}
       </div>
 
+<<<<<<< HEAD
       {canSwitch && <StudentPicker people={people} studentId={studentId} defaultId={homeId} onPick={switchTo} />}
+=======
+      <span className="hidden rounded-md border border-warning/40 bg-warning/10 px-2 py-1 text-xs font-semibold text-amber-700 dark:text-amber-400 sm:inline" title="All figures come from synthetic demo data">Demo data</span>
+
+      <select aria-label="View as student" value={studentId} onChange={(e) => switchTo(e.target.value)}
+        className="hidden h-9 max-w-[160px] rounded-lg border border-border bg-card px-2 text-xs xl:block" title="Faculty/admin view: open any student's dashboard">
+        {people.map((p) => <option key={p.id} value={p.id}>{p.id === DEFAULT_STUDENT_ID ? `${p.name} (me)` : p.name}</option>)}
+      </select>
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
       <button onClick={toggle} className="rounded-lg p-2 hover:bg-muted" aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}>{dark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}</button>
       <div className="relative">
         <button className="relative rounded-lg p-2 hover:bg-muted" onClick={() => setBell((b) => !b)} aria-label={`Notifications (${notes.length})`} aria-expanded={bell}>

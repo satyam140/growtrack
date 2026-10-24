@@ -1,8 +1,13 @@
 
 "use client";
 
+<<<<<<< HEAD
 import { AdminPageShell } from "@/components/admin-page-shell";
 import { useEffect, useMemo, useState } from "react";
+=======
+import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 import {
   Activity,
   ArrowLeft,
@@ -14,12 +19,20 @@ import {
   GraduationCap,
   HeartHandshake,
   Lightbulb,
+<<<<<<< HEAD
+=======
+  Menu,
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   Printer,
   Search,
   Target,
   TrendingDown,
   TrendingUp,
   Users,
+<<<<<<< HEAD
+=======
+  X,
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   AlertTriangle,
   Clock3,
 } from "lucide-react";
@@ -33,8 +46,11 @@ import {
   YAxis,
 } from "recharts";
 import { studentProfiles } from "@/lib/students";
+<<<<<<< HEAD
 import { Pager, usePaged } from "@/components/pager";
 import { subjectByCode } from "@student/data/catalog";
+=======
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 import {
   readAcademicUpdates,
   saveAcademicUpdate,
@@ -63,13 +79,169 @@ type Student = {
   history: { semester: string; score: number }[];
 };
 
+<<<<<<< HEAD
+=======
+const baseStudents: Student[] = [
+  {
+    id: "STU-1024",
+    name: "Aarav Sharma",
+    department: "Computer Science",
+    semester: "Semester 6",
+    score: 48,
+    previousScore: 55,
+    attendance: 68,
+    assessmentsCompleted: 7,
+    assessmentsTotal: 10,
+    subjects: [
+      { name: "Data Structures", score: 42, previousScore: 51, target: 60 },
+      { name: "Database Systems", score: 58, previousScore: 54, target: 60 },
+      { name: "Operating Systems", score: 45, previousScore: 52, target: 60 },
+      { name: "Computer Networks", score: 51, previousScore: 57, target: 60 },
+      { name: "Mathematics", score: 44, previousScore: 61, target: 60 },
+    ],
+    history: [
+      { semester: "Sem 2", score: 62 },
+      { semester: "Sem 3", score: 59 },
+      { semester: "Sem 4", score: 57 },
+      { semester: "Sem 5", score: 55 },
+      { semester: "Sem 6", score: 48 },
+    ],
+  },
+  {
+    id: "STU-1132",
+    name: "Rohan Verma",
+    department: "Electronics",
+    semester: "Semester 5",
+    score: 42,
+    previousScore: 49,
+    attendance: 62,
+    assessmentsCompleted: 6,
+    assessmentsTotal: 10,
+    subjects: [
+      { name: "Digital Electronics", score: 39, previousScore: 48, target: 60 },
+      { name: "Circuit Theory", score: 45, previousScore: 52, target: 60 },
+      { name: "Signals and Systems", score: 38, previousScore: 43, target: 60 },
+      { name: "Mathematics", score: 47, previousScore: 53, target: 60 },
+      { name: "Communication Systems", score: 41, previousScore: 49, target: 60 },
+    ],
+    history: [
+      { semester: "Sem 1", score: 55 },
+      { semester: "Sem 2", score: 53 },
+      { semester: "Sem 3", score: 51 },
+      { semester: "Sem 4", score: 49 },
+      { semester: "Sem 5", score: 42 },
+    ],
+  },
+  {
+    id: "STU-1087",
+    name: "Priya Patel",
+    department: "Information Technology",
+    semester: "Semester 6",
+    score: 76,
+    previousScore: 72,
+    attendance: 91,
+    assessmentsCompleted: 9,
+    assessmentsTotal: 10,
+    subjects: [
+      { name: "Data Structures", score: 78, previousScore: 74, target: 70 },
+      { name: "Database Systems", score: 84, previousScore: 80, target: 70 },
+      { name: "Operating Systems", score: 70, previousScore: 72, target: 70 },
+      { name: "Computer Networks", score: 73, previousScore: 69, target: 70 },
+      { name: "Mathematics", score: 75, previousScore: 65, target: 70 },
+    ],
+    history: [
+      { semester: "Sem 2", score: 64 },
+      { semester: "Sem 3", score: 68 },
+      { semester: "Sem 4", score: 70 },
+      { semester: "Sem 5", score: 72 },
+      { semester: "Sem 6", score: 76 },
+    ],
+  },
+  {
+    id: "STU-1169",
+    name: "Ananya Singh",
+    department: "Computer Science",
+    semester: "Semester 4",
+    score: 81,
+    previousScore: 78,
+    attendance: 95,
+    assessmentsCompleted: 10,
+    assessmentsTotal: 10,
+    subjects: [
+      { name: "Data Structures", score: 86, previousScore: 82, target: 70 },
+      { name: "Database Systems", score: 83, previousScore: 80, target: 70 },
+      { name: "Operating Systems", score: 78, previousScore: 77, target: 70 },
+      { name: "Computer Networks", score: 79, previousScore: 76, target: 70 },
+      { name: "Mathematics", score: 79, previousScore: 75, target: 70 },
+    ],
+    history: [
+      { semester: "Sem 1", score: 70 },
+      { semester: "Sem 2", score: 73 },
+      { semester: "Sem 3", score: 78 },
+      { semester: "Sem 4", score: 81 },
+    ],
+  },
+  {
+    id: "STU-1201",
+    name: "Kabir Mehta",
+    department: "Mechanical Engineering",
+    semester: "Semester 3",
+    score: 64,
+    previousScore: 67,
+    attendance: 79,
+    assessmentsCompleted: 8,
+    assessmentsTotal: 10,
+    subjects: [
+      { name: "Engineering Mechanics", score: 62, previousScore: 68, target: 65 },
+      { name: "Thermodynamics", score: 58, previousScore: 63, target: 65 },
+      { name: "Manufacturing", score: 72, previousScore: 70, target: 65 },
+      { name: "Mathematics", score: 61, previousScore: 66, target: 65 },
+      { name: "Material Science", score: 67, previousScore: 68, target: 65 },
+    ],
+    history: [
+      { semester: "Sem 1", score: 60 },
+      { semester: "Sem 2", score: 67 },
+      { semester: "Sem 3", score: 64 },
+    ],
+  },
+  {
+    id: "STU-1244",
+    name: "Ishita Rao",
+    department: "Information Technology",
+    semester: "Semester 5",
+    score: 88,
+    previousScore: 84,
+    attendance: 97,
+    assessmentsCompleted: 10,
+    assessmentsTotal: 10,
+    subjects: [
+      { name: "Data Structures", score: 91, previousScore: 88, target: 75 },
+      { name: "Database Systems", score: 89, previousScore: 84, target: 75 },
+      { name: "Operating Systems", score: 85, previousScore: 82, target: 75 },
+      { name: "Computer Networks", score: 87, previousScore: 83, target: 75 },
+      { name: "Mathematics", score: 88, previousScore: 83, target: 75 },
+    ],
+    history: [
+      { semester: "Sem 1", score: 75 },
+      { semester: "Sem 2", score: 79 },
+      { semester: "Sem 3", score: 81 },
+      { semester: "Sem 4", score: 84 },
+      { semester: "Sem 5", score: 88 },
+    ],
+  },
+];
+
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 const departments = [
   "All departments",
   "Computer Science",
   "Information Technology",
   "Electronics",
   "Mechanical Engineering",
+<<<<<<< HEAD
   "Civil Engineering",
+=======
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 ];
 
 const semesters = [
@@ -77,6 +249,7 @@ const semesters = [
   ...Array.from({ length: 8 }, (_, index) => `Semester ${index + 1}`),
 ];
 
+<<<<<<< HEAD
 /** Average marks of all students in each completed semester, from the unified dataset. */
 const institutionTrend = Array.from(
   { length: Math.max(...studentProfiles.map((profile) => profile.semesterScores.length)) },
@@ -98,6 +271,76 @@ function makeStudentRecord(profile: (typeof studentProfiles)[number], index: num
   const previousScore = history.length > 1 ? history[history.length - 2].score : score;
   // Marks of each subject in the latest semester, compared with the change in the semester average.
   const trend = score - previousScore;
+=======
+const institutionTrend = [
+  { semester: "Sem 1", score: 68 },
+  { semester: "Sem 2", score: 71 },
+  { semester: "Sem 3", score: 73 },
+  { semester: "Sem 4", score: 70 },
+  { semester: "Sem 5", score: 77 },
+  { semester: "Sem 6", score: 81 },
+];
+
+function makeStudentRecord(
+  profile: (typeof studentProfiles)[number],
+  index: number,
+): Student {
+  const semesterNumber = Number.parseInt(profile.year, 10) * 2 - 1;
+  const seed = baseStudents.find(
+    (record) => record.id === profile.id && record.name === profile.name,
+  );
+  if (seed) {
+    return {
+      ...seed,
+      semester: `Semester ${semesterNumber}`,
+      score: profile.academicScore,
+      previousScore: Math.max(0, profile.academicScore - 3 - (index % 5)),
+      attendance: profile.attendance,
+    };
+  }
+
+  const subjectsByDepartment: Record<string, string[]> = {
+    "Computer Science": [
+      "Data Structures",
+      "Database Systems",
+      "Operating Systems",
+      "Computer Networks",
+      "Mathematics",
+    ],
+    "Information Technology": [
+      "Web Technologies",
+      "Database Systems",
+      "Cloud Computing",
+      "Computer Networks",
+      "Mathematics",
+    ],
+    Electronics: [
+      "Digital Electronics",
+      "Circuit Theory",
+      "Signals and Systems",
+      "Communication Systems",
+      "Mathematics",
+    ],
+    "Mechanical Engineering": [
+      "Engineering Mechanics",
+      "Thermodynamics",
+      "Manufacturing",
+      "Material Science",
+      "Mathematics",
+    ],
+  };
+  const offsets = [-4, 3, 1, -2, 2];
+  const score = profile.academicScore;
+  const historyLength = Math.min(semesterNumber, 5);
+  const firstHistorySemester = Math.max(1, semesterNumber - historyLength + 1);
+  const history = Array.from({ length: historyLength }, (_, i) => ({
+    semester: `Sem ${firstHistorySemester + i}`,
+    score:
+      i === historyLength - 1
+        ? score
+        : Math.max(0, Math.min(100, score - (historyLength - 1 - i) * 2)),
+  }));
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 
   return {
     id: profile.id,
@@ -105,6 +348,7 @@ function makeStudentRecord(profile: (typeof studentProfiles)[number], index: num
     department: profile.department,
     semester: `Semester ${semesterNumber}`,
     score,
+<<<<<<< HEAD
     previousScore,
     attendance: profile.attendance,
     assessmentsCompleted: 6 + (index % 5),
@@ -115,6 +359,27 @@ function makeStudentRecord(profile: (typeof studentProfiles)[number], index: num
       previousScore: Math.max(0, Math.min(100, marks - trend)),
       target: 60,
     })),
+=======
+    previousScore: Math.max(0, score - 3 - (index % 5)),
+    attendance: profile.attendance,
+    assessmentsCompleted: 6 + (index % 5),
+    assessmentsTotal: 10,
+    subjects: (
+      subjectsByDepartment[profile.department] ??
+      subjectsByDepartment["Computer Science"]
+    ).map((name, subjectIndex) => {
+      const subjectScore = Math.max(
+        0,
+        Math.min(100, score + offsets[subjectIndex]),
+      );
+      return {
+        name,
+        score: subjectScore,
+        previousScore: Math.max(0, subjectScore - (index % 4) + 1),
+        target: 60,
+      };
+    }),
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
     history,
   };
 }
@@ -134,7 +399,11 @@ function StatusBadge({ score }: { score: number }) {
         : "bg-green-50 text-green-700";
 
   return (
+<<<<<<< HEAD
     <span className={`inline-flex rounded-full px-3 py-1 text-[13.5px] font-medium ${styles}`}>
+=======
+    <span className={`inline-flex rounded-full px-3 py-1 text-xs font-medium ${styles}`}>
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
       {getStatus(score)}
     </span>
   );
@@ -154,13 +423,21 @@ function MetricCard({
   return (
     <div className="rounded-xl border border-[#e2e8e2] bg-white p-5">
       <div className="flex items-center justify-between">
+<<<<<<< HEAD
         <p className="text-[15px] text-[#4b564e]">{title}</p>
+=======
+        <p className="text-sm text-[#718075]">{title}</p>
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
         <div className="rounded-lg bg-[#edf5ef] p-2.5 text-[#28684e]">
           <Icon size={20} />
         </div>
       </div>
       <p className="mt-4 text-3xl font-semibold text-[#203d2e]">{value}</p>
+<<<<<<< HEAD
       <p className="mt-2 text-[13.5px] text-[#556057]">{subtitle}</p>
+=======
+      <p className="mt-2 text-xs text-[#89938a]">{subtitle}</p>
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
     </div>
   );
 }
@@ -184,7 +461,11 @@ function SectionCard({
         </div>
         <div>
           <h2 className="font-semibold text-[#2c4031]">{title}</h2>
+<<<<<<< HEAD
           {subtitle && <p className="mt-1 text-[13.5px] leading-5 text-[#556057]">{subtitle}</p>}
+=======
+          {subtitle && <p className="mt-1 text-xs leading-5 text-[#89938a]">{subtitle}</p>}
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
         </div>
       </div>
       {children}
@@ -211,13 +492,21 @@ function StudentReport({
 
   const supportReasons = [
     ...(student.score < 50
+<<<<<<< HEAD
       ? [`Overall academic score is ${student.score}%, below the 50% support threshold used here.`]
+=======
+      ? [`Overall academic score is ${student.score}%, below the 50% support threshold used in this demo.`]
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
       : []),
     ...(improvement < 0
       ? [`Overall score decreased by ${Math.abs(improvement)} percentage points compared with the previous result.`]
       : []),
     ...(student.attendance < 75
+<<<<<<< HEAD
       ? [`Attendance is ${student.attendance}%, below the 75% monitoring threshold used here.`]
+=======
+      ? [`Attendance is ${student.attendance}%, below the 75% monitoring threshold used in this demo.`]
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
       : []),
     ...(belowTarget.length
       ? [`${belowTarget.length} of ${student.subjects.length} tracked subjects are below their individual target.`]
@@ -226,7 +515,11 @@ function StudentReport({
       ? [`Scores declined in ${decliningSubjects.length} subject${decliningSubjects.length === 1 ? "" : "s"} compared with previous results.`]
       : []),
     ...(completedRate < 80
+<<<<<<< HEAD
       ? [`Only ${student.assessmentsCompleted} of ${student.assessmentsTotal} assessments are recorded as completed.`]
+=======
+      ? [`Only ${student.assessmentsCompleted} of ${student.assessmentsTotal} sample assessments are recorded as completed.`]
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
       : []),
   ];
 
@@ -263,7 +556,11 @@ function StudentReport({
         <button
           type="button"
           onClick={onBack}
+<<<<<<< HEAD
           className="inline-flex items-center gap-2 rounded-lg border border-[#dfe6de] bg-white px-4 py-2.5 text-[15px] font-medium text-[#405345] hover:bg-[#f7faf6]"
+=======
+          className="inline-flex items-center gap-2 rounded-lg border border-[#dfe6de] bg-white px-4 py-2.5 text-sm font-medium text-[#405345] hover:bg-[#f7faf6]"
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
         >
           <ArrowLeft size={16} />
           Back to academic performance
@@ -271,7 +568,11 @@ function StudentReport({
         <button
           type="button"
           onClick={() => window.print()}
+<<<<<<< HEAD
           className="inline-flex items-center gap-2 rounded-lg bg-[#193f31] px-4 py-2.5 text-[15px] font-medium text-white hover:bg-[#285943]"
+=======
+          className="inline-flex items-center gap-2 rounded-lg bg-[#193f31] px-4 py-2.5 text-sm font-medium text-white hover:bg-[#285943]"
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
         >
           <Printer size={16} />
           Print report
@@ -285,27 +586,50 @@ function StudentReport({
               {student.name.split(" ").map((part) => part[0]).join("")}
             </div>
             <div>
+<<<<<<< HEAD
               <p className="text-[13.5px] font-bold tracking-[1.8px] text-[#367552]">
+=======
+              <p className="text-xs font-bold tracking-[1.8px] text-[#367552]">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                 INDIVIDUAL STUDENT REPORT
               </p>
               <h1 className="mt-2 text-2xl font-semibold tracking-tight text-[#213c2d] sm:text-3xl">
                 {student.name}
               </h1>
+<<<<<<< HEAD
               <p className="mt-2 text-[15px] text-[#4b564e]">
+=======
+              <p className="mt-2 text-sm text-[#718075]">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                 {student.id} · {student.department} · {student.semester}
               </p>
               <div className="mt-3 flex flex-wrap items-center gap-2">
                 <StatusBadge score={student.score} />
+<<<<<<< HEAD
+=======
+                <span className="rounded-full bg-[#f4f6f2] px-3 py-1 text-xs text-[#657267]">
+                  Demo academic record
+                </span>
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
               </div>
             </div>
           </div>
           <div className="min-w-[160px] rounded-xl bg-[#f6f8f4] p-4">
+<<<<<<< HEAD
             <p className="text-[13.5px] text-[#4b564e]">Current average</p>
             <div className="mt-1 flex items-end gap-1">
               <span className="text-4xl font-semibold text-[#203d2e]">{student.score}</span>
               <span className="pb-1 text-[15px] text-[#556057]">/ 100</span>
             </div>
             <div className={`mt-2 inline-flex items-center gap-1 text-[15px] font-medium ${improvement >= 0 ? "text-green-700" : "text-red-700"}`}>
+=======
+            <p className="text-xs text-[#718075]">Current average</p>
+            <div className="mt-1 flex items-end gap-1">
+              <span className="text-4xl font-semibold text-[#203d2e]">{student.score}</span>
+              <span className="pb-1 text-sm text-[#89938a]">/ 100</span>
+            </div>
+            <div className={`mt-2 inline-flex items-center gap-1 text-sm font-medium ${improvement >= 0 ? "text-green-700" : "text-red-700"}`}>
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
               {improvement >= 0 ? <TrendingUp size={15} /> : <TrendingDown size={15} />}
               {improvement > 0 ? "+" : ""}{improvement} points vs previous
             </div>
@@ -323,7 +647,11 @@ function StudentReport({
         <MetricCard
           title="Attendance"
           value={`${student.attendance}%`}
+<<<<<<< HEAD
           subtitle={student.attendance < 75 ? "Below monitoring threshold" : "Meets attendance threshold"}
+=======
+          subtitle={student.attendance < 75 ? "Below demo monitoring threshold" : "Meets demo attendance threshold"}
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
           icon={CalendarCheck}
         />
         <MetricCard
@@ -335,7 +663,11 @@ function StudentReport({
         <MetricCard
           title="Assessments recorded"
           value={`${student.assessmentsCompleted}/${student.assessmentsTotal}`}
+<<<<<<< HEAD
           subtitle={`${completedRate}% of assessments`}
+=======
+          subtitle={`${completedRate}% of sample assessments`}
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
           icon={ClipboardList}
         />
       </div>
@@ -343,35 +675,58 @@ function StudentReport({
       <div className="mb-6 grid grid-cols-1 gap-6 xl:grid-cols-[1.4fr_1fr]">
         <SectionCard
           title="Academic development over time"
+<<<<<<< HEAD
           subtitle="Recorded semester averages for this student"
+=======
+          subtitle="Recorded semester averages for this demo student"
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
           icon={Activity}
         >
           <div className="h-[270px] w-full">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={student.history} margin={{ top: 10, right: 12, bottom: 5, left: -15 }}>
                 <CartesianGrid stroke="#e9eee8" strokeDasharray="4 4" vertical={false} />
+<<<<<<< HEAD
                 <XAxis dataKey="semester" tickLine={false} axisLine={false} tick={{ fill: "#3f4a42", fontSize: 13 }} />
                 <YAxis domain={[0, 100]} ticks={[0, 25, 50, 75, 100]} tickLine={false} axisLine={false} tick={{ fill: "#3f4a42", fontSize: 13 }} />
                 <Tooltip
                   formatter={(value) => [`${value}/100`, "Score"]}
                   contentStyle={{ borderRadius: 8, border: "1px solid #e2e8e2", fontSize: 14 }}
+=======
+                <XAxis dataKey="semester" tickLine={false} axisLine={false} tick={{ fill: "#7c897e", fontSize: 11 }} />
+                <YAxis domain={[0, 100]} ticks={[0, 25, 50, 75, 100]} tickLine={false} axisLine={false} tick={{ fill: "#7c897e", fontSize: 11 }} />
+                <Tooltip
+                  formatter={(value) => [`${value}/100`, "Score"]}
+                  contentStyle={{ borderRadius: 8, border: "1px solid #e2e8e2", fontSize: 12 }}
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                 />
                 <Line type="monotone" dataKey="score" stroke="#367552" strokeWidth={3} dot={{ r: 4, fill: "#367552" }} activeDot={{ r: 6 }} />
               </LineChart>
             </ResponsiveContainer>
           </div>
           <div className="mt-4 rounded-lg bg-[#f6f8f4] p-4">
+<<<<<<< HEAD
             <p className="text-[15px] font-semibold text-[#2c4031]">Development summary</p>
             <p className="mt-1 text-[15px] leading-6 text-[#657267]">{developmentText}</p>
             <p className="mt-2 text-[13.5px] leading-5 text-[#556057]">
               This comparison describes the recorded scores; it does not establish the cause of a change.
+=======
+            <p className="text-sm font-semibold text-[#2c4031]">Development summary</p>
+            <p className="mt-1 text-sm leading-6 text-[#657267]">{developmentText}</p>
+            <p className="mt-2 text-xs leading-5 text-[#89938a]">
+              This comparison describes the supplied demo scores; it does not establish the cause of a change.
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
             </p>
           </div>
         </SectionCard>
 
         <SectionCard
           title="Academic support assessment"
+<<<<<<< HEAD
           subtitle="Reasons to investigate based on the recorded data"
+=======
+          subtitle="Reasons to investigate based on the displayed sample data"
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
           icon={HeartHandshake}
         >
           <div className={`rounded-xl border p-4 ${supportReasons.length ? "border-amber-200 bg-amber-50/70" : "border-green-200 bg-green-50/70"}`}>
@@ -381,15 +736,24 @@ function StudentReport({
               ) : (
                 <CheckCircle2 size={18} className="text-green-700" />
               )}
+<<<<<<< HEAD
               <p className={`text-[15px] font-semibold ${supportReasons.length ? "text-amber-900" : "text-green-900"}`}>
+=======
+              <p className={`text-sm font-semibold ${supportReasons.length ? "text-amber-900" : "text-green-900"}`}>
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                 {supportReasons.length ? `${supportReasons.length} item(s) to review` : "No current support flags"}
               </p>
             </div>
             {supportReasons.length ? (
               <ul className="mt-3 space-y-3">
                 {supportReasons.map((reason, index) => (
+<<<<<<< HEAD
                   <li key={reason} className="flex items-start gap-2 text-[15px] leading-5 text-[#586557]">
                     <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white text-[13.5px] font-semibold text-amber-800">
+=======
+                  <li key={reason} className="flex items-start gap-2 text-sm leading-5 text-[#586557]">
+                    <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white text-xs font-semibold text-amber-800">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                       {index + 1}
                     </span>
                     {reason}
@@ -397,12 +761,21 @@ function StudentReport({
                 ))}
               </ul>
             ) : (
+<<<<<<< HEAD
               <p className="mt-2 text-[15px] leading-6 text-[#586557]">
                 Current metrics meet the configured review thresholds. Continue monitoring progress and check in with the student regularly.
               </p>
             )}
           </div>
           <p className="mt-4 text-[13.5px] leading-5 text-[#556057]">
+=======
+              <p className="mt-2 text-sm leading-6 text-[#586557]">
+                Current sample metrics meet the configured review thresholds. Continue monitoring progress and check in with the student regularly.
+              </p>
+            )}
+          </div>
+          <p className="mt-4 text-xs leading-5 text-[#89938a]">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
             These flags identify areas for a supportive conversation, not a diagnosis or a final judgment about the student.
           </p>
         </SectionCard>
@@ -411,7 +784,11 @@ function StudentReport({
       <div className="mb-6 grid grid-cols-1 gap-6 xl:grid-cols-2">
         <SectionCard
           title="Subject-wise performance"
+<<<<<<< HEAD
           subtitle="Current score compared with the individual target"
+=======
+          subtitle="Current score compared with the individual demo target"
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
           icon={BookOpen}
         >
           <div className="space-y-5">
@@ -424,14 +801,24 @@ function StudentReport({
                 <div key={subject.name}>
                   <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
                     <div>
+<<<<<<< HEAD
                       <p className="text-[15px] font-medium text-[#344638]">{subject.name}</p>
                       <p className="mt-1 text-[13.5px] text-[#556057]">
+=======
+                      <p className="text-sm font-medium text-[#344638]">{subject.name}</p>
+                      <p className="mt-1 text-xs text-[#89938a]">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                         Target {subject.target}% · Previous {subject.previousScore}%
                       </p>
                     </div>
                     <div className="text-right">
+<<<<<<< HEAD
                       <p className="text-[15px] font-semibold text-[#2c4031]">{subject.score}%</p>
                       <p className={`mt-1 text-[13.5px] ${change >= 0 ? "text-green-700" : "text-red-700"}`}>
+=======
+                      <p className="text-sm font-semibold text-[#2c4031]">{subject.score}%</p>
+                      <p className={`mt-1 text-xs ${change >= 0 ? "text-green-700" : "text-red-700"}`}>
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                         {change > 0 ? "+" : ""}{change} pts
                       </p>
                     </div>
@@ -447,14 +834,22 @@ function StudentReport({
                       title={`Target: ${subject.target}%`}
                     />
                   </div>
+<<<<<<< HEAD
                   <p className={`mt-1.5 text-[13.5px] ${onTarget ? "text-green-700" : "text-amber-700"}`}>
+=======
+                  <p className={`mt-1.5 text-xs ${onTarget ? "text-green-700" : "text-amber-700"}`}>
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                     {onTarget ? "Target achieved" : `${gap} points below target`}
                   </p>
                 </div>
               );
             })}
           </div>
+<<<<<<< HEAD
           <div className="mt-5 flex flex-wrap gap-4 border-t border-[#edf0eb] pt-4 text-[13.5px] text-[#4b564e]">
+=======
+          <div className="mt-5 flex flex-wrap gap-4 border-t border-[#edf0eb] pt-4 text-xs text-[#718075]">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
             <span className="flex items-center gap-2"><span className="h-2.5 w-2.5 rounded-full bg-[#679678]" />At target</span>
             <span className="flex items-center gap-2"><span className="h-2.5 w-2.5 rounded-full bg-amber-500" />Below target</span>
             <span className="flex items-center gap-2"><span className="h-3 w-0.5 bg-[#263b2d]" />Target marker</span>
@@ -468,26 +863,43 @@ function StudentReport({
         >
           <div className="space-y-4">
             <div className="rounded-lg border border-green-100 bg-green-50/60 p-4">
+<<<<<<< HEAD
               <p className="flex items-center gap-2 text-[15px] font-semibold text-green-900">
+=======
+              <p className="flex items-center gap-2 text-sm font-semibold text-green-900">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                 <TrendingUp size={17} /> Subjects meeting target
               </p>
               {strongSubjects.length ? (
                 <ul className="mt-3 space-y-2">
                   {strongSubjects.map((subject) => (
+<<<<<<< HEAD
                     <li key={subject.name} className="flex items-center justify-between gap-3 text-[15px] text-[#526354]">
+=======
+                    <li key={subject.name} className="flex items-center justify-between gap-3 text-sm text-[#526354]">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                       <span>{subject.name}</span>
                       <span className="font-semibold">{subject.score}%</span>
                     </li>
                   ))}
                 </ul>
               ) : (
+<<<<<<< HEAD
                 <p className="mt-2 text-[15px] leading-5 text-[#657267]">
                   No tracked subject has reached its current target yet. Set small milestones and acknowledge incremental improvement.
+=======
+                <p className="mt-2 text-sm leading-5 text-[#657267]">
+                  No tracked subject has reached its current demo target yet. Set small milestones and acknowledge incremental improvement.
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                 </p>
               )}
             </div>
             <div className="rounded-lg border border-[#e6ebe4] bg-[#fafbf9] p-4">
+<<<<<<< HEAD
               <p className="flex items-center gap-2 text-[15px] font-semibold text-[#344638]">
+=======
+              <p className="flex items-center gap-2 text-sm font-semibold text-[#344638]">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                 <Activity size={17} /> Improving subjects
               </p>
               {student.subjects.some((subject) => subject.score > subject.previousScore) ? (
@@ -495,15 +907,24 @@ function StudentReport({
                   {student.subjects
                     .filter((subject) => subject.score > subject.previousScore)
                     .map((subject) => (
+<<<<<<< HEAD
                       <li key={subject.name} className="flex items-center justify-between gap-3 text-[15px] text-[#526354]">
+=======
+                      <li key={subject.name} className="flex items-center justify-between gap-3 text-sm text-[#526354]">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                         <span>{subject.name}</span>
                         <span className="font-semibold text-green-700">+{subject.score - subject.previousScore} pts</span>
                       </li>
                     ))}
                 </ul>
               ) : (
+<<<<<<< HEAD
                 <p className="mt-2 text-[15px] leading-5 text-[#657267]">
                   No subject shows an increase in the comparison. Review assessment feedback with the student to identify a helpful next step.
+=======
+                <p className="mt-2 text-sm leading-5 text-[#657267]">
+                  No subject shows an increase in the sample comparison. Review assessment feedback with the student to identify a helpful next step.
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                 </p>
               )}
             </div>
@@ -520,11 +941,19 @@ function StudentReport({
           <ol className="space-y-4">
             {recommendations.map((recommendation, index) => (
               <li key={recommendation} className="flex items-start gap-3">
+<<<<<<< HEAD
                 <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#edf5ef] text-[13.5px] font-semibold text-[#28684e]">
                   {index + 1}
                 </span>
                 <div>
                   <p className="text-[15px] leading-6 text-[#4e5e50]">{recommendation}</p>
+=======
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#edf5ef] text-xs font-semibold text-[#28684e]">
+                  {index + 1}
+                </span>
+                <div>
+                  <p className="text-sm leading-6 text-[#4e5e50]">{recommendation}</p>
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                 </div>
               </li>
             ))}
@@ -538,31 +967,60 @@ function StudentReport({
         >
           <div className="space-y-4">
             <div className="rounded-lg border border-[#e6ebe4] p-4">
+<<<<<<< HEAD
               <p className="text-[13.5px] font-medium uppercase tracking-wide text-[#556057]">Within 7 days</p>
               <p className="mt-2 text-[15px] font-semibold text-[#344638]">Student and faculty check-in</p>
               <p className="mt-1 text-[15px] leading-5 text-[#4b564e]">
+=======
+              <p className="text-xs font-medium uppercase tracking-wide text-[#89938a]">Within 7 days</p>
+              <p className="mt-2 text-sm font-semibold text-[#344638]">Student and faculty check-in</p>
+              <p className="mt-1 text-sm leading-5 text-[#718075]">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                 Discuss difficult topics, attendance if relevant, and barriers to completing assessments.
               </p>
             </div>
             <div className="rounded-lg border border-[#e6ebe4] p-4">
+<<<<<<< HEAD
               <p className="text-[13.5px] font-medium uppercase tracking-wide text-[#556057]">Within 2–4 weeks</p>
               <p className="mt-2 text-[15px] font-semibold text-[#344638]">Review measurable progress</p>
               <p className="mt-1 text-[15px] leading-5 text-[#4b564e]">
+=======
+              <p className="text-xs font-medium uppercase tracking-wide text-[#89938a]">Within 2–4 weeks</p>
+              <p className="mt-2 text-sm font-semibold text-[#344638]">Review measurable progress</p>
+              <p className="mt-1 text-sm leading-5 text-[#718075]">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                 Compare the next assessment with the current baseline and adjust support if necessary.
               </p>
             </div>
             <div className="rounded-lg bg-[#f2f6f0] p-4">
+<<<<<<< HEAD
               <p className="text-[15px] font-semibold text-[#2c4031]">Suggested next target</p>
               <p className="mt-1 text-2xl font-semibold text-[#28684e]">
                 {Math.min(100, Math.max(student.score + 5, 50))}%
               </p>
               <p className="mt-1 text-[13.5px] leading-5 text-[#4b564e]">
                 A goal based on the current score. Faculty should confirm an achievable target with the student.
+=======
+              <p className="text-sm font-semibold text-[#2c4031]">Suggested next target</p>
+              <p className="mt-1 text-2xl font-semibold text-[#28684e]">
+                {Math.min(100, Math.max(student.score + 5, 50))}%
+              </p>
+              <p className="mt-1 text-xs leading-5 text-[#718075]">
+                A demo goal based on the current score. Faculty should confirm an achievable target with the student.
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
               </p>
             </div>
           </div>
         </SectionCard>
       </div>
+<<<<<<< HEAD
+=======
+
+      <div className="rounded-xl border border-[#e2e8e2] bg-white p-5 text-xs leading-5 text-[#89938a]">
+        <p className="font-semibold text-[#536354]">Data and interpretation note</p>
+        This report currently uses illustrative in-code demo records. Attendance, assessment completion, subject scores, and semester history are examples, not verified student records. Replace them with actual institutional data before using this report for academic decisions.
+      </div>
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
     </div>
   );
 }
@@ -571,6 +1029,10 @@ export default function AcademicPerformancePage() {
   const [search, setSearch] = useState("");
   const [department, setDepartment] = useState("All departments");
   const [semester, setSemester] = useState("All semesters");
+<<<<<<< HEAD
+=======
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   const [selectedStudentId, setSelectedStudentId] = useState<string | null>(null);
   const [academicUpdates, setAcademicUpdates] = useState<AcademicUpdate[]>([]);
   const [editingAcademicStudent, setEditingAcademicStudent] =
@@ -633,7 +1095,11 @@ export default function AcademicPerformancePage() {
     );
     if (!linkedProfile) {
       setAcademicNotice(
+<<<<<<< HEAD
         "This record does not have a matching student profile ID and name.",
+=======
+        "This demo record does not have a matching student profile ID and name.",
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
       );
       return;
     }
@@ -676,6 +1142,7 @@ export default function AcademicPerformancePage() {
       return matchesSearch && matchesDepartment && matchesSemester;
     });
   }, [search, department, semester, students]);
+<<<<<<< HEAD
   const paged = usePaged(filteredStudents, `${search}|${department}|${semester}`);
 
   const subjectAverages = useMemo(() => {
@@ -694,18 +1161,134 @@ export default function AcademicPerformancePage() {
       students: entry.count,
     })).sort((a, b) => a.score - b.score);
   }, [students]);
+=======
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 
   const improving = students.filter((student) => student.score > student.previousScore).length;
   const needsSupport = students.filter((student) => student.score < 50).length;
   const selectedStudent = students.find((student) => student.id === selectedStudentId);
 
   return (
+<<<<<<< HEAD
     <AdminPageShell title={selectedStudent ? "Student report" : "Academic performance"}>
+=======
+    <div className="min-h-screen bg-[#f5f7f4] text-[#25352a]">
+      <div className="flex min-h-screen">
+        <aside
+          id="workspace-sidebar"
+          aria-label="Workspace navigation"
+          className={`fixed inset-y-0 left-0 z-40 flex w-64 shrink-0 flex-col overflow-y-auto bg-[#193f31] text-white transition-transform duration-200 lg:sticky lg:top-0 lg:h-screen lg:translate-x-0 ${mobileMenuOpen ? "translate-x-0" : "-translate-x-full"}`}
+        >
+          <div className="flex items-center justify-between px-6 py-7">
+            <Link href="/admin/dashboard" className="flex items-center gap-3">
+              <div className="rounded-xl border border-white/25 p-2">
+                <GraduationCap size={24} />
+              </div>
+              <div>
+                <h2 className="text-xl font-semibold">GrowthTrack</h2>
+                <p className="mt-1 text-[9px] font-semibold tracking-[1.5px] text-[#b4c9ba]">
+                  STUDENT SUCCESS PLATFORM
+                </p>
+              </div>
+            </Link>
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen(false)}
+              aria-label="Close navigation"
+              className="rounded p-1 text-white/75 hover:bg-white/10 lg:hidden"
+            >
+              <X size={20} />
+            </button>
+          </div>
+
+          <div className="px-4 pt-5">
+            <p className="mb-3 px-3 text-xs font-semibold tracking-[2px] text-[#a5bca9]">
+              WORKSPACE
+            </p>
+            <nav className="space-y-2">
+              <Link href="/admin/dashboard" className="flex items-center gap-3 rounded-lg px-4 py-3 text-sm text-[#d1dfd5] hover:bg-white/10">
+                <BookOpen size={19} /> Overview
+              </Link>
+              <Link href="/students" className="flex items-center gap-3 rounded-lg px-4 py-3 text-sm text-[#d1dfd5] hover:bg-white/10">
+                <Users size={19} /> Students
+              </Link>
+              <Link href="/academic-performance" aria-current="page" className="flex items-center gap-3 rounded-lg bg-[#315d47] px-4 py-3 text-sm font-semibold text-white">
+                <BookOpen size={19} /> Academic performance
+              </Link>
+              <Link href="/results" className="flex items-center gap-3 rounded-lg px-4 py-3 text-sm text-[#d1dfd5] hover:bg-white/10">
+                <ClipboardList size={19} /> Results
+              </Link>
+              <Link href="/placement-readiness" className="flex items-center gap-3 rounded-lg px-4 py-3 text-sm text-[#d1dfd5] hover:bg-white/10">
+                <GraduationCap size={19} /> Placement readiness
+              </Link>
+              <Link href="/interventions" className="flex items-center gap-3 rounded-lg px-4 py-3 text-sm text-[#d1dfd5] hover:bg-white/10">
+                <TrendingUp size={19} /> Interventions
+              </Link>
+            </nav>
+
+            <div className="my-6 border-t border-white/15" />
+            <p className="mb-3 px-3 text-xs font-semibold tracking-[2px] text-[#a5bca9]">
+              ADMINISTRATION
+            </p>
+            <nav className="space-y-2">
+              <Link href="/settings" className="block rounded-lg px-4 py-3 text-sm text-[#d1dfd5] hover:bg-white/10">
+                Settings
+              </Link>
+              <Link href="/help" className="block rounded-lg px-4 py-3 text-sm text-[#d1dfd5] hover:bg-white/10">
+                Help and documentation
+              </Link>
+            </nav>
+          </div>
+
+          <div className="mt-auto border-t border-white/15 p-5">
+            <p className="text-sm font-medium">Administrator</p>
+            <p className="mt-1 text-xs text-[#a5bca9]">GrowthTrack workspace</p>
+          </div>
+        </aside>
+
+        {mobileMenuOpen && (
+          <button
+            type="button"
+            aria-label="Close navigation backdrop"
+            className="fixed inset-0 z-30 bg-black/40 lg:hidden"
+            onClick={() => setMobileMenuOpen(false)}
+          />
+        )}
+
+        <main className="min-w-0 flex-1">
+          <header className="flex min-h-[70px] items-center justify-between border-b border-[#e2e8e2] bg-white px-5 sm:px-8 print:hidden">
+            <div className="flex min-w-0 items-center gap-3 text-xs text-[#758176] sm:text-sm">
+              <button
+                type="button"
+                onClick={() => setMobileMenuOpen(true)}
+                aria-label="Open navigation"
+                aria-controls="workspace-sidebar"
+                aria-expanded={mobileMenuOpen}
+                className="shrink-0 rounded-md border border-[#e2e8e2] p-2 text-[#47564b] lg:hidden"
+              >
+                <Menu size={19} />
+              </button>
+              <span className="truncate whitespace-nowrap">
+                Workspace <span className="mx-2">/</span>
+                <span className="font-semibold text-[#263b2d]">
+                  {selectedStudent ? "Student report" : "Academic performance"}
+                </span>
+              </span>
+            </div>
+            <span className="shrink-0 whitespace-nowrap rounded-full bg-[#edf5ef] px-3 py-2 text-xs font-medium text-[#28684e]">
+              Demo data
+            </span>
+          </header>
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 
           {academicNotice && (
             <div
               role="status"
+<<<<<<< HEAD
               className="mx-5 mt-4 rounded-md border border-[#dce8df] bg-[#f5faf6] px-4 py-3 text-[15px] text-[#28654d] sm:mx-8"
+=======
+              className="mx-5 mt-4 rounded-md border border-[#dce8df] bg-[#f5faf6] px-4 py-3 text-sm text-[#28654d] sm:mx-8"
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
             >
               {academicNotice}
             </div>
@@ -731,10 +1314,17 @@ export default function AcademicPerformancePage() {
                 >
                   Update academic result
                 </h2>
+<<<<<<< HEAD
                 <p className="mt-1 text-[15px] text-[#748075]">
                   {editingAcademicStudent.name} · {editingAcademicStudent.id}
                 </p>
                 <label className="mt-5 block text-[15px] font-medium text-[#46564a]">
+=======
+                <p className="mt-1 text-sm text-[#748075]">
+                  {editingAcademicStudent.name} · {editingAcademicStudent.id}
+                </p>
+                <label className="mt-5 block text-sm font-medium text-[#46564a]">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                   Current score (0–100)
                   <input
                     type="number"
@@ -747,7 +1337,11 @@ export default function AcademicPerformancePage() {
                     className="mt-1.5 w-full rounded-md border border-[#dfe5dc] px-3 py-2.5 outline-none focus:border-[#57906f]"
                   />
                 </label>
+<<<<<<< HEAD
                 <label className="mt-4 block text-[15px] font-medium text-[#46564a]">
+=======
+                <label className="mt-4 block text-sm font-medium text-[#46564a]">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                   Feedback for the student
                   <textarea
                     rows={4}
@@ -761,13 +1355,21 @@ export default function AcademicPerformancePage() {
                   <button
                     type="button"
                     onClick={() => setEditingAcademicStudent(null)}
+<<<<<<< HEAD
                     className="rounded-md border border-[#dfe5dc] px-4 py-2.5 text-[15px] font-medium text-[#46564a] hover:bg-[#f5f7f4]"
+=======
+                    className="rounded-md border border-[#dfe5dc] px-4 py-2.5 text-sm font-medium text-[#46564a] hover:bg-[#f5f7f4]"
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
+<<<<<<< HEAD
                     className="rounded-md bg-[#28684e] px-4 py-2.5 text-[15px] font-semibold text-white hover:bg-[#1e573f]"
+=======
+                    className="rounded-md bg-[#28684e] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#1e573f]"
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                   >
                     Save result
                   </button>
@@ -784,22 +1386,36 @@ export default function AcademicPerformancePage() {
           ) : (
             <div className="mx-auto max-w-[1500px] p-5 sm:p-8">
               <div className="mb-8">
+<<<<<<< HEAD
                 <p className="text-[13.5px] font-bold tracking-[2px] text-[#367552]">
+=======
+                <p className="text-xs font-bold tracking-[2px] text-[#367552]">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                   LEARNING ANALYTICS
                 </p>
                 <h1 className="mt-3 text-3xl font-semibold tracking-tight text-[#213c2d]">
                   Academic Performance
                 </h1>
+<<<<<<< HEAD
                 <p className="mt-2 max-w-2xl text-[15px] leading-6 text-[#4b564e]">
+=======
+                <p className="mt-2 max-w-2xl text-sm leading-6 text-[#7a867c]">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                   Monitor academic progress, compare subject results, and identify students who may need additional support.
                 </p>
               </div>
 
               <section className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
                 <MetricCard title="Average academic score" value={`${(students.reduce((sum, student) => sum + student.score, 0) / students.length).toFixed(1)}%`} subtitle="Average across sample student records" icon={GraduationCap} />
+<<<<<<< HEAD
                 <MetricCard title="Subjects monitored" value={String(subjectAverages.length)} subtitle="Distinct subjects in the latest semester" icon={BookOpen} />
                 <MetricCard title="Students improving" value={String(improving)} subtitle="Compared with previous scores" icon={TrendingUp} />
                 <MetricCard title="Need academic support" value={String(needsSupport)} subtitle="Below 50%" icon={Users} />
+=======
+                <MetricCard title="Subjects monitored" value="5" subtitle="Illustrative tracked subjects per student" icon={BookOpen} />
+                <MetricCard title="Students improving" value={String(improving)} subtitle="Compared with previous scores" icon={TrendingUp} />
+                <MetricCard title="Need academic support" value={String(needsSupport)} subtitle="Below 50% in sample records" icon={Users} />
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
               </section>
 
               <section className="mb-6 grid grid-cols-1 gap-6 xl:grid-cols-[1.5fr_1fr]">
@@ -807,6 +1423,7 @@ export default function AcademicPerformancePage() {
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div>
                       <h2 className="font-semibold text-[#2c4031]">Semester performance trend</h2>
+<<<<<<< HEAD
                       <p className="mt-1 text-[13.5px] text-[#556057]">Average marks of all students in each completed semester</p>
                     </div>
                     <span className="rounded-lg bg-[#edf5ef] px-3 py-2 text-[15px] font-semibold text-[#28684e]">{institutionTrend[institutionTrend.length - 1].score}/100</span>
@@ -818,20 +1435,54 @@ export default function AcademicPerformancePage() {
                         <XAxis dataKey="semester" tickLine={false} axisLine={false} tick={{ fill: "#3f4a42", fontSize: 13 }} />
                         <YAxis domain={[0, 100]} ticks={[0, 25, 50, 75, 100]} tickLine={false} axisLine={false} tick={{ fill: "#3f4a42", fontSize: 13 }} />
                         <Tooltip formatter={(value) => [`${value}/100`, "Average score"]} contentStyle={{ borderRadius: 8, border: "1px solid #e2e8e2", fontSize: 14 }} />
+=======
+                      <p className="mt-1 text-xs text-[#89938a]">Illustrative institution average across six semesters</p>
+                    </div>
+                    <span className="rounded-lg bg-[#edf5ef] px-3 py-2 text-sm font-semibold text-[#28684e]">81/100</span>
+                  </div>
+                  <div className="mt-6 h-[280px] w-full">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <LineChart data={institutionTrend} margin={{ top: 10, right: 10, bottom: 5, left: -15 }}>
+                        <CartesianGrid stroke="#e9eee8" strokeDasharray="4 4" vertical={false} />
+                        <XAxis dataKey="semester" tickLine={false} axisLine={false} tick={{ fill: "#7c897e", fontSize: 11 }} />
+                        <YAxis domain={[0, 100]} ticks={[0, 25, 50, 75, 100]} tickLine={false} axisLine={false} tick={{ fill: "#7c897e", fontSize: 11 }} />
+                        <Tooltip formatter={(value) => [`${value}/100`, "Average score"]} contentStyle={{ borderRadius: 8, border: "1px solid #e2e8e2", fontSize: 12 }} />
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                         <Line type="monotone" dataKey="score" stroke="#367552" strokeWidth={3} dot={{ r: 4, fill: "#367552" }} activeDot={{ r: 6 }} />
                       </LineChart>
                     </ResponsiveContainer>
                   </div>
+<<<<<<< HEAD
+=======
+                  <p className="border-t border-[#edf0eb] pt-3 text-xs text-[#89938a]">
+                    Sample trend data. Connect actual academic records for institutional results.
+                  </p>
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                 </div>
 
                 <div className="rounded-xl border border-[#e2e8e2] bg-white p-5 sm:p-6">
                   <h2 className="font-semibold text-[#2c4031]">Subject-wise averages</h2>
+<<<<<<< HEAD
                   <p className="mt-1 text-[13.5px] text-[#556057]">Latest semester, weakest eight subjects across all departments</p>
                   <div className="mt-7 space-y-6">
                     {subjectAverages.slice(0, 8).map((subject) => (
                       <div key={subject.name}>
                         <div className="mb-2 flex justify-between gap-3 text-[15px]">
                           <span className="text-[#4b5c4e]">{subject.name} <span className="text-[13.5px] text-[#556057]">· {subject.students} students</span></span>
+=======
+                  <p className="mt-1 text-xs text-[#89938a]">Average score across the sample student set</p>
+                  <div className="mt-7 space-y-6">
+                    {[
+                      { name: "Data Structures", score: 69.3 },
+                      { name: "Database Systems", score: 74.3 },
+                      { name: "Operating Systems", score: 65.0 },
+                      { name: "Computer Networks", score: 67.8 },
+                      { name: "Mathematics", score: 64.0 },
+                    ].map((subject) => (
+                      <div key={subject.name}>
+                        <div className="mb-2 flex justify-between gap-3 text-sm">
+                          <span className="text-[#4b5c4e]">{subject.name}</span>
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                           <span className="font-semibold text-[#2c4031]">{subject.score.toFixed(1)}%</span>
                         </div>
                         <div className="h-2 overflow-hidden rounded-full bg-[#edf1ec]">
@@ -847,9 +1498,15 @@ export default function AcademicPerformancePage() {
                 <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#e8ede7] p-5">
                   <div>
                     <h2 className="font-semibold text-[#2c4031]">Student academic records</h2>
+<<<<<<< HEAD
                     <p className="mt-1 text-[13.5px] text-[#556057]">Search and filter records, then open a student&apos;s individual report.</p>
                   </div>
                   <span className="rounded-full bg-[#edf5ef] px-3 py-1.5 text-[13.5px] font-medium text-[#28684e]">
+=======
+                    <p className="mt-1 text-xs text-[#89938a]">Search and filter sample records, then open a student&apos;s individual report.</p>
+                  </div>
+                  <span className="rounded-full bg-[#edf5ef] px-3 py-1.5 text-xs font-medium text-[#28684e]">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                     {filteredStudents.length} students
                   </span>
                 </div>
@@ -862,6 +1519,7 @@ export default function AcademicPerformancePage() {
                       onChange={(event) => setSearch(event.target.value)}
                       placeholder="Search name, ID, or department"
                       aria-label="Search students"
+<<<<<<< HEAD
                       className="min-w-0 flex-1 bg-transparent text-[15px] outline-none"
                     />
                   </label>
@@ -869,13 +1527,26 @@ export default function AcademicPerformancePage() {
                     {departments.map((item) => <option key={item} value={item}>{item}</option>)}
                   </select>
                   <select value={semester} onChange={(event) => setSemester(event.target.value)} aria-label="Filter by semester" className="h-10 rounded-lg border border-[#dfe6de] bg-white px-3 text-[15px] outline-none focus:border-[#367552]">
+=======
+                      className="min-w-0 flex-1 bg-transparent text-sm outline-none"
+                    />
+                  </label>
+                  <select value={department} onChange={(event) => setDepartment(event.target.value)} aria-label="Filter by department" className="h-10 rounded-lg border border-[#dfe6de] bg-white px-3 text-sm outline-none focus:border-[#367552]">
+                    {departments.map((item) => <option key={item} value={item}>{item}</option>)}
+                  </select>
+                  <select value={semester} onChange={(event) => setSemester(event.target.value)} aria-label="Filter by semester" className="h-10 rounded-lg border border-[#dfe6de] bg-white px-3 text-sm outline-none focus:border-[#367552]">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                     {semesters.map((item) => <option key={item} value={item}>{item}</option>)}
                   </select>
                 </div>
 
                 <div className="overflow-x-auto">
                   <table className="w-full min-w-[850px] text-left">
+<<<<<<< HEAD
                     <thead className="bg-[#fafbf9] text-[14px] uppercase tracking-wide text-[#849084]">
+=======
+                    <thead className="bg-[#fafbf9] text-[11px] uppercase tracking-wide text-[#849084]">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                       <tr>
                         <th className="px-5 py-4 font-semibold">Student</th>
                         <th className="px-4 py-4 font-semibold">Department</th>
@@ -887,11 +1558,16 @@ export default function AcademicPerformancePage() {
                       </tr>
                     </thead>
                     <tbody>
+<<<<<<< HEAD
                       {paged.pageItems.map((student) => {
+=======
+                      {filteredStudents.map((student) => {
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                         const improved = student.score > student.previousScore;
                         return (
                           <tr key={student.id} className="border-t border-[#edf0eb] hover:bg-[#fafcf9]">
                             <td className="px-5 py-4">
+<<<<<<< HEAD
                               <p className="text-[15px] font-medium text-[#2c4031]">{student.name}</p>
                               <p className="mt-1 text-[13.5px] text-[#556057]">{student.id}</p>
                             </td>
@@ -900,6 +1576,16 @@ export default function AcademicPerformancePage() {
                             <td className="px-4 py-4 text-[15px] font-semibold">{student.score}%</td>
                             <td className="px-4 py-4">
                               <span className="inline-flex items-center gap-1 text-[15px] text-[#59675b]">
+=======
+                              <p className="text-sm font-medium text-[#2c4031]">{student.name}</p>
+                              <p className="mt-1 text-xs text-[#89938a]">{student.id}</p>
+                            </td>
+                            <td className="px-4 py-4 text-sm text-[#59675b]">{student.department}</td>
+                            <td className="px-4 py-4 text-sm text-[#59675b]">{student.semester}</td>
+                            <td className="px-4 py-4 text-sm font-semibold">{student.score}%</td>
+                            <td className="px-4 py-4">
+                              <span className="inline-flex items-center gap-1 text-sm text-[#59675b]">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                                 {student.previousScore}%
                                 {improved ? <TrendingUp size={14} className="text-green-700" /> : <TrendingDown size={14} className="text-red-600" />}
                               </span>
@@ -914,7 +1600,11 @@ export default function AcademicPerformancePage() {
                                 <button
                                   type="button"
                                   onClick={() => beginAcademicUpdate(student)}
+<<<<<<< HEAD
                                   className="mr-2 inline-flex items-center gap-1.5 rounded-lg border border-[#dfe6de] bg-white px-3 py-2 text-[15px] font-medium text-[#405345] transition hover:bg-[#f7faf6]"
+=======
+                                  className="mr-2 inline-flex items-center gap-1.5 rounded-lg border border-[#dfe6de] bg-white px-3 py-2 text-sm font-medium text-[#405345] transition hover:bg-[#f7faf6]"
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                                 >
                                   Update
                                 </button>
@@ -925,7 +1615,11 @@ export default function AcademicPerformancePage() {
                                   setSelectedStudentId(student.id);
                                   window.scrollTo({ top: 0, behavior: "smooth" });
                                 }}
+<<<<<<< HEAD
                                 className="inline-flex items-center gap-1.5 rounded-lg border border-[#cddbcf] bg-white px-3 py-2 text-[15px] font-medium text-[#28684e] transition hover:bg-[#edf5ef]"
+=======
+                                className="inline-flex items-center gap-1.5 rounded-lg border border-[#cddbcf] bg-white px-3 py-2 text-sm font-medium text-[#28684e] transition hover:bg-[#edf5ef]"
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                               >
                                 Review <ArrowUpRight size={15} />
                               </button>
@@ -935,7 +1629,11 @@ export default function AcademicPerformancePage() {
                       })}
                       {filteredStudents.length === 0 && (
                         <tr>
+<<<<<<< HEAD
                           <td colSpan={7} className="px-5 py-12 text-center text-[15px] text-[#556057]">
+=======
+                          <td colSpan={7} className="px-5 py-12 text-center text-sm text-[#89938a]">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                             No matching student records found.
                           </td>
                         </tr>
@@ -943,6 +1641,7 @@ export default function AcademicPerformancePage() {
                     </tbody>
                   </table>
                 </div>
+<<<<<<< HEAD
                 <div className="border-t border-[#e8ede7] px-4">
                   <Pager paged={paged} noun="students" />
                 </div>
@@ -955,5 +1654,21 @@ export default function AcademicPerformancePage() {
             </div>
           )}
     </AdminPageShell>
+=======
+                <div className="border-t border-[#e8ede7] px-5 py-4 text-xs text-[#89938a]">
+                  Demo records only. Review individual circumstances before making academic support decisions.
+                </div>
+              </section>
+
+              <footer className="mt-7 flex flex-wrap justify-between gap-2 border-t border-[#e2e8e2] pt-5 text-xs text-[#89938a]">
+                <span>GrowthTrack · Student Success Platform</span>
+                <span>Academic Performance · Demo analytics</span>
+              </footer>
+            </div>
+          )}
+        </main>
+      </div>
+    </div>
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   );
 }

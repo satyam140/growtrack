@@ -1,10 +1,18 @@
 "use client";
 
+<<<<<<< HEAD
 import { AdminPageShell } from "@/components/admin-page-shell";
 import { studentProfiles, studentDepartments } from "@/lib/students";
 import { Pager, usePaged } from "@/components/pager";
 import { useMemo, useState } from "react";
 import {
+=======
+import Link from "next/link";
+import { useMemo, useState } from "react";
+import {
+GraduationCap,
+BookOpen,
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 Users,
 BriefcaseBusiness,
 TrendingUp,
@@ -15,6 +23,11 @@ Target,
 Code2,
 MessageCircle,
 Brain,
+<<<<<<< HEAD
+=======
+Menu,
+X,
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 } from "lucide-react";
 import {
 BarChart,
@@ -27,6 +40,7 @@ ResponsiveContainer,
 } from "recharts";
 
 type Student = {
+<<<<<<< HEAD
   id: string;
   name: string;
   department: string;
@@ -47,6 +61,115 @@ const students: Student[] = studentProfiles.map((profile) => ({
 }));
 
 const departments = ["All departments", ...studentDepartments];
+=======
+id: string;
+name: string;
+department: string;
+semester: string;
+technical: number;
+aptitude: number;
+communication: number;
+interview: number;
+};
+
+const students: Student[] = [
+{
+id: "STU-1024",
+name: "Aarav Sharma",
+department: "Computer Science",
+semester: "Semester 6",
+technical: 88,
+aptitude: 82,
+communication: 78,
+interview: 85,
+},
+{
+id: "STU-1132",
+name: "Rohan Verma",
+department: "Electronics",
+semester: "Semester 5",
+technical: 52,
+aptitude: 58,
+communication: 61,
+interview: 48,
+},
+{
+id: "STU-1087",
+name: "Priya Patel",
+department: "Information Technology",
+semester: "Semester 6",
+technical: 91,
+aptitude: 86,
+communication: 88,
+interview: 90,
+},
+{
+id: "STU-1169",
+name: "Ananya Singh",
+department: "Computer Science",
+semester: "Semester 4",
+technical: 72,
+aptitude: 76,
+communication: 81,
+interview: 69,
+},
+{
+id: "STU-1201",
+name: "Kabir Mehta",
+department: "Mechanical Engineering",
+semester: "Semester 3",
+technical: 61,
+aptitude: 68,
+communication: 55,
+interview: 58,
+},
+{
+id: "STU-1244",
+name: "Ishita Rao",
+department: "Information Technology",
+semester: "Semester 5",
+technical: 95,
+aptitude: 91,
+communication: 92,
+interview: 94,
+},
+{
+id: "STU-1302",
+name: "Neha Gupta",
+department: "Electronics",
+semester: "Semester 4",
+technical: 74,
+aptitude: 72,
+communication: 79,
+interview: 75,
+},
+{
+id: "STU-1320",
+name: "Vikram Joshi",
+department: "Mechanical Engineering",
+semester: "Semester 6",
+technical: 83,
+aptitude: 80,
+communication: 85,
+interview: 82,
+},
+];
+
+const departments = [
+"All departments",
+"Computer Science",
+"Information Technology",
+"Electronics",
+"Mechanical Engineering",
+];
+
+const skillData = [
+{ skill: "Technical", score: 77 },
+{ skill: "Aptitude", score: 77 },
+{ skill: "Communication", score: 77 },
+{ skill: "Interview", score: 75 },
+];
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 
 function getReadiness(student: Student) {
 return Math.round(
@@ -75,8 +198,13 @@ value: string;
 description: string;
 icon: typeof Users;
 }) {
+<<<<<<< HEAD
 return ( <div className="rounded-xl border border-[#e2e8e2] bg-white p-5"> <div className="flex items-center justify-between gap-3"> <p className="text-[15px] text-[#4b564e]">{title}</p> <div className="rounded-lg bg-[#edf5ef] p-2.5 text-[#28684e]"> <Icon size={20} /> </div> </div> <p className="mt-4 text-3xl font-semibold tracking-tight text-[#203d2e]">
 {value} </p> <p className="mt-2 text-[13.5px] text-[#556057]">{description}</p> </div>
+=======
+return ( <div className="rounded-xl border border-[#e2e8e2] bg-white p-5"> <div className="flex items-center justify-between gap-3"> <p className="text-sm text-[#718075]">{title}</p> <div className="rounded-lg bg-[#edf5ef] p-2.5 text-[#28684e]"> <Icon size={20} /> </div> </div> <p className="mt-4 text-3xl font-semibold tracking-tight text-[#203d2e]">
+{value} </p> <p className="mt-2 text-xs text-[#89938a]">{description}</p> </div>
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 );
 }
 
@@ -92,7 +220,11 @@ score >= 80
 
 return (
 <span
+<<<<<<< HEAD
 className={`inline-flex whitespace-nowrap rounded-full px-3 py-1.5 text-[13.5px] font-medium ${style}`}
+=======
+className={`inline-flex whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-medium ${style}`}
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 >
 {status} </span>
 );
@@ -102,6 +234,10 @@ export default function PlacementReadinessPage() {
 const [search, setSearch] = useState("");
 const [department, setDepartment] = useState("All departments");
 const [readinessFilter, setReadinessFilter] = useState("all");
+<<<<<<< HEAD
+=======
+const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 
 const filteredStudents = useMemo(() => {
 const query = search.trim().toLowerCase();
@@ -130,7 +266,10 @@ return students.filter((student) => {
 
 
 }, [search, department, readinessFilter]);
+<<<<<<< HEAD
 const paged = usePaged(filteredStudents, `${search}|${department}|${readinessFilter}`);
+=======
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 
 const averageReadiness = Math.round(
 students.reduce((sum, student) => sum + getReadiness(student), 0) /
@@ -156,17 +295,124 @@ const distribution = [
 { level: "Needs training", count: trainingCount },
 ];
 
+<<<<<<< HEAD
 return ( <AdminPageShell title="Placement readiness">
 
       <div>
         <section className="mb-8">
           <p className="text-[13.5px] font-bold tracking-[2px] text-[#367552]">
+=======
+return ( <div className="min-h-screen bg-[#f5f7f4] text-[#25352a]"> <div className="flex min-h-screen"> <aside id="workspace-sidebar" aria-label="Workspace navigation" className={`fixed inset-y-0 left-0 z-40 flex w-64 shrink-0 flex-col overflow-y-auto bg-[#193f31] text-white transition-transform duration-200 lg:sticky lg:top-0 lg:h-screen lg:translate-x-0 ${mobileMenuOpen ? "translate-x-0" : "-translate-x-full"}`}> <div className="flex items-center justify-between px-6 py-7"><Link href="/admin/dashboard" className="flex items-center gap-3"> <div className="rounded-xl border border-white/25 p-2"> <GraduationCap size={24} /> </div> <div> <h2 className="text-xl font-semibold">GrowthTrack</h2> <p className="mt-1 text-[9px] font-semibold tracking-[1.5px] text-[#b4c9ba]">
+STUDENT SUCCESS PLATFORM </p> </div> </Link>
+<button type="button" onClick={() => setMobileMenuOpen(false)} aria-label="Close navigation" className="rounded p-1 text-white/75 hover:bg-white/10 lg:hidden"><X size={20} /></button></div>
+
+
+      <nav className="space-y-1 px-4 pt-5">
+        <p className="mb-3 px-3 text-xs font-semibold tracking-[2px] text-[#a5bca9]">
+          WORKSPACE
+        </p>
+
+        <Link
+          href="/admin/dashboard"
+          className="flex items-center gap-3 rounded-lg px-4 py-3 text-sm text-[#d1dfd5] hover:bg-white/10"
+        >
+          <BookOpen size={19} />
+          Overview
+        </Link>
+
+        <Link
+          href="/students"
+          className="flex items-center gap-3 rounded-lg px-4 py-3 text-sm text-[#d1dfd5] hover:bg-white/10"
+        >
+          <Users size={19} />
+          Students
+        </Link>
+
+        <Link
+          href="/academic-performance"
+          className="flex items-center gap-3 rounded-lg px-4 py-3 text-sm text-[#d1dfd5] hover:bg-white/10"
+        >
+          <BookOpen size={19} />
+          Academic performance
+        </Link>
+
+        <Link
+          href="/placement-readiness"
+          aria-current="page"
+          className="flex items-center gap-3 rounded-lg bg-[#315d47] px-4 py-3 text-sm font-semibold text-white"
+        >
+          <BriefcaseBusiness size={19} />
+          Placement readiness
+        </Link>
+
+        <Link
+          href="/interventions"
+          className="flex items-center gap-3 rounded-lg px-4 py-3 text-sm text-[#d1dfd5] hover:bg-white/10"
+        >
+          <TrendingUp size={19} />
+          Interventions
+        </Link>
+
+        <div className="my-6 border-t border-white/15" />
+
+        <p className="mb-3 px-3 text-xs font-semibold tracking-[2px] text-[#a5bca9]">
+          ADMINISTRATION
+        </p>
+
+        <Link
+          href="/settings"
+          className="block rounded-lg px-4 py-3 text-sm text-[#d1dfd5] hover:bg-white/10"
+        >
+          Settings
+        </Link>
+
+        <Link
+          href="/help"
+          className="block rounded-lg px-4 py-3 text-sm text-[#d1dfd5] hover:bg-white/10"
+        >
+          Help and documentation
+        </Link>
+      </nav>
+
+      <div className="mt-auto border-t border-white/15 p-5">
+        <p className="text-sm font-medium">Administrator</p>
+        <p className="mt-1 text-xs text-[#a5bca9]">
+          GrowthTrack workspace
+        </p>
+      </div>
+    </aside>
+    {mobileMenuOpen && <button type="button" aria-label="Close navigation backdrop" className="fixed inset-0 z-30 bg-black/40 lg:hidden" onClick={() => setMobileMenuOpen(false)} />}
+
+    <main className="min-w-0 flex-1">
+      <header className="flex min-h-[70px] items-center justify-between border-b border-[#e2e8e2] bg-white px-5 sm:px-8">
+        <div className="flex min-w-0 items-center gap-3 text-xs text-[#758176] sm:text-sm">
+          <button type="button" onClick={() => setMobileMenuOpen(true)} aria-label="Open navigation" aria-controls="workspace-sidebar" aria-expanded={mobileMenuOpen} className="shrink-0 rounded-md border border-[#e2e8e2] p-2 text-[#47564b] lg:hidden"><Menu size={19} /></button>
+          <span className="truncate whitespace-nowrap">
+            Workspace <span className="mx-2">/</span>
+            <span className="font-semibold text-[#263b2d]">
+              Placement readiness
+            </span>
+          </span>
+        </div>
+        <span className="shrink-0 whitespace-nowrap rounded-full bg-[#edf5ef] px-3 py-2 text-xs font-medium text-[#28684e]">
+          Demo data
+        </span>
+      </header>
+
+      <div className="mx-auto max-w-[1500px] p-5 sm:p-8">
+        <section className="mb-8">
+          <p className="text-xs font-bold tracking-[2px] text-[#367552]">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
             CAREER OUTCOMES
           </p>
           <h1 className="mt-3 text-3xl font-semibold tracking-tight text-[#213c2d]">
             Placement readiness
           </h1>
+<<<<<<< HEAD
           <p className="mt-2 max-w-2xl text-[15px] leading-6 text-[#4b564e]">
+=======
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-[#7a867c]">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
             Evaluate student employability skills, track placement
             preparation, and identify areas where targeted training
             could improve outcomes.
@@ -205,8 +451,13 @@ return ( <AdminPageShell title="Placement readiness">
             <h2 className="font-semibold text-[#2c4031]">
               Skill performance
             </h2>
+<<<<<<< HEAD
             <p className="mt-1 text-[13.5px] text-[#556057]">
               Average scores across all students
+=======
+            <p className="mt-1 text-xs text-[#89938a]">
+              Average scores across the sample student group
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
             </p>
 
             <div className="mt-6 grid grid-cols-2 gap-3">
@@ -259,7 +510,11 @@ return ( <AdminPageShell title="Placement readiness">
                         {skill.score}%
                       </span>
                     </div>
+<<<<<<< HEAD
                     <p className="mt-3 text-[13.5px] text-[#69766b]">
+=======
+                    <p className="mt-3 text-xs text-[#69766b]">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                       {skill.name}
                     </p>
                     <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-[#e8eee8]">
@@ -272,17 +527,33 @@ return ( <AdminPageShell title="Placement readiness">
                 );
               })}
             </div>
+<<<<<<< HEAD
+=======
+
+            <p className="mt-4 text-xs text-[#89938a]">
+              Skill scores are illustrative and should be replaced with
+              validated assessment results.
+            </p>
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
           </div>
 
           <div className="rounded-xl border border-[#e2e8e2] bg-white p-5 sm:p-6">
             <h2 className="font-semibold text-[#2c4031]">
               Readiness distribution
             </h2>
+<<<<<<< HEAD
             <p className="mt-1 text-[13.5px] text-[#556057]">
               Number of students in each readiness category
             </p>
 
             <div className="mt-5 h-[320px] w-full">
+=======
+            <p className="mt-1 text-xs text-[#89938a]">
+              Number of students in each readiness category
+            </p>
+
+            <div className="mt-5 h-[240px] w-full">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
                   data={distribution}
@@ -297,20 +568,32 @@ return ( <AdminPageShell title="Placement readiness">
                     dataKey="level"
                     tickLine={false}
                     axisLine={false}
+<<<<<<< HEAD
                     tick={{ fill: "#3f4a42", fontSize: 10 }}
+=======
+                    tick={{ fill: "#7c897e", fontSize: 10 }}
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                     interval={0}
                   />
                   <YAxis
                     allowDecimals={false}
                     tickLine={false}
                     axisLine={false}
+<<<<<<< HEAD
                     tick={{ fill: "#3f4a42", fontSize: 13 }}
+=======
+                    tick={{ fill: "#7c897e", fontSize: 11 }}
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                   />
                   <Tooltip
                     contentStyle={{
                       borderRadius: 8,
                       border: "1px solid #e2e8e2",
+<<<<<<< HEAD
                       fontSize: 14,
+=======
+                      fontSize: 12,
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                     }}
                   />
                   <Bar
@@ -329,19 +612,31 @@ return ( <AdminPageShell title="Placement readiness">
                 <p className="text-xl font-semibold text-[#28684e]">
                   {readyCount}
                 </p>
+<<<<<<< HEAD
                 <p className="mt-1 text-[13px] text-[#556057]">Ready</p>
+=======
+                <p className="mt-1 text-[10px] text-[#89938a]">Ready</p>
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
               </div>
               <div>
                 <p className="text-xl font-semibold text-amber-600">
                   {almostReadyCount}
                 </p>
+<<<<<<< HEAD
                 <p className="mt-1 text-[13px] text-[#556057]">Almost ready</p>
+=======
+                <p className="mt-1 text-[10px] text-[#89938a]">Almost ready</p>
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
               </div>
               <div>
                 <p className="text-xl font-semibold text-red-600">
                   {trainingCount}
                 </p>
+<<<<<<< HEAD
                 <p className="mt-1 text-[13px] text-[#556057]">Training</p>
+=======
+                <p className="mt-1 text-[10px] text-[#89938a]">Training</p>
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
               </div>
             </div>
           </div>
@@ -353,11 +648,19 @@ return ( <AdminPageShell title="Placement readiness">
               <h2 className="font-semibold text-[#2c4031]">
                 Student readiness records
               </h2>
+<<<<<<< HEAD
               <p className="mt-1 text-[13.5px] text-[#556057]">
                 Review individual readiness scores and skill indicators.
               </p>
             </div>
             <span className="rounded-full bg-[#edf5ef] px-3 py-1.5 text-[13.5px] font-medium text-[#28684e]">
+=======
+              <p className="mt-1 text-xs text-[#89938a]">
+                Review individual readiness scores and skill indicators.
+              </p>
+            </div>
+            <span className="rounded-full bg-[#edf5ef] px-3 py-1.5 text-xs font-medium text-[#28684e]">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
               {filteredStudents.length} records
             </span>
           </div>
@@ -370,7 +673,11 @@ return ( <AdminPageShell title="Placement readiness">
                 onChange={(event) => setSearch(event.target.value)}
                 placeholder="Search student or ID"
                 aria-label="Search student records"
+<<<<<<< HEAD
                 className="min-w-0 flex-1 bg-transparent text-[15px] outline-none"
+=======
+                className="min-w-0 flex-1 bg-transparent text-sm outline-none"
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
               />
             </label>
 
@@ -378,7 +685,11 @@ return ( <AdminPageShell title="Placement readiness">
               value={department}
               onChange={(event) => setDepartment(event.target.value)}
               aria-label="Filter by department"
+<<<<<<< HEAD
               className="h-10 rounded-lg border border-[#dfe6de] bg-white px-3 text-[15px] outline-none"
+=======
+              className="h-10 rounded-lg border border-[#dfe6de] bg-white px-3 text-sm outline-none"
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
             >
               {departments.map((item) => (
                 <option key={item} value={item}>
@@ -391,7 +702,11 @@ return ( <AdminPageShell title="Placement readiness">
               value={readinessFilter}
               onChange={(event) => setReadinessFilter(event.target.value)}
               aria-label="Filter by readiness"
+<<<<<<< HEAD
               className="h-10 rounded-lg border border-[#dfe6de] bg-white px-3 text-[15px] outline-none"
+=======
+              className="h-10 rounded-lg border border-[#dfe6de] bg-white px-3 text-sm outline-none"
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
             >
               <option value="all">All readiness levels</option>
               <option value="ready">Placement ready</option>
@@ -402,7 +717,11 @@ return ( <AdminPageShell title="Placement readiness">
 
           <div className="overflow-x-auto">
             <table className="w-full min-w-[900px] text-left">
+<<<<<<< HEAD
               <thead className="bg-[#fafbf9] text-[13px] uppercase tracking-wide text-[#849084]">
+=======
+              <thead className="bg-[#fafbf9] text-[10px] uppercase tracking-wide text-[#849084]">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                 <tr>
                   <th className="px-5 py-4 font-semibold">Student</th>
                   <th className="px-4 py-4 font-semibold">Department</th>
@@ -414,7 +733,11 @@ return ( <AdminPageShell title="Placement readiness">
                 </tr>
               </thead>
               <tbody>
+<<<<<<< HEAD
                 {paged.pageItems.map((student) => {
+=======
+                {filteredStudents.map((student) => {
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                   const score = getReadiness(student);
 
                   return (
@@ -423,6 +746,7 @@ return ( <AdminPageShell title="Placement readiness">
                       className="border-t border-[#edf0eb] hover:bg-[#fafcf9]"
                     >
                       <td className="px-5 py-4">
+<<<<<<< HEAD
                         <p className="text-[15px] font-medium text-[#2c4031]">
                           {student.name}
                         </p>
@@ -440,6 +764,25 @@ return ( <AdminPageShell title="Placement readiness">
                         {student.aptitude}%
                       </td>
                       <td className="px-4 py-4 text-[15px] text-[#59675b]">
+=======
+                        <p className="text-sm font-medium text-[#2c4031]">
+                          {student.name}
+                        </p>
+                        <p className="mt-1 text-xs text-[#89938a]">
+                          {student.id} · {student.semester}
+                        </p>
+                      </td>
+                      <td className="px-4 py-4 text-sm text-[#59675b]">
+                        {student.department}
+                      </td>
+                      <td className="px-4 py-4 text-sm text-[#59675b]">
+                        {student.technical}%
+                      </td>
+                      <td className="px-4 py-4 text-sm text-[#59675b]">
+                        {student.aptitude}%
+                      </td>
+                      <td className="px-4 py-4 text-sm text-[#59675b]">
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                         {student.communication}%
                       </td>
                       <td className="px-4 py-4">
@@ -458,7 +801,11 @@ return ( <AdminPageShell title="Placement readiness">
                   <tr>
                     <td
                       colSpan={7}
+<<<<<<< HEAD
                       className="px-5 py-12 text-center text-[15px] text-[#556057]"
+=======
+                      className="px-5 py-12 text-center text-sm text-[#89938a]"
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                     >
                       No matching student records found.
                     </td>
@@ -468,6 +815,7 @@ return ( <AdminPageShell title="Placement readiness">
             </table>
           </div>
 
+<<<<<<< HEAD
           <div className="border-t border-[#e8ede7] px-4">
             <Pager paged={paged} noun="students" />
           </div>
@@ -479,6 +827,22 @@ return ( <AdminPageShell title="Placement readiness">
         </footer>
       </div>
 </AdminPageShell>
+=======
+          <div className="border-t border-[#e8ede7] px-5 py-4 text-xs leading-5 text-[#89938a]">
+            Demo data only. Readiness categories are illustrative
+            thresholds, not verified predictions of employment outcomes.
+          </div>
+        </section>
+
+        <footer className="mt-7 flex flex-wrap justify-between gap-2 border-t border-[#e2e8e2] pt-5 text-xs text-[#89938a]">
+          <span>GrowthTrack · Student Success Platform</span>
+          <span>Placement readiness · Demo analytics</span>
+        </footer>
+      </div>
+    </main>
+  </div>
+</div>
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 
 
 );

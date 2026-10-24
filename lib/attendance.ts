@@ -1,5 +1,8 @@
 import { studentProfiles } from "@/lib/students";
+<<<<<<< HEAD
 import { BRANCH_CODES, subjectsOfSemester, type BranchCode } from "@student/data/catalog";
+=======
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 
 export type AttendanceStatus = "present" | "absent" | "late";
 
@@ -9,12 +12,19 @@ export type AttendanceStudent = {
   rollNo: string;
   department: string;
   year: string;
+<<<<<<< HEAD
   section: string;
+=======
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 };
 
 export type AttendanceRecord = {
   studentId: string;
+<<<<<<< HEAD
   status: AttendanceStatus;
+=======
+  status: AttendanceStatus | null;
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 };
 
 export type AttendanceSession = {
@@ -23,8 +33,11 @@ export type AttendanceSession = {
   subject: string;
   department: string;
   year: string;
+<<<<<<< HEAD
   /** Class section; absent on sessions saved before sections existed. */
   section?: string;
+=======
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   date: string;
   startTime: string;
   endTime: string;
@@ -84,6 +97,7 @@ export const attendanceStudents: AttendanceStudent[] = studentProfiles.map(
     rollNo: student.id,
     department: student.department,
     year: student.year,
+<<<<<<< HEAD
     section: student.section,
   }),
 );
@@ -112,6 +126,19 @@ export const attendanceSubjects = Array.from(
     BRANCH_CODES.flatMap((branch) => subjectsOfSemester(5, branch).map((subject) => subject.name)),
   ),
 ).sort();
+=======
+  }),
+);
+
+export const attendanceSubjects = [
+  "Database Management Systems",
+  "Data Structures",
+  "Web Development",
+  "Computer Networks",
+  "Software Engineering",
+  "Operating Systems",
+];
+>>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 
 export const attendanceDepartments = Array.from(
   new Set(attendanceStudents.map((student) => student.department)),
