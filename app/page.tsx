@@ -1,9 +1,9 @@
 import Link from "next/link";
 import {
-  Activity,
   ArrowRight,
   BookOpenCheck,
   ChartNoAxesCombined,
+  ClipboardCheck,
   GraduationCap,
   ShieldCheck,
   Sparkles,
@@ -11,9 +11,9 @@ import {
 } from "lucide-react";
 
 const adminHighlights = [
-  { icon: UsersRound, label: "Student success at a glance" },
-  { icon: ChartNoAxesCombined, label: "Cohort insights and trends" },
-  { icon: Activity, label: "Early support and interventions" },
+  { icon: ChartNoAxesCombined, label: "View key student and academic statistics" },
+  { icon: UsersRound, label: "Manage student information and progress" },
+  { icon: ClipboardCheck, label: "Coordinate attendance and student support" },
 ];
 
 const studentHighlights = [
@@ -61,7 +61,7 @@ export default function HomePage() {
           <h1 className="text-4xl font-semibold leading-[1.08] tracking-[-1.6px] text-[#1d3026] sm:text-5xl lg:text-[58px]">
             One campus.
             <br />
-            <span className="text-[#397653]">Two ways</span> to move forward.
+            <span className="text-[#397653]">Every role</span> to move forward.
           </h1>
           <p className="mt-6 max-w-xl text-base leading-7 text-[#647269] sm:text-lg sm:leading-8">
             Bring progress into focus. Choose your workspace to explore student
@@ -86,13 +86,17 @@ export default function HomePage() {
 
         <div className="grid gap-4 sm:grid-cols-2">
           <DashboardCard
-            eyebrow="FOR EDUCATORS"
-            title="Admin dashboard"
-            description="See the bigger picture, find students who need support, and turn insight into action."
-            href="/admin/dashboard"
-            action="Enter admin workspace"
+            eyebrow="FOR ADMINISTRATORS"
+            title="Admin Dashboard"
+            description="Manage academic performance, attendance, student development, and placement readiness from one central workspace."
             tone="green"
+            icon={UsersRound}
             highlights={adminHighlights}
+            actions={[
+              { href: "/faculty/dashboard", label: "Continue as Faculty" },
+              { href: "/hod/dashboard", label: "Continue as HOD" },
+              { href: "/tpo/dashboard", label: "Continue as TPO" },
+            ]}
           />
           <DashboardCard
             eyebrow="FOR STUDENTS"
@@ -101,6 +105,7 @@ export default function HomePage() {
             href="/student/dashboard"
             action="View student dashboard"
             tone="blue"
+            icon={GraduationCap}
             highlights={studentHighlights}
           />
         </div>
@@ -120,15 +125,19 @@ function DashboardCard({
   description,
   href,
   action,
+  actions,
   tone,
+  icon: Icon,
   highlights,
 }: {
   eyebrow: string;
   title: string;
   description: string;
-  href: string;
-  action: string;
+  href?: string;
+  action?: string;
+  actions?: { href: string; label: string }[];
   tone: "green" | "blue";
+  icon: typeof UsersRound;
   highlights: { icon: typeof UsersRound; label: string }[];
 }) {
   const palette =
@@ -172,7 +181,7 @@ function DashboardCard({
           </h2>
         </div>
         <span className={`grid h-11 w-11 shrink-0 place-items-center rounded-2xl ${palette.icon}`}>
-          <GraduationCap size={23} />
+          <Icon size={23} />
         </span>
       </div>
 
@@ -191,20 +200,39 @@ function DashboardCard({
         ))}
       </ul>
 
-      <Link
-        href={href}
-        className="mt-auto inline-flex min-h-12 items-center justify-between gap-3 rounded-xl border border-white/70 px-4 text-sm font-bold shadow-sm transition duration-200 hover:-translate-y-0.5 hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-        style={{
-          backgroundColor: palette.buttonBackground,
-          color: palette.buttonForeground,
-        }}
-      >
-        {action}
-        <ArrowRight
-          size={17}
-          className="transition-transform group-hover:translate-x-1"
-        />
-      </Link>
+      {actions ? (
+        <div className="mt-auto grid gap-2.5">
+          {actions.map(({ href: actionHref, label }) => (
+            <Link
+              key={actionHref}
+              href={actionHref}
+              className="inline-flex min-h-11 w-full items-center justify-between gap-3 rounded-xl border border-white/70 px-4 text-sm font-bold shadow-sm transition duration-200 hover:-translate-y-0.5 hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              style={{
+                backgroundColor: palette.buttonBackground,
+                color: palette.buttonForeground,
+              }}
+            >
+              <span className="truncate">{label} →</span>
+              <ArrowRight size={17} className="shrink-0" />
+            </Link>
+          ))}
+        </div>
+      ) : (
+        <Link
+          href={href ?? "/"}
+          className="mt-auto inline-flex min-h-12 items-center justify-between gap-3 rounded-xl border border-white/70 px-4 text-sm font-bold shadow-sm transition duration-200 hover:-translate-y-0.5 hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          style={{
+            backgroundColor: palette.buttonBackground,
+            color: palette.buttonForeground,
+          }}
+        >
+          {action}
+          <ArrowRight
+            size={17}
+            className="transition-transform group-hover:translate-x-1"
+          />
+        </Link>
+      )}
     </article>
   );
 }

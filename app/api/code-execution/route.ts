@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import {
   buildExecutableProgram,
+  parseCodingResults,
   wandboxCompilers,
 } from "@/lib/code-execution";
 import {
@@ -145,13 +146,25 @@ export async function POST(request: Request) {
       boundedString(execution.program_error) +
       boundedString(execution.program_message);
     const runCode = Number(execution.status);
+    const stdout = boundedString(execution.program_output);
+    const stderr = programError;
+    const taggedOutput = stdout.includes("__CAMPUSIQ_CASE__:")
+      ? stdout
+      : stderr.includes("__CAMPUSIQ_CASE__:")
+        ? stderr
+        : "";
+    const results =
+      runCode === 0 && taggedOutput
+        ? parseCodingResults(taggedOutput, challenge)
+        : [];
     return NextResponse.json({
-      stdout: boundedString(execution.program_output),
-      stderr: programError,
+      stdout,
+      stderr,
       runCode: Number.isFinite(runCode) ? runCode : null,
       signal: typeof execution.signal === "string" ? execution.signal : null,
       compileOutput: compilerOutput,
       compileCode: compilerError ? 1 : 0,
+      results,
     });
   } catch (error) {
     const message =

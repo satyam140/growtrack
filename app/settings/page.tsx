@@ -9,22 +9,43 @@ import {
   readAdminSettings,
   type AdminSettings,
 } from "@/lib/admin-settings";
+import type { RoleProfile } from "@/lib/role-profiles";
 
 const inputClass =
   "w-full rounded-md border border-[#dfe5dc] bg-white px-3 py-2.5 text-sm text-[#2b382e] outline-none focus:border-[#57906f] focus:ring-2 focus:ring-[#e0eee4]";
 
-export default function SettingsPage() {
+export function SettingsContent({
+  readOnly = false,
+  profile,
+}: {
+  readOnly?: boolean;
+  profile?: RoleProfile;
+}) {
   const [settings, setSettings] = useState<AdminSettings>(
     DEFAULT_ADMIN_SETTINGS,
   );
   const [ready, setReady] = useState(false);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
+  const [profileForm, setProfileForm] = useState({ name: "", email: "" });
 
   useEffect(() => {
     try {
-      // eslint-disable-next-line react-hooks/set-state-in-effect -- Read browser-only settings after the initial render to avoid hydration mismatch.
-      setSettings(readAdminSettings());
+      const savedSettings = readAdminSettings();
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- Hydrate browser-persisted settings after mount.
+      setSettings(savedSettings);
+      if (profile) {
+        const savedProfile = window.localStorage.getItem(profile.storageKey);
+        if (savedProfile) {
+          const parsed = JSON.parse(savedProfile) as Partial<Pick<RoleProfile, "name" | "email">>;
+          setProfileForm({
+            name: typeof parsed.name === "string" ? parsed.name : profile.name,
+            email: typeof parsed.email === "string" ? parsed.email : profile.email,
+          });
+        } else {
+          setProfileForm({ name: profile.name, email: profile.email });
+        }
+      }
     } catch (loadError) {
       setError(
         loadError instanceof Error
@@ -34,7 +55,7 @@ export default function SettingsPage() {
     } finally {
       setReady(true);
     }
-  }, []);
+  }, [profile]);
 
   function update<K extends keyof AdminSettings>(
     key: K,
@@ -48,6 +69,32 @@ export default function SettingsPage() {
     event.preventDefault();
     setError("");
     setNotice("");
+
+    if (profile) {
+      const name = profileForm.name.trim();
+      const email = profileForm.email.trim();
+      if (!name) {
+        setError("Name is required.");
+        return;
+      }
+      if (email && email !== "Not provided" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        setError("Enter a valid email address or leave it as Not provided.");
+        return;
+      }
+      try {
+        const updatedProfile = { name, email: email || "Not provided" };
+        window.localStorage.setItem(profile.storageKey, JSON.stringify(updatedProfile));
+        setProfileForm(updatedProfile);
+        setNotice("Profile details saved. They will be available after refreshing.");
+      } catch (saveError) {
+        setError(
+          saveError instanceof Error
+            ? `Could not save profile details: ${saveError.message}`
+            : "Could not save profile details.",
+        );
+      }
+      return;
+    }
 
     if (!settings.name.trim() || !settings.role.trim()) {
       setError("Administrator name and role are required.");
@@ -102,6 +149,12 @@ export default function SettingsPage() {
 
     setError("");
     try {
+      if (profile) {
+        window.localStorage.removeItem(profile.storageKey);
+        setProfileForm({ name: profile.name, email: profile.email });
+        setNotice("Profile details were reset to defaults.");
+        return;
+      }
       window.localStorage.setItem(
         ADMIN_SETTINGS_STORAGE_KEY,
         JSON.stringify(DEFAULT_ADMIN_SETTINGS),
@@ -119,26 +172,26 @@ export default function SettingsPage() {
 
   if (!ready) {
     return (
-      <AdminPageShell title="Settings">
+      <div>
         <p className="text-sm text-[#748075]" role="status">
           Loading settings...
         </p>
-      </AdminPageShell>
+      </div>
     );
   }
 
   return (
-    <AdminPageShell title="Settings">
+    <div>
       <section className="mb-7">
         <p className="mb-2 text-[10px] font-bold tracking-[1.7px] text-[#28684e]">
           ADMINISTRATION
         </p>
         <h1 className="text-[27px] font-semibold leading-tight tracking-[-1px] sm:text-[30px]">
-          Administrator settings
+          {profile?.title ?? "Administrator settings"}
         </h1>
         <p className="mt-2 max-w-2xl text-[12px] leading-5 text-[#7a847b]">
-          Manage your profile, dashboard preferences, notifications, and
-          academic alert thresholds.
+          {profile?.description ??
+            "Manage your profile, dashboard preferences, notifications, and academic alert thresholds."}
         </p>
       </section>
 
@@ -162,16 +215,21 @@ export default function SettingsPage() {
       )}
 
       <form onSubmit={saveSettings} className="space-y-5">
+        <fieldset disabled={readOnly && !profile} className="space-y-5">
         <SettingsSection
-          title="Administrator profile"
+          title={profile?.profileTitle ?? "Administrator profile"}
           description="These details are stored locally in this browser for this demo workspace."
         >
           <div className="grid gap-4 sm:grid-cols-2">
             <Field label="Name">
               <input
                 className={inputClass}
-                value={settings.name}
-                onChange={(event) => update("name", event.target.value)}
+                value={profile ? profileForm.name : settings.name}
+                onChange={(event) =>
+                  profile
+                    ? setProfileForm((current) => ({ ...current, name: event.target.value }))
+                    : update("name", event.target.value)
+                }
                 autoComplete="name"
                 required
               />
@@ -180,8 +238,12 @@ export default function SettingsPage() {
               <input
                 className={inputClass}
                 type="email"
-                value={settings.email}
-                onChange={(event) => update("email", event.target.value)}
+                value={profile ? profileForm.email : settings.email}
+                onChange={(event) =>
+                  profile
+                    ? setProfileForm((current) => ({ ...current, email: event.target.value }))
+                    : update("email", event.target.value)
+                }
                 autoComplete="email"
                 required
               />
@@ -189,33 +251,20 @@ export default function SettingsPage() {
             <Field label="Role">
               <input
                 className={inputClass}
-                value={settings.role}
+                value={profile?.role ?? settings.role}
                 onChange={(event) => update("role", event.target.value)}
+                disabled={Boolean(profile)}
                 required
               />
             </Field>
           </div>
         </SettingsSection>
 
-        <SettingsSection
+        {!profile && <><SettingsSection
           title="General preferences"
           description="Preference selections are saved with your administrator settings."
         >
-          <div className="grid gap-5 sm:grid-cols-2">
-            <Field label="Dashboard theme">
-              <select
-                className={inputClass}
-                value={settings.theme}
-                onChange={(event) =>
-                  update("theme", event.target.value as AdminSettings["theme"])
-                }
-              >
-                <option value="light">Light</option>
-                <option value="dark">Dark</option>
-                <option value="system">Use system preference</option>
-              </select>
-            </Field>
-            <div className="space-y-3">
+          <div className="space-y-3">
               <Toggle
                 label="Email notifications"
                 description="Receive administrative updates by email."
@@ -228,7 +277,6 @@ export default function SettingsPage() {
                 checked={settings.interventionReminders}
                 onChange={(checked) => update("interventionReminders", checked)}
               />
-            </div>
           </div>
         </SettingsSection>
 
@@ -253,7 +301,7 @@ export default function SettingsPage() {
           <p className="mt-3 text-xs text-[#89938a]">
             Both values must be between 0 and 100.
           </p>
-        </SettingsSection>
+        </SettingsSection></>}
 
         <div className="flex flex-wrap gap-3">
           <button
@@ -272,7 +320,16 @@ export default function SettingsPage() {
             Reset to defaults
           </button>
         </div>
+        </fieldset>
       </form>
+    </div>
+  );
+}
+
+export default function SettingsPage() {
+  return (
+    <AdminPageShell title="Settings">
+      <SettingsContent />
     </AdminPageShell>
   );
 }

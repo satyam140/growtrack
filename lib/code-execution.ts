@@ -20,10 +20,14 @@ function cString(value: string) {
 function buildJavaHarness(challenge: CodingChallenge) {
   const name = challenge.functionNames.java;
   const statements = challenge.tests.map((test) => {
-    if (challenge.id === "two-sum") {
+    if (challenge.kind === "two-sum") {
       const values = test.input[0] as number[];
       const target = test.input[1] as number;
       return `System.out.println("${resultPrefix}" + Arrays.toString(solution.${name}(new int[]{${values.join(",")}}, ${target})));`;
+    }
+    if (["sum-array", "max-element"].includes(challenge.kind)) {
+      const values = test.input[0] as number[];
+      return `System.out.println("${resultPrefix}" + solution.${name}(new int[]{${values.join(",")}}));`;
     }
     return `System.out.println("${resultPrefix}" + solution.${name}(${cString(test.input[0] as string)}));`;
   });
@@ -34,7 +38,10 @@ function buildJavaHarness(challenge: CodingChallenge) {
 
 function buildPythonHarness(challenge: CodingChallenge) {
   const name = challenge.functionNames.python;
-  return `\nimport json\nfor _args in ${JSON.stringify(challenge.tests.map((test) => test.input))}:\n    _actual = ${name}(*_args)\n    print(${JSON.stringify(resultPrefix)} + json.dumps(_actual, separators=(",", ":")))\n`;
+  const alternateName = name.includes("_")
+    ? name.replace(/_([a-z])/g, (_, letter: string) => letter.toUpperCase())
+    : name.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
+  return `\nimport json\n_campusIqFunction = globals().get(${JSON.stringify(name)}) or globals().get(${JSON.stringify(alternateName)})\nif _campusIqFunction is None:\n    raise NameError("Define the function ${name} in the editor before running tests.")\nfor _args in ${JSON.stringify(challenge.tests.map((test) => test.input))}:\n    _actual = _campusIqFunction(*_args)\n    print(${JSON.stringify(resultPrefix)} + json.dumps(_actual, separators=(",", ":")))\n`;
 }
 
 function buildCOrCppHarness(
@@ -46,11 +53,20 @@ function buildCOrCppHarness(
   const lines: string[] = [];
   if (language === "c") {
     challenge.tests.forEach((test, index) => {
-      if (challenge.id === "two-sum") {
+      if (challenge.kind === "two-sum") {
         const values = test.input[0] as number[];
         const target = test.input[1] as number;
         lines.push(
           `  int _values_${index}[] = {${values.join(",")}};\n  int _answer_${index}[2] = {-1, -1};\n  ${name}(_values_${index}, ${values.length}, ${target}, _answer_${index});\n  printf("${resultPrefix}[%d,%d]\\n", _answer_${index}[0], _answer_${index}[1]);`,
+        );
+      } else if (["sum-array", "max-element"].includes(challenge.kind)) {
+        const values = test.input[0] as number[];
+        lines.push(
+          `  printf("${resultPrefix}%d\\n", ${name}((int[]){${values.join(",")}}, ${values.length}));`,
+        );
+      } else if (challenge.kind === "reverse-string") {
+        lines.push(
+          `  char _answer_${index}[256]; ${name}(${cString(test.input[0] as string)}, _answer_${index}, 256); printf("${resultPrefix}%s\\n", _answer_${index});`,
         );
       } else {
         lines.push(
@@ -58,17 +74,26 @@ function buildCOrCppHarness(
         );
       }
     });
-    return `#include <ctype.h>\n#include <stdio.h>\n#include <string.h>\n${source}\nint main(void) {\n${lines.join(
+    return `#include <ctype.h>\n#include <stdbool.h>\n#include <stdio.h>\n#include <string.h>\n${source}\nint main(void) {\n${lines.join(
       "\n",
     )}\n  return 0;\n}\n`;
   }
 
   challenge.tests.forEach((test, index) => {
-    if (challenge.id === "two-sum") {
+    if (challenge.kind === "two-sum") {
       const values = test.input[0] as number[];
       const target = test.input[1] as number;
       lines.push(
         `  vector<int> _values_${index}{${values.join(",")}};\n  auto _answer_${index} = ${name}(_values_${index}, ${target});\n  cout << "${resultPrefix}[" << _answer_${index}[0] << "," << _answer_${index}[1] << "]" << endl;`,
+      );
+    } else if (["sum-array", "max-element"].includes(challenge.kind)) {
+      const values = test.input[0] as number[];
+      lines.push(
+        `  cout << "${resultPrefix}" << ${name}(vector<int>{${values.join(",")}}) << endl;`,
+      );
+    } else if (challenge.kind === "reverse-string") {
+      lines.push(
+        `  cout << "${resultPrefix}" << ${name}(${cString(test.input[0] as string)}) << endl;`,
       );
     } else {
       lines.push(

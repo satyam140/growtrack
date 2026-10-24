@@ -73,10 +73,10 @@ const topics = [
   {
     id: "settings",
     title: "Settings and alert thresholds",
-    keywords: "profile email role theme notification minimum attendance score",
+    keywords: "profile email role notification minimum attendance score",
     icon: Settings2,
     content: [
-      "Open Settings to update the administrator's name, email, and role, choose a dashboard theme preference, and enable or disable notification preferences.",
+      "Open Settings to update the administrator's name, email, and role, and enable or disable notification preferences.",
       "Set minimum attendance and academic-score percentages from 0 to 100. A student is listed for support when either score falls below its saved threshold.",
       "Select Save settings to persist your changes. Reset to defaults asks for confirmation before replacing saved settings.",
     ],
@@ -111,7 +111,7 @@ const faqs = [
   },
 ];
 
-export default function HelpPage() {
+export function HelpContent() {
   const [query, setQuery] = useState("");
   const normalizedQuery = query.trim().toLowerCase();
   const filteredTopics = useMemo(
@@ -128,7 +128,7 @@ export default function HelpPage() {
   );
 
   return (
-    <AdminPageShell title="Help and documentation">
+    <div>
       <section className="mb-7">
         <p className="mb-2 text-[10px] font-bold tracking-[1.7px] text-[#28684e]">
           GROWTHTRACK GUIDE
@@ -229,6 +229,14 @@ export default function HelpPage() {
           </div>
         </div>
       </section>
+    </div>
+  );
+}
+
+export default function HelpPage() {
+  return (
+    <AdminPageShell title="Help and documentation">
+      <HelpContent />
     </AdminPageShell>
   );
 }

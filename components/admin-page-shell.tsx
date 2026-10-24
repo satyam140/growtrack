@@ -59,10 +59,10 @@ export function AdminPageShell({ title, children }: AdminPageShellProps) {
   }
 
   function navClass(active: boolean) {
-    return `flex min-h-[43px] items-center gap-3 rounded-md px-3 text-[12px] transition-colors ${
+    return `group flex min-h-[43px] items-center gap-3 rounded-md px-3 text-[12px] transition-all duration-200 ${
       active
         ? "bg-[#315c47] font-semibold text-white"
-        : "text-[#c2d2c7] hover:bg-white/10 hover:text-white"
+        : "text-[#c2d2c7] hover:translate-x-1 hover:bg-[#285844] hover:text-white hover:shadow-[0_4px_12px_rgba(10,45,32,0.18)]"
     }`;
   }
 
@@ -120,8 +120,8 @@ export function AdminPageShell({ title, children }: AdminPageShellProps) {
                     {active && (
                       <span className="absolute bottom-2 left-0 top-2 w-[3px] rounded-r bg-[#b5d7bd]" />
                     )}
-                    <Icon size={18} strokeWidth={1.7} />
-                    <span>{label}</span>
+                    <Icon size={18} strokeWidth={1.7} className="transition-transform duration-200 group-hover:scale-110" />
+                    <span className="transition-transform duration-200 group-hover:translate-x-0.5">{label}</span>
                   </Link>
                 );
               })}
