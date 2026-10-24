@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { AlertTriangle, BookOpenCheck, ClipboardCheck, ShieldAlert, UsersRound } from "lucide-react";
 import { AdminPageShell } from "@/components/admin-page-shell";
@@ -227,8 +227,16 @@ export function FeedbackControl({ compact = false }: { compact?: boolean }) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [done, setDone] = useState("");
+  const [now, setNow] = useState<number | null>(null);
+  const [today, setToday] = useState("");
 
-  const open = isWindowOpen(win.data ?? null);
+  useEffect(() => {
+    const current = Date.now();
+    setNow(current);
+    setToday(new Date(current).toISOString().slice(0, 10));
+  }, []);
+
+  const open = now !== null && isWindowOpen(win.data ?? null, now);
   const text = message ?? win.data?.message ?? "";
   const closesValue = closes ?? (win.data?.closesAt ? win.data.closesAt.slice(0, 10) : "");
 
@@ -259,7 +267,7 @@ export function FeedbackControl({ compact = false }: { compact?: boolean }) {
       </label>
       <label className="text-[14px] font-semibold text-[#1f2c24]">
         Close automatically on
-        <input type="date" value={closesValue} min={new Date().toISOString().slice(0, 10)} onChange={(e) => setCloses(e.target.value)} className="mt-2 w-full rounded-md border border-[#cfd8cd] bg-white px-3 py-2.5 text-[15px] font-normal text-[#1f2c24]" />
+        <input type="date" value={closesValue} min={today} onChange={(e) => setCloses(e.target.value)} className="mt-2 w-full rounded-md border border-[#cfd8cd] bg-white px-3 py-2.5 text-[15px] font-normal text-[#1f2c24]" />
         <span className="mt-1 block text-[12.5px] font-normal text-[#4b564e]">Leave empty to keep it open until you lock it.</span>
       </label>
     </div>
