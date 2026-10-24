@@ -2095,3 +2095,218 @@ h1 {
     transition-duration: 0.01ms !important;
   }
 }
+
+.copilot-launcher-button {
+  position: relative;
+  z-index: 0;
+  isolation: isolate;
+  overflow: visible;
+  border: 1px solid rgb(255 255 255 / 55%);
+  background:
+    linear-gradient(145deg, rgb(72 145 103 / 48%), transparent 55%),
+    linear-gradient(155deg, #28684e 5%, #174632 100%);
+  box-shadow:
+    0 8px 22px rgb(25 63 49 / 28%),
+    0 0 18px rgb(36 190 112 / 30%),
+    inset 0 1px 1px rgb(255 255 255 / 32%);
+  animation: copilot-breathe 3s ease-in-out infinite;
+  transition:
+    transform 240ms cubic-bezier(0.2, 0.75, 0.3, 1),
+    box-shadow 240ms ease,
+    background-color 240ms ease;
+}
+
+.copilot-launcher-button::before,
+.copilot-launcher-button::after {
+  position: absolute;
+  z-index: 0;
+  border-radius: 9999px;
+  content: "";
+  pointer-events: none;
+}
+
+.copilot-launcher-button::before {
+  inset: -9px;
+  border: 1px solid rgb(52 211 128 / 30%);
+  background: radial-gradient(
+    circle,
+    rgb(52 211 128 / 17%) 24%,
+    rgb(52 211 128 / 8%) 56%,
+    transparent 73%
+  );
+  animation: copilot-halo 2.7s ease-out infinite;
+}
+
+.copilot-launcher-button::after {
+  inset: -4px;
+  border: 1px solid rgb(91 210 143 / 55%);
+  box-shadow: 0 0 9px rgb(52 211 128 / 22%);
+  animation: copilot-ring 3.2s ease-in-out infinite;
+}
+
+.copilot-launcher-button > svg {
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 1px 1px rgb(0 0 0 / 18%));
+}
+
+.copilot-launcher-button:hover {
+  transform: translateY(-2px) scale(1.06);
+  box-shadow:
+    0 11px 26px rgb(25 63 49 / 32%),
+    0 0 25px rgb(36 190 112 / 48%),
+    0 0 42px rgb(52 211 128 / 20%),
+    inset 0 1px 1px rgb(255 255 255 / 38%);
+  animation: copilot-hover 220ms ease-out both;
+}
+
+.copilot-launcher-button:hover::before,
+.copilot-launcher-button:hover::after {
+  animation-play-state: paused;
+}
+
+.copilot-launcher-button:focus-visible {
+  box-shadow:
+    0 0 0 4px rgb(40 104 78 / 18%),
+    0 0 22px rgb(36 190 112 / 42%),
+    0 8px 22px rgb(25 63 49 / 28%);
+}
+
+.copilot-launcher-tooltip {
+  position: absolute;
+  right: calc(100% + 14px);
+  bottom: 4px;
+  z-index: 1;
+  display: flex;
+  width: max-content;
+  max-width: min(240px, calc(100vw - 112px));
+  align-items: stretch;
+  gap: 10px;
+  padding: 10px 13px 10px 10px;
+  border: 1px solid #e0e9e1;
+  border-radius: 9px;
+  background: #fff;
+  box-shadow:
+    0 5px 20px rgb(25 63 49 / 12%),
+    0 1px 3px rgb(25 63 49 / 7%);
+  color: #344037;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(5px);
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.copilot-launcher-tooltip::after {
+  position: absolute;
+  top: 50%;
+  right: -5px;
+  width: 9px;
+  height: 9px;
+  border-top: 1px solid #e0e9e1;
+  border-right: 1px solid #e0e9e1;
+  background: #fff;
+  content: "";
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.copilot-tooltip-accent {
+  width: 3px;
+  flex: 0 0 3px;
+  border-radius: 3px;
+  background: linear-gradient(#58a575, #28684e);
+}
+
+.copilot-launcher-tooltip strong,
+.copilot-launcher-tooltip small {
+  display: block;
+}
+
+.copilot-launcher-tooltip strong {
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.copilot-launcher-tooltip small {
+  margin-top: 2px;
+  color: #7b857c;
+  font-size: 9px;
+  line-height: 1.4;
+}
+
+.copilot-launcher-wrap:hover .copilot-launcher-tooltip,
+.copilot-launcher-wrap:focus-within .copilot-launcher-tooltip,
+.copilot-launcher-tooltip-discover {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+@keyframes copilot-breathe {
+  0%,
+  100% {
+    box-shadow:
+      0 8px 22px rgb(25 63 49 / 26%),
+      0 0 15px rgb(36 190 112 / 26%),
+      inset 0 1px 1px rgb(255 255 255 / 32%);
+  }
+  50% {
+    box-shadow:
+      0 9px 24px rgb(25 63 49 / 30%),
+      0 0 23px rgb(36 190 112 / 40%),
+      0 0 34px rgb(52 211 128 / 12%),
+      inset 0 1px 1px rgb(255 255 255 / 36%);
+  }
+}
+
+@keyframes copilot-halo {
+  0% {
+    opacity: 0.62;
+    transform: scale(0.9);
+  }
+  78%,
+  100% {
+    opacity: 0;
+    transform: scale(1.38);
+  }
+}
+
+@keyframes copilot-ring {
+  0%,
+  100% {
+    border-color: rgb(91 210 143 / 38%);
+    transform: scale(1);
+  }
+  50% {
+    border-color: rgb(91 210 143 / 68%);
+    transform: scale(1.025);
+  }
+}
+
+@keyframes copilot-hover {
+  from {
+    transform: translateY(0) scale(1);
+  }
+  to {
+    transform: translateY(-2px) scale(1.06);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .copilot-launcher-button,
+  .copilot-launcher-button::before,
+  .copilot-launcher-button::after,
+  .copilot-launcher-button:hover {
+    animation: none;
+    transition: none;
+  }
+
+  .copilot-launcher-button:hover {
+    transform: none;
+  }
+
+  .copilot-launcher-tooltip {
+    transition: none;
+  }
+}

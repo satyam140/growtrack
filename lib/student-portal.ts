@@ -1,4 +1,8 @@
 import { studentProfiles } from "@/lib/students";
+import {
+  isMockInterviewAttempt,
+  type MockInterviewAttempt,
+} from "@/lib/mock-interviews";
 
 export const STUDENT_DEMO_ID_STORAGE_KEY = "campusiq-demo-student-id";
 export const STUDENT_DEMO_ID_UPDATED_EVENT = "campusiq-demo-student-id-updated";
@@ -23,6 +27,7 @@ export type MockInterviewResult = {
   role: string;
   averageScore: number;
   completedAt: string;
+  attempt?: MockInterviewAttempt;
 };
 
 const previousScores: Record<string, number> = {
@@ -167,7 +172,16 @@ export function isMockInterviewResult(
     typeof item.averageScore === "number" &&
     item.averageScore >= 0 &&
     item.averageScore <= 100 &&
-    typeof item.completedAt === "string"
+    typeof item.completedAt === "string" &&
+    (item.attempt === undefined ||
+      (isMockInterviewAttempt(item.attempt) &&
+        item.attempt.id === item.id &&
+        item.attempt.studentId === item.studentId &&
+        item.attempt.role === item.role &&
+        item.attempt.averageScore === item.averageScore &&
+        item.attempt.completedAt === item.completedAt &&
+        item.attempt.questions.length === item.attempt.answers.length &&
+        item.attempt.questions.length === item.attempt.answerEvaluations.length))
   );
 }
 

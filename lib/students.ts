@@ -12,6 +12,8 @@ export type StudentProfile = {
   successScore: number;
   risk: "High" | "Medium" | "Low";
   riskReasons: string[];
+  cgpa?: number;
+  sgpa?: number;
 };
 
 const initialStudentProfiles: StudentProfile[] = [

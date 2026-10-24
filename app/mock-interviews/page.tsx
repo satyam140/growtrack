@@ -24,128 +24,33 @@ import {
   Target,
   TrendingUp,
 } from "lucide-react";
+import {
+  buildTopicPerformance,
+  buildCompletedAttempt,
+  enforceCorrectAnswerScore,
+  interviewDifficulties,
+  interviewTypes,
+  isInterviewAnswerEvaluation,
+  isInterviewQuestion,
+  summarizeInterviewHistory,
+  type InterviewAnswerEvaluation,
+  type InterviewDifficulty,
+  type InterviewQuestion,
+  type InterviewType,
+  type MockInterviewAttempt,
+} from "@/lib/mock-interviews";
 import { studentProfiles } from "@/lib/students";
 import {
   getDefaultDemoStudentId,
+  readMockInterviewResults,
   readSelectedDemoStudentId,
   saveSelectedDemoStudentId,
   saveMockInterviewResult,
+  subscribeToMockInterviewResults,
   subscribeToSelectedDemoStudentId,
 } from "@/lib/student-portal";
-
-type Question = {
-  category: string;
-  question: string;
-  keywords: string[];
-  idealPoints: string[];
-};
-
-type AnswerResult = {
-  question: string;
-  category: string;
-  answer: string;
-  score: number;
-  feedback: string;
-  strengths: string[];
-  improvements: string[];
-};
-
-const QUESTIONS: Question[] = [
-  {
-    category: "Introduction",
-    question:
-      "Tell me about yourself, your education, and the kind of role you are looking for.",
-    keywords: ["education", "project", "skill", "experience", "goal", "role"],
-    idealPoints: [
-      "A clear educational background",
-      "Relevant technical or professional skills",
-      "A project, achievement, or experience",
-      "A career goal connected to the role",
-    ],
-  },
-  {
-    category: "Technical Knowledge",
-    question:
-      "Explain the difference between an array and a linked list. When would you use each?",
-    keywords: [
-      "array",
-      "linked list",
-      "memory",
-      "index",
-      "insertion",
-      "deletion",
-      "access",
-    ],
-    idealPoints: [
-      "Arrays store elements in indexed, contiguous storage in typical implementations",
-      "Linked lists connect nodes using references or pointers",
-      "Arrays generally provide fast indexed access",
-      "Linked lists can support efficient insertion or deletion when the node position is known",
-    ],
-  },
-  {
-    category: "Problem Solving",
-    question:
-      "Describe a challenging problem you faced in a project. How did you solve it?",
-    keywords: [
-      "problem",
-      "challenge",
-      "solution",
-      "debug",
-      "analyze",
-      "result",
-      "tested",
-      "team",
-    ],
-    idealPoints: [
-      "A specific problem and its context",
-      "The steps taken to investigate it",
-      "The reasoning behind the chosen solution",
-      "The outcome and lesson learned",
-    ],
-  },
-  {
-    category: "Communication",
-    question:
-      "How would you explain a complex technical concept to a non-technical team member?",
-    keywords: [
-      "simple",
-      "example",
-      "analogy",
-      "understand",
-      "audience",
-      "feedback",
-      "explain",
-    ],
-    idealPoints: [
-      "Use plain, accessible language",
-      "Give a relevant example or analogy",
-      "Avoid unnecessary jargon",
-      "Check understanding and invite questions",
-    ],
-  },
-  {
-    category: "Behavioral",
-    question:
-      "Tell me about a time you worked in a team. What was your contribution, and what did you learn?",
-    keywords: [
-      "team",
-      "collaborate",
-      "responsibility",
-      "contribution",
-      "communication",
-      "result",
-      "learned",
-      "helped",
-    ],
-    idealPoints: [
-      "Explain the team goal and situation",
-      "Describe your individual contribution",
-      "Show communication and collaboration",
-      "Explain the outcome and what you learned",
-    ],
-  },
-];
+type Question = InterviewQuestion;
+type AnswerResult = InterviewAnswerEvaluation;
 
 type SpeechRecognitionAlternativeLike = {
   transcript: string;
@@ -190,108 +95,6 @@ function getServerSpeechRecognitionSupport() {
   return false;
 }
 
-function evaluateAnswer(
-  question: Question,
-  answer: string
-): AnswerResult {
-  const cleanAnswer = answer.trim();
-  const normalized = cleanAnswer.toLowerCase();
-  const words = normalized.match(/\b[\w'-]+\b/g) ?? [];
-
-  const matchedKeywords = question.keywords.filter((keyword) =>
-    normalized.includes(keyword.toLowerCase())
-  );
-
-  const keywordRatio = matchedKeywords.length / question.keywords.length;
-
-  const hasStructure =
-    /\b(first|second|finally|because|therefore|for example|such as|as a result|step|then|however)\b/i.test(
-      cleanAnswer
-    );
-
-  const hasExample =
-    /\b(example|for instance|project|when i|in my|such as)\b/i.test(
-      cleanAnswer
-    );
-
-  const lengthScore = Math.min(words.length / 70, 1);
-  const relevanceScore = Math.min(keywordRatio * 1.5, 1);
-
-  let score = Math.round(
-    15 +
-      relevanceScore * 45 +
-      lengthScore * 20 +
-      (hasStructure ? 10 : 0) +
-      (hasExample ? 10 : 0)
-  );
-
-  if (words.length < 8) score = Math.min(score, 25);
-  if (words.length >= 25 && matchedKeywords.length >= 2) {
-    score = Math.max(score, 55);
-  }
-
-  score = Math.max(0, Math.min(100, score));
-
-  const strengths: string[] = [];
-  const improvements: string[] = [];
-
-  if (words.length >= 25) {
-    strengths.push("You provided a reasonably developed response.");
-  } else {
-    improvements.push("Expand your answer with more specific details.");
-  }
-
-  if (matchedKeywords.length >= 2) {
-    strengths.push("Your answer includes relevant concepts for this question.");
-  } else {
-    improvements.push(
-      "Address the key concepts directly instead of giving a general response."
-    );
-  }
-
-  if (hasExample) {
-    strengths.push("You included an example or practical context.");
-  } else {
-    improvements.push(
-      "Include a real example from a project, class, or experience."
-    );
-  }
-
-  if (hasStructure) {
-    strengths.push("Your wording suggests an attempt to organize the explanation.");
-  } else {
-    improvements.push(
-      "Structure your response into situation, action, and result where appropriate."
-    );
-  }
-
-  let feedback = "Keep practicing clear, relevant, and specific answers.";
-
-  if (score >= 80) {
-    feedback =
-      "Strong response according to the practice scoring rules. Keep your answer specific and support your points with evidence.";
-  } else if (score >= 60) {
-    feedback =
-      "Good starting point. Add more precise details and explain your reasoning to make the answer stronger.";
-  } else if (score >= 35) {
-    feedback =
-      "Your answer addresses part of the question. Focus on the main concepts and develop your explanation.";
-  } else {
-    feedback =
-      "Try again with a more complete answer. Explain your approach and include at least one relevant detail or example.";
-  }
-
-  return {
-    question: question.question,
-    category: question.category,
-    answer: cleanAnswer || "No answer submitted.",
-    score,
-    feedback,
-    strengths: strengths.slice(0, 3),
-    improvements: improvements.slice(0, 3),
-  };
-}
-
 function formatTime(seconds: number) {
   const minutes = Math.floor(seconds / 60);
   const remainingSeconds = seconds % 60;
@@ -306,10 +109,28 @@ export default function MockInterviewsPage() {
     "setup"
   );
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [answers, setAnswers] = useState<string[]>(
-    Array(QUESTIONS.length).fill("")
-  );
+  const [questions, setQuestions] = useState<Question[]>([]);
+  const [answers, setAnswers] = useState<string[]>([]);
   const [results, setResults] = useState<AnswerResult[]>([]);
+  const [interviewType, setInterviewType] = useState<InterviewType>("Mixed");
+  const [difficulty, setDifficulty] =
+    useState<InterviewDifficulty>("Intermediate");
+  const [questionCount, setQuestionCount] = useState(5);
+  const [generationMode, setGenerationMode] = useState<
+    "openai" | "fallback"
+  >("fallback");
+  const [evaluationMode, setEvaluationMode] = useState<
+    "openai" | "mixed" | "blank"
+  >("openai");
+  const [generationNotice, setGenerationNotice] = useState("");
+  const [setupError, setSetupError] = useState("");
+  const [evaluationError, setEvaluationError] = useState("");
+  const [history, setHistory] = useState<MockInterviewAttempt[]>([]);
+  const [historyStudentId, setHistoryStudentId] = useState("");
+  const [historyError, setHistoryError] = useState("");
+  const [attemptId, setAttemptId] = useState("");
+  const [historySearch, setHistorySearch] = useState("");
+  const [historyReady, setHistoryReady] = useState(false);
   const [cameraOn, setCameraOn] = useState(false);
   const [micOn, setMicOn] = useState(false);
   const [recording, setRecording] = useState(false);
@@ -329,6 +150,7 @@ export default function MockInterviewsPage() {
   const studentName =
     studentProfiles.find((student) => student.id === studentId)?.name ?? "";
   const [role, setRole] = useState("Software Developer");
+  const [isGenerating, setIsGenerating] = useState(false);
   const [isEvaluating, setIsEvaluating] = useState(false);
   const [resultStorageError, setResultStorageError] = useState("");
 
@@ -338,15 +160,63 @@ export default function MockInterviewsPage() {
   const recognitionRef = useRef<SpeechRecognitionLike | null>(null);
   const recordingRef = useRef(false);
   const elapsedRef = useRef(0);
-  const answersRef = useRef<string[]>(Array(QUESTIONS.length).fill(""));
-
+  const answersRef = useRef<string[]>([]);
+  const scoredResults = results.map(enforceCorrectAnswerScore);
   const averageScore =
-    results.length > 0
+    scoredResults.length > 0
       ? Math.round(
-          results.reduce((total, item) => total + item.score, 0) /
-            results.length
+          scoredResults.reduce((total, item) => total + item.score, 0) /
+            scoredResults.length
         )
       : 0;
+
+  const studentHistory = historyStudentId === studentId ? history : [];
+  const historyInChronologicalOrder = studentHistory
+    .slice()
+    .sort(
+      (left, right) =>
+        Date.parse(left.completedAt) - Date.parse(right.completedAt),
+    );
+  const topicPerformance = buildTopicPerformance(historyInChronologicalOrder);
+  const latestAttempt = studentHistory.at(0);
+  const previousAttempt = studentHistory.at(1);
+  const filteredHistory = studentHistory.filter((attempt) =>
+    `${attempt.role} ${attempt.interviewType} ${attempt.difficulty} ${attempt.weakAreas.join(" ")}`
+      .toLowerCase()
+      .includes(historySearch.trim().toLowerCase()),
+  );
+
+  useEffect(() => {
+    const refresh = () => {
+      setHistoryReady(false);
+      try {
+        const attempts = readMockInterviewResults()
+          .filter((item) => item.studentId === studentId && item.attempt)
+          .map((item) => item.attempt)
+          .filter(
+            (attempt): attempt is MockInterviewAttempt => attempt !== undefined,
+          )
+          .sort(
+            (left, right) =>
+              Date.parse(right.completedAt) - Date.parse(left.completedAt),
+          );
+        setHistory(attempts);
+        setHistoryError("");
+      } catch (error) {
+        setHistory([]);
+        setHistoryError(
+          error instanceof Error
+            ? `Could not load interview history: ${error.message}`
+            : "Could not load interview history.",
+        );
+      } finally {
+        setHistoryStudentId(studentId);
+        setHistoryReady(true);
+      }
+    };
+    refresh();
+    return subscribeToMockInterviewResults(refresh);
+  }, [studentId]);
 
   useEffect(() => {
     return () => {
@@ -518,32 +388,93 @@ export default function MockInterviewsPage() {
       return;
     }
 
-    setAnswers(Array(QUESTIONS.length).fill(""));
-    answersRef.current = Array(QUESTIONS.length).fill("");
-    setResults([]);
-    setCurrentQuestion(0);
-    setElapsed(0);
-    elapsedRef.current = 0;
-    setMicError("");
-    setCameraError("");
+    setIsGenerating(true);
+    setSetupError("");
+    setGenerationNotice("");
     setResultStorageError("");
 
-    // Request camera permission for the live interview.
-    if (!cameraOn) {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: true,
-        });
-        streamRef.current = stream;
-        setCameraOn(true);
-      } catch {
-        setCameraError(
-          "Camera is unavailable. You may continue without a camera preview."
-        );
+    try {
+      const response = await fetch("/api/mock-interviews/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          studentId,
+          role,
+          interviewType,
+          difficulty,
+          questionCount,
+          history: summarizeInterviewHistory(studentHistory),
+        }),
+      });
+      const payload: unknown = await response.json();
+      if (
+        !response.ok ||
+        !payload ||
+        typeof payload !== "object" ||
+        !("questions" in payload) ||
+        !Array.isArray(payload.questions) ||
+        payload.questions.length !== questionCount ||
+        !payload.questions.every(isInterviewQuestion)
+      ) {
+        const errorMessage =
+          payload &&
+          typeof payload === "object" &&
+          "error" in payload &&
+          typeof payload.error === "string"
+            ? payload.error
+            : "The server returned invalid interview questions.";
+        throw new Error(errorMessage);
       }
-    }
 
-    setPhase("interview");
+      const questionsForAttempt = payload.questions;
+      const id = window.crypto.randomUUID();
+      const nextAnswers = Array(questionsForAttempt.length).fill("");
+      setQuestions(questionsForAttempt);
+      setAnswers(nextAnswers);
+      answersRef.current = nextAnswers;
+      setResults([]);
+      setCurrentQuestion(0);
+      setAttemptId(id);
+      setElapsed(0);
+      elapsedRef.current = 0;
+      setMicError("");
+      setCameraError("");
+      setEvaluationError("");
+      setGenerationMode(
+        "generationMode" in payload && payload.generationMode === "openai"
+          ? "openai"
+          : "fallback",
+      );
+      setGenerationNotice(
+        "notice" in payload && typeof payload.notice === "string"
+          ? payload.notice
+          : "",
+      );
+
+      if (!cameraOn) {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({
+            video: true,
+          });
+          streamRef.current = stream;
+          setCameraOn(true);
+        } catch {
+          setCameraError(
+            "Camera is unavailable. You may continue without a camera preview.",
+          );
+        }
+      }
+
+      setPhase("interview");
+    } catch (error) {
+      setSetupError(
+        error instanceof Error
+          ? `Could not start the interview: ${error.message}`
+          : "Could not start the interview. Please retry.",
+      );
+    } finally {
+      setIsGenerating(false);
+    }
   }
 
   function updateAnswer(value: string) {
@@ -560,43 +491,109 @@ export default function MockInterviewsPage() {
     setCurrentQuestion(index);
   }
 
-  function finishInterview() {
+  async function finishInterview() {
     recognitionRef.current?.stop();
     setRecording(false);
     recordingRef.current = false;
     setIsEvaluating(true);
+    setEvaluationError("");
 
-    const evaluated = QUESTIONS.map((question, index) =>
-      evaluateAnswer(question, answersRef.current[index] ?? "")
-    );
-
-    setResults(evaluated);
     try {
-      saveMockInterviewResult({
-        id: `MOCK-${Date.now()}`,
+      const response = await fetch("/api/mock-interviews/evaluate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          studentId,
+          interviewType,
+          difficulty,
+          questions,
+          answers: answersRef.current,
+        }),
+      });
+      const payload: unknown = await response.json();
+      if (!response.ok) {
+        const message =
+          payload &&
+          typeof payload === "object" &&
+          "error" in payload &&
+          typeof payload.error === "string"
+            ? payload.error
+            : "The AI evaluator could not score this interview.";
+        throw new Error(message);
+      }
+      if (
+        !payload ||
+        typeof payload !== "object" ||
+        !("evaluations" in payload) ||
+        !Array.isArray(payload.evaluations) ||
+        payload.evaluations.length !== questions.length ||
+        !payload.evaluations.every((item) =>
+          isInterviewAnswerEvaluation(item, true),
+        )
+      ) {
+        throw new Error("The AI evaluator returned invalid feedback.");
+      }
+      if (
+        !("evaluationMode" in payload) ||
+        (payload.evaluationMode !== "openai" &&
+          payload.evaluationMode !== "mixed" &&
+          payload.evaluationMode !== "blank")
+      ) {
+        throw new Error("The evaluator did not identify how answers were scored.");
+      }
+
+      const evaluated = payload.evaluations.map(enforceCorrectAnswerScore);
+      const completedAt = new Date().toISOString();
+      const attempt = buildCompletedAttempt({
+        id: attemptId,
         studentId,
         role,
-        averageScore: Math.round(
-          evaluated.reduce((total, item) => total + item.score, 0) /
-            evaluated.length,
-        ),
-        completedAt: new Date().toISOString(),
+        interviewType,
+        difficulty,
+        questions,
+        answers: answersRef.current,
+        answerEvaluations: evaluated,
+        completedAt,
+        durationSeconds: elapsedRef.current,
+        generationMode,
+        evaluationMode: payload.evaluationMode,
       });
-      setResultStorageError("");
+      setEvaluationMode(payload.evaluationMode);
+      setResults(evaluated);
+      setEvaluationError("");
+      try {
+        saveMockInterviewResult({
+          id: attempt.id,
+          studentId,
+          role,
+          averageScore: attempt.averageScore,
+          completedAt: attempt.completedAt,
+          attempt,
+        });
+        setResultStorageError("");
+      } catch (error) {
+        setResultStorageError(
+          error instanceof Error
+            ? `The report is available now, but browser history could not be saved: ${error.message}`
+            : "The report is available now, but browser history could not be saved.",
+        );
+      }
+      stopCamera();
+      audioStreamRef.current?.getTracks().forEach((track) => track.stop());
+      audioStreamRef.current = null;
+      setMicOn(false);
+      setPhase("results");
     } catch (error) {
-      setResultStorageError(
+      const message =
         error instanceof Error
-          ? `Interview results could not be saved: ${error.message}`
-          : "Interview results could not be saved.",
+          ? error.message
+          : "AI evaluation failed. No interview score was saved.";
+      setEvaluationError(
+        `${message} Your answers are still here. Retry the evaluation; no score has been invented.`,
       );
+    } finally {
+      setIsEvaluating(false);
     }
-    stopCamera();
-    audioStreamRef.current?.getTracks().forEach((track) => track.stop());
-    audioStreamRef.current = null;
-    setMicOn(false);
-
-    setPhase("results");
-    setIsEvaluating(false);
   }
 
   function restartInterview() {
@@ -608,18 +605,20 @@ export default function MockInterviewsPage() {
     setMicOn(false);
     setRecording(false);
     recordingRef.current = false;
-    setAnswers(Array(QUESTIONS.length).fill(""));
-    answersRef.current = Array(QUESTIONS.length).fill("");
+    setAnswers([]);
+    answersRef.current = [];
+    setQuestions([]);
     setResults([]);
     setCurrentQuestion(0);
     setElapsed(0);
     elapsedRef.current = 0;
     setCameraError("");
     setMicError("");
+    setEvaluationError("");
     setPhase("setup");
   }
 
-  const question = QUESTIONS[currentQuestion];
+  const question = questions[currentQuestion];
   const answeredCount = answers.filter((answer) => answer.trim()).length;
 
   return (
@@ -646,10 +645,10 @@ export default function MockInterviewsPage() {
             </div>
             <div>
               <p className="text-sm font-semibold text-slate-800">
-                AI-style practice
+                Adaptive interview practice
               </p>
               <p className="text-xs text-slate-500">
-                5 questions · Instant report
+                3–10 questions · Personalized report
               </p>
             </div>
           </div>
@@ -732,6 +731,83 @@ export default function MockInterviewsPage() {
                   </select>
                 </div>
 
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div>
+                    <label
+                      htmlFor="interviewType"
+                      className="mb-2 block text-sm font-semibold text-slate-700"
+                    >
+                      Interview focus
+                    </label>
+                    <select
+                      id="interviewType"
+                      value={interviewType}
+                      onChange={(event) => {
+                        const selected = interviewTypes.find(
+                          (type) => type === event.target.value,
+                        );
+                        if (selected) setInterviewType(selected);
+                      }}
+                      className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-indigo-400 focus:bg-white focus:ring-4 focus:ring-indigo-50"
+                    >
+                      {interviewTypes.map((type) => (
+                        <option key={type}>{type}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="difficulty"
+                      className="mb-2 block text-sm font-semibold text-slate-700"
+                    >
+                      Difficulty
+                    </label>
+                    <select
+                      id="difficulty"
+                      value={difficulty}
+                      onChange={(event) => {
+                        const selected = interviewDifficulties.find(
+                          (level) => level === event.target.value,
+                        );
+                        if (selected) setDifficulty(selected);
+                      }}
+                      className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-indigo-400 focus:bg-white focus:ring-4 focus:ring-indigo-50"
+                    >
+                      {interviewDifficulties.map((level) => (
+                        <option key={level}>{level}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="questionCount"
+                    className="mb-2 block text-sm font-semibold text-slate-700"
+                  >
+                    Number of questions
+                  </label>
+                  <select
+                    id="questionCount"
+                    value={questionCount}
+                    onChange={(event) =>
+                      setQuestionCount(Number(event.target.value))
+                    }
+                    className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-indigo-400 focus:bg-white focus:ring-4 focus:ring-indigo-50"
+                  >
+                    {[3, 5, 7, 10].map((count) => (
+                      <option key={count} value={count}>
+                        {count} questions
+                      </option>
+                    ))}
+                  </select>
+                  <p className="mt-2 text-xs text-slate-500">
+                    New sessions adapt to this student’s recent practice
+                    history and weak topics.
+                  </p>
+                </div>
+
                 <div className="rounded-2xl border border-indigo-100 bg-indigo-50/70 p-4">
                   <div className="flex items-start gap-3">
                     <Camera className="mt-0.5 shrink-0 text-indigo-600" size={20} />
@@ -755,14 +831,37 @@ export default function MockInterviewsPage() {
                   </p>
                 )}
 
+                {setupError && (
+                  <p role="alert" className="text-sm text-rose-700">
+                    {setupError}
+                  </p>
+                )}
+
+                {generationNotice && (
+                  <p
+                    role="status"
+                    className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm leading-5 text-amber-800"
+                  >
+                    {generationNotice}
+                  </p>
+                )}
+
                 <button
                   onClick={() => void startInterview()}
-                  disabled={!studentName.trim() || isEvaluating}
+                  disabled={!studentName.trim() || isGenerating || isEvaluating}
                   className="flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 px-5 py-3.5 text-sm font-semibold text-white shadow-lg shadow-indigo-100 transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50"
                 >
-                  <Play size={18} />
-                  Start mock interview
-                  <ChevronRight size={18} />
+                  {isGenerating ? (
+                    <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+                  ) : (
+                    <Play size={18} />
+                  )}
+                  {isGenerating
+                    ? "Preparing personalized questions…"
+                    : studentHistory.length
+                      ? "Start personalized interview"
+                      : "Start mock interview"}
+                  {!isGenerating && <ChevronRight size={18} />}
                 </button>
               </div>
             </section>
@@ -809,24 +908,150 @@ export default function MockInterviewsPage() {
               </section>
 
               <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-                <h3 className="font-bold text-slate-900">Your 5 questions</h3>
-                <div className="mt-4 space-y-3">
-                  {QUESTIONS.map((item, index) => (
-                    <div key={item.category} className="flex items-center gap-3">
-                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-sm font-semibold text-slate-600">
-                        {index + 1}
-                      </div>
-                      <div>
-                        <p className="text-sm font-semibold text-slate-800">
-                          {item.category}
+                <div className="flex items-center justify-between gap-3">
+                  <div>
+                    <h3 className="font-bold text-slate-900">
+                      Practice history
+                    </h3>
+                    <p className="mt-1 text-xs text-slate-500">
+                      Local to {studentName || "this demo student"}
+                    </p>
+                  </div>
+                  <span className="rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700">
+                    {studentHistory.length} attempt{studentHistory.length === 1 ? "" : "s"}
+                  </span>
+                </div>
+
+                {historyError && (
+                  <p role="alert" className="mt-4 text-sm text-rose-700">
+                    {historyError}
+                  </p>
+                )}
+
+                {!historyReady ? (
+                  <p className="mt-4 text-sm text-slate-500">
+                    Loading practice history…
+                  </p>
+                ) : studentHistory.length === 0 ? (
+                  <p className="mt-4 rounded-xl bg-slate-50 p-4 text-sm leading-6 text-slate-600">
+                    Completed reports will show score trends, strengths, and
+                    topics to revisit here.
+                  </p>
+                ) : (
+                  <>
+                    <div className="mt-4 grid grid-cols-2 gap-3">
+                      <div className="rounded-xl bg-slate-50 p-3">
+                        <p className="text-xs text-slate-500">Latest score</p>
+                        <p className="mt-1 text-2xl font-bold text-slate-900">
+                          {latestAttempt?.averageScore}%
                         </p>
-                        <p className="text-xs text-slate-500">
-                          One question · Individual feedback
+                      </div>
+                      <div className="rounded-xl bg-slate-50 p-3">
+                        <p className="text-xs text-slate-500">Change</p>
+                        <p className="mt-1 text-2xl font-bold text-slate-900">
+                          {latestAttempt && previousAttempt
+                            ? `${latestAttempt.averageScore - previousAttempt.averageScore > 0 ? "+" : ""}${latestAttempt.averageScore - previousAttempt.averageScore}`
+                            : "—"}
                         </p>
                       </div>
                     </div>
-                  ))}
-                </div>
+
+                    {topicPerformance.length > 0 && (
+                      <div className="mt-5">
+                        <h4 className="text-sm font-semibold text-slate-800">
+                          Topic trends
+                        </h4>
+                        <div className="mt-3 space-y-3">
+                          {topicPerformance.slice(0, 4).map((topic) => (
+                            <div key={topic.topic}>
+                              <div className="mb-1 flex justify-between gap-3 text-xs">
+                                <span className="font-medium text-slate-700">
+                                  {topic.topic}
+                                </span>
+                                <span
+                                  className={
+                                    topic.trend === "improving"
+                                      ? "text-emerald-700"
+                                      : topic.trend === "declining"
+                                        ? "text-rose-700"
+                                        : "text-slate-500"
+                                  }
+                                >
+                                  {topic.averageScore}% · {topic.trend}
+                                </span>
+                              </div>
+                              <div className="h-1.5 overflow-hidden rounded-full bg-slate-100">
+                                <div
+                                  className="h-full rounded-full bg-indigo-500"
+                                  style={{ width: `${topic.averageScore}%` }}
+                                />
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {latestAttempt?.weakAreas.length ? (
+                      <div className="mt-5 rounded-xl border border-amber-100 bg-amber-50 p-4">
+                        <p className="text-sm font-semibold text-amber-900">
+                          Focus next
+                        </p>
+                        <p className="mt-1 text-sm text-amber-800">
+                          {latestAttempt.weakAreas.join(", ")}
+                        </p>
+                        {latestAttempt.recommendations.length > 0 && (
+                          <p className="mt-2 text-xs leading-5 text-amber-800">
+                            Suggested practice:{" "}
+                            {latestAttempt.recommendations.slice(0, 2).join("; ")}
+                          </p>
+                        )}
+                      </div>
+                    ) : null}
+
+                    <div className="mt-5">
+                      <label
+                        htmlFor="historySearch"
+                        className="sr-only"
+                      >
+                        Search interview history
+                      </label>
+                      <input
+                        id="historySearch"
+                        value={historySearch}
+                        onChange={(event) => setHistorySearch(event.target.value)}
+                        placeholder="Search role or topic"
+                        className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-50"
+                      />
+                      <div className="mt-3 max-h-48 space-y-2 overflow-y-auto">
+                        {filteredHistory.slice(0, 5).map((attempt) => (
+                          <div
+                            key={attempt.id}
+                            className="flex items-center justify-between gap-3 rounded-xl bg-slate-50 px-3 py-2"
+                          >
+                            <div className="min-w-0">
+                              <p className="truncate text-sm font-medium text-slate-800">
+                                {attempt.role}
+                              </p>
+                              <p className="text-xs text-slate-500">
+                                {attempt.interviewType} ·{" "}
+                                {new Date(attempt.completedAt).toLocaleDateString()}
+                              </p>
+                            </div>
+                            <span className="shrink-0 text-sm font-bold text-slate-800">
+                              {attempt.averageScore}%
+                            </span>
+                          </div>
+                        ))}
+                        {filteredHistory.length === 0 && (
+                          <p className="py-2 text-xs text-slate-500">
+                            No attempts match this search.
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  </>
+                )}
               </section>
             </div>
           </div>
@@ -853,7 +1078,7 @@ export default function MockInterviewsPage() {
               <div className="p-5 sm:p-7">
                 <div className="mb-5 flex items-center justify-between">
                   <span className="rounded-full bg-indigo-50 px-3 py-1.5 text-xs font-semibold text-indigo-700">
-                    Question {currentQuestion + 1} of {QUESTIONS.length}
+                    Question {currentQuestion + 1} of {questions.length}
                   </span>
                   <span className="text-xs font-medium text-slate-500">
                     {answeredCount} answered
@@ -864,17 +1089,17 @@ export default function MockInterviewsPage() {
                   <div
                     className="h-full rounded-full bg-indigo-600 transition-all"
                     style={{
-                      width: `${((currentQuestion + 1) / QUESTIONS.length) * 100}%`,
+                      width: `${((currentQuestion + 1) / questions.length) * 100}%`,
                     }}
                   />
                 </div>
 
                 <div className="mb-6 rounded-2xl bg-slate-50 p-5 sm:p-6">
                   <p className="mb-3 text-xs font-bold uppercase tracking-wider text-indigo-600">
-                    {question.category}
+                    {question?.category}
                   </p>
                   <h2 className="text-xl font-bold leading-8 text-slate-900 sm:text-2xl">
-                    {question.question}
+                    {question?.question}
                   </h2>
                   <p className="mt-3 text-sm leading-6 text-slate-500">
                     Take a moment to think. Explain your reasoning and use an
@@ -957,6 +1182,24 @@ export default function MockInterviewsPage() {
                   </p>
                 )}
 
+                {generationNotice && (
+                  <p
+                    role="status"
+                    className="mb-4 rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm leading-5 text-amber-800"
+                  >
+                    {generationNotice}
+                  </p>
+                )}
+
+                {evaluationError && (
+                  <p
+                    role="alert"
+                    className="mb-4 rounded-xl border border-rose-200 bg-rose-50 p-3 text-sm leading-5 text-rose-800"
+                  >
+                    {evaluationError}
+                  </p>
+                )}
+
                 <div className="mt-7 flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 pt-5">
                   <button
                     onClick={() =>
@@ -969,7 +1212,7 @@ export default function MockInterviewsPage() {
                     Previous
                   </button>
 
-                  {currentQuestion < QUESTIONS.length - 1 ? (
+                  {currentQuestion < questions.length - 1 ? (
                     <button
                       onClick={() => goToQuestion(currentQuestion + 1)}
                       className="flex items-center gap-2 rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700"
@@ -984,7 +1227,11 @@ export default function MockInterviewsPage() {
                       className="flex items-center gap-2 rounded-xl bg-emerald-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-emerald-700 disabled:opacity-50"
                     >
                       <CheckCircle2 size={17} />
-                      Finish and view report
+                      {isEvaluating
+                        ? "Evaluating your answers…"
+                        : evaluationError
+                          ? "Retry evaluation"
+                          : "Finish and view report"}
                     </button>
                   )}
                 </div>
@@ -1044,13 +1291,13 @@ export default function MockInterviewsPage() {
                   Interview progress
                 </h3>
                 <div className="space-y-3">
-                  {QUESTIONS.map((item, index) => {
+                  {questions.map((item, index) => {
                     const isCurrent = index === currentQuestion;
                     const isAnswered = Boolean(answers[index]?.trim());
 
                     return (
                       <button
-                        key={item.category}
+                        key={item.id}
                         onClick={() => goToQuestion(index)}
                         className={`flex w-full items-center gap-3 rounded-xl border p-3 text-left transition ${
                           isCurrent
@@ -1089,9 +1336,11 @@ export default function MockInterviewsPage() {
                   Practice scoring notice
                 </p>
                 <p className="mt-2 text-xs leading-5 text-amber-800">
-                  This demo scores answer relevance, detail, and basic
-                  structure. It is not a real AI model and does not assess
-                  facial expressions or vocal tone.
+                  Answers are scored by the configured OpenAI evaluator.
+                  Camera and voice are optional practice aids; facial
+                  expressions and vocal tone are not assessed. Scores are
+                  practice feedback, not a verified hiring or placement
+                  readiness measure.
                 </p>
               </div>
             </aside>
@@ -1127,6 +1376,19 @@ export default function MockInterviewsPage() {
                       Result saved to this browser for student ID {studentId}.
                     </p>
                   )}
+                  <p className="mt-2 text-xs text-slate-400">
+                    Evaluation:{" "}
+                    {evaluationMode === "openai"
+                      ? "OpenAI"
+                      : evaluationMode === "mixed"
+                        ? "OpenAI with blank answers marked unscored"
+                        : "No answers submitted"}
+                    {" · "}
+                    Questions:{" "}
+                    {generationMode === "openai"
+                      ? "AI-generated"
+                      : "adaptive question bank"}
+                  </p>
                 </div>
 
                 <div className="flex items-center gap-5 rounded-2xl border border-white/10 bg-white/5 p-5">
@@ -1166,7 +1428,7 @@ export default function MockInterviewsPage() {
                 </div>
                 <p className="text-sm text-slate-500">Questions completed</p>
                 <p className="mt-1 text-3xl font-bold text-slate-900">
-                  {results.length}/5
+                  {results.length}/{questions.length}
                 </p>
               </div>
 
@@ -1194,12 +1456,10 @@ export default function MockInterviewsPage() {
                 <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-violet-50 text-violet-600">
                   <Target size={20} />
                 </div>
-                <p className="text-sm text-slate-500">Answers attempted</p>
+                  <p className="text-sm text-slate-500">Answers attempted</p>
                 <p className="mt-1 text-3xl font-bold text-slate-900">
-                  {results.filter(
-                    (result) => result.answer !== "No answer submitted."
-                  ).length}
-                  /5
+                  {results.filter((result) => result.answer.trim()).length}/
+                  {questions.length}
                 </p>
               </div>
             </div>
@@ -1210,14 +1470,17 @@ export default function MockInterviewsPage() {
                   Question-by-question feedback
                 </h3>
                 <p className="mt-1 text-sm text-slate-500">
-                  Review your answer, score, strengths, and areas to improve.
+                  AI-generated feedback is practice guidance. Reference
+                  answers are intentionally revealed only after submission.
+                  Incorrect or off-topic answers receive 0/100; valid
+                  alternative wording is accepted.
                 </p>
               </div>
 
               <div className="space-y-5">
-                {results.map((result, index) => (
+                {scoredResults.map((result, index) => (
                   <article
-                    key={result.category}
+                    key={result.questionId}
                     className="rounded-2xl border border-slate-200 p-5"
                   >
                     <div className="flex flex-wrap items-start justify-between gap-4">
@@ -1248,17 +1511,55 @@ export default function MockInterviewsPage() {
                         Your answer
                       </p>
                       <p className="whitespace-pre-wrap text-sm leading-6 text-slate-700">
-                        {result.answer}
+                        {result.answer || "No answer submitted."}
                       </p>
                     </div>
 
                     <div className="mt-4">
                       <p className="text-sm font-semibold text-slate-800">
-                        Feedback
+                        {result.performance} ·{" "}
+                        {result.answerIsCorrect === true
+                          ? "Answer accepted as correct"
+                          : result.answer.trim()
+                            ? "Incorrect or off-topic · 0/100"
+                            : "No answer · 0/100"}
                       </p>
                       <p className="mt-1 text-sm leading-6 text-slate-600">
+                        {result.relevanceAssessment}
+                      </p>
+                      <p className="mt-2 text-sm leading-6 text-slate-600">
                         {result.feedback}
                       </p>
+                    </div>
+
+                    <div className="mt-5 rounded-xl border border-indigo-100 bg-indigo-50/50 p-4">
+                      <p className="mb-3 text-sm font-semibold text-slate-800">
+                        Scoring rubric
+                      </p>
+                      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+                        {(
+                          [
+                            ["Relevance", result.rubric.relevance],
+                            ["Correctness", result.rubric.correctness],
+                            ["Completeness", result.rubric.completeness],
+                            ["Reasoning", result.rubric.reasoning],
+                            ["Clarity", result.rubric.clarity],
+                          ] as const
+                        ).map(([label, score]) => (
+                          <div key={label}>
+                            <div className="mb-1 flex justify-between text-xs text-slate-600">
+                              <span>{label}</span>
+                              <span>{score}</span>
+                            </div>
+                            <div className="h-1.5 overflow-hidden rounded-full bg-white">
+                              <div
+                                className="h-full rounded-full bg-indigo-500"
+                                style={{ width: `${score}%` }}
+                              />
+                            </div>
+                          </div>
+                        ))}
+                      </div>
                     </div>
 
                     <div className="mt-4 grid gap-4 md:grid-cols-2">
@@ -1267,17 +1568,23 @@ export default function MockInterviewsPage() {
                           <CheckCircle2 size={17} />
                           Strengths
                         </p>
-                        <ul className="space-y-2">
-                          {result.strengths.map((item) => (
-                            <li
-                              key={item}
-                              className="flex gap-2 text-sm leading-5 text-emerald-900"
-                            >
-                              <span>•</span>
-                              <span>{item}</span>
-                            </li>
-                          ))}
-                        </ul>
+                        {result.strengths.length ? (
+                          <ul className="space-y-2">
+                            {result.strengths.map((item) => (
+                              <li
+                                key={item}
+                                className="flex gap-2 text-sm leading-5 text-emerald-900"
+                              >
+                                <span>•</span>
+                                <span>{item}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        ) : (
+                          <p className="text-sm text-emerald-900">
+                            No strengths were identified for this answer.
+                          </p>
+                        )}
                       </div>
 
                       <div className="rounded-xl border border-amber-100 bg-amber-50/70 p-4">
@@ -1285,19 +1592,75 @@ export default function MockInterviewsPage() {
                           <TrendingUp size={17} />
                           Improve next time
                         </p>
-                        <ul className="space-y-2">
-                          {result.improvements.map((item) => (
+                        {result.improvements.length ? (
+                          <ul className="space-y-2">
+                            {result.improvements.map((item) => (
+                              <li
+                                key={item}
+                                className="flex gap-2 text-sm leading-5 text-amber-900"
+                              >
+                                <span>•</span>
+                                <span>{item}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        ) : (
+                          <p className="text-sm text-amber-900">
+                            No additional improvement suggestion was returned.
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="mt-4 grid gap-4 md:grid-cols-2">
+                      <div className="rounded-xl border border-rose-100 bg-rose-50/70 p-4">
+                        <p className="mb-2 text-sm font-semibold text-rose-800">
+                          Missing or incorrect concepts
+                        </p>
+                        <ul className="space-y-1">
+                          {result.incorrectOrMissing.map((item) => (
                             <li
                               key={item}
-                              className="flex gap-2 text-sm leading-5 text-amber-900"
+                              className="text-sm leading-5 text-rose-900"
                             >
-                              <span>•</span>
-                              <span>{item}</span>
+                              • {item}
                             </li>
                           ))}
                         </ul>
                       </div>
+                      <div className="rounded-xl border border-violet-100 bg-violet-50/70 p-4">
+                        <p className="mb-2 text-sm font-semibold text-violet-800">
+                          Recommended topics
+                        </p>
+                        <p className="text-sm leading-5 text-violet-900">
+                          {result.recommendedTopics.length
+                            ? result.recommendedTopics.join(", ")
+                            : "Keep practicing this topic."}
+                        </p>
+                      </div>
                     </div>
+
+                    <details className="mt-4 rounded-xl border border-slate-200 p-4">
+                      <summary className="cursor-pointer text-sm font-semibold text-slate-800">
+                        View reference answer and follow-up practice
+                      </summary>
+                      <p className="mt-3 text-xs font-bold uppercase tracking-wider text-slate-500">
+                        Reference answer
+                      </p>
+                      <p className="mt-1 text-sm leading-6 text-slate-700">
+                        {result.idealAnswer}
+                      </p>
+                      {result.followUpQuestion && (
+                        <>
+                          <p className="mt-4 text-xs font-bold uppercase tracking-wider text-slate-500">
+                            Follow-up question
+                          </p>
+                          <p className="mt-1 text-sm leading-6 text-slate-700">
+                            {result.followUpQuestion}
+                          </p>
+                        </>
+                      )}
+                    </details>
                   </article>
                 ))}
               </div>
@@ -1313,12 +1676,31 @@ export default function MockInterviewsPage() {
                     Your next steps
                   </h3>
                   <p className="mt-2 text-sm leading-6 text-slate-600">
-                    Practice answering each question using a clear structure:
-                    introduce the main point, explain your reasoning, give a
-                    concrete example, and conclude with the result or lesson.
-                    For technical questions, explain the concept accurately
-                    and mention trade-offs when relevant.
+                    {results.flatMap((result) => result.improvements).length
+                      ? "Start with these specific recommendations from your answers:"
+                      : "Practice using a clear structure: answer directly, explain your reasoning, and support it with a concrete example."}
                   </p>
+                  {Array.from(
+                    new Set(results.flatMap((result) => result.improvements)),
+                  ).length > 0 && (
+                    <ul className="mt-4 space-y-2">
+                      {Array.from(
+                        new Set(
+                          results.flatMap((result) => result.improvements),
+                        ),
+                      )
+                        .slice(0, 6)
+                        .map((item) => (
+                          <li
+                            key={item}
+                            className="flex gap-2 text-sm leading-5 text-slate-700"
+                          >
+                            <span className="text-indigo-600">•</span>
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                    </ul>
+                  )}
                   <div className="mt-5 flex flex-wrap gap-3">
                     <button
                       onClick={restartInterview}
@@ -1340,9 +1722,10 @@ export default function MockInterviewsPage() {
             </section>
 
             <p className="text-center text-xs leading-5 text-slate-500">
-              This report uses local practice-scoring rules, not a validated
-              hiring assessment. Results are not saved to a database and will
-              be lost if you leave or refresh this page.
+              Practice estimates are not verified placement-readiness or
+              hiring assessments. History is stored per selected demo student
+              in this browser only; it is not backed by an authenticated
+              account or database.
             </p>
           </div>
         )}
