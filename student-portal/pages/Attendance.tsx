@@ -3,21 +3,10 @@ import { Skeleton, Select } from '@student/components/ui/misc'
 import { ErrorState, PageHeader } from '@student/components/common'
 import { FadeUp } from '@student/components/motion/FadeUp'
 import { HeroCard } from '@student/components/attendance/HeroCard'
-<<<<<<< HEAD
 import { SubjectDrawer, SubjectRiskSection } from '@student/components/attendance/SubjectCards'
 import { Simulator } from '@student/components/attendance/Simulator'
 import { SubjectChart } from '@student/components/attendance/SubjectChart'
 import { overallPercent, subjectStats } from '@student/lib/attendance'
-=======
-import { SubjectCard, SubjectDrawer } from '@student/components/attendance/SubjectCards'
-import { Simulator } from '@student/components/attendance/Simulator'
-import { SubjectChart } from '@student/components/attendance/SubjectChart'
-import { TrendCard } from '@student/components/attendance/TrendCard'
-import { AttendanceCalendar } from '@student/components/attendance/AttendanceCalendar'
-import { ActionPlan } from '@student/components/attendance/ActionPlan'
-import { scrollToId } from '@student/components/attendance/shared'
-import { bySeverity, overallPercent, subjectStats, weeklyTrend } from '@student/lib/attendance'
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 import { roman } from '@student/lib/scoring'
 import { fmtDate } from '@student/lib/utils'
 import { useStudent } from '@student/hooks/useStudent'
@@ -27,35 +16,18 @@ export default function Attendance() {
   const { student, cohort, error, reload } = useStudent()
   const [filter, setFilter] = useState('all')
   const [drawer, setDrawer] = useState<string | null>(null)
-<<<<<<< HEAD
 
   const stats = useMemo(() => (student ? subjectStats(student.attendance) : []), [student])
-=======
-  const [missedOnly, setMissedOnly] = useState(false)
-
-  const stats = useMemo(() => (student ? subjectStats(student.attendance) : []), [student])
-  const sorted = useMemo(() => [...stats].sort(bySeverity), [stats])
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 
   if (error && !student) return <><PageHeader title="Attendance" description="Track attendance, spot risks, and plan your next steps." /><ErrorState onRetry={reload} /></>
   if (!student || !cohort) return <AttendanceSkeleton />
 
   const totals = { total: stats.reduce((a, s) => a + s.total, 0), attended: stats.reduce((a, s) => a + s.attended, 0), missed: stats.reduce((a, s) => a + s.missed, 0) }
   const overall = overallPercent(stats)
-<<<<<<< HEAD
   const priority = stats.find((s) => s.status.label === 'Critical') ?? stats.find((s) => s.status.label === 'At risk') ?? null
   const lastDate = stats.flatMap((s) => s.lectures.map((l) => l.date)).sort().pop()
   const open = (code: string) => { setDrawer(code) }
   const pick = (code: string) => { setFilter(code); setDrawer(code) }
-=======
-  const priority = sorted.find((s) => s.status.label === 'Critical') ?? sorted.find((s) => s.status.label === 'At risk') ?? null
-  const lastDate = stats.flatMap((s) => s.lectures.map((l) => l.date)).sort().pop()
-  const scoped = filter === 'all' ? stats : stats.filter((s) => s.code === filter)
-  const lectures = scoped.flatMap((s) => s.lectures)
-  const open = (code: string) => { setDrawer(code) }
-  const pick = (code: string) => { setFilter(code); setDrawer(code) }
-  const viewMissed = () => { setFilter('all'); setMissedOnly(true); scrollToId('attendance-calendar') }
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   let i = 0
   const d = () => i++ * 0.05
 
@@ -76,7 +48,6 @@ export default function Attendance() {
         } />
 
       <div className="space-y-6">
-<<<<<<< HEAD
         <FadeUp delay={d()}><HeroCard overall={overall} totals={totals} priority={priority} /></FadeUp>
 
         <FadeUp delay={d()}>
@@ -88,25 +59,6 @@ export default function Attendance() {
           <SubjectChart stats={stats} onPick={pick} filter={filter} />
           <Simulator stats={stats} />
         </FadeUp>
-=======
-        <FadeUp delay={d()}><HeroCard overall={overall} totals={totals} priority={priority} onViewMissed={viewMissed} /></FadeUp>
-
-        <FadeUp delay={d()}>
-          <h2 className="mb-3 text-lg font-semibold">Subject risk &amp; recovery</h2>
-          {sorted.length === 0 ? <p className="text-sm text-muted-foreground">No lectures recorded yet.</p> : (
-            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">{sorted.map((s) => <SubjectCard key={s.code} s={s} onOpen={() => open(s.code)} />)}</div>
-          )}
-        </FadeUp>
-
-        <FadeUp delay={d()} className="grid gap-4 xl:grid-cols-[3fr_2fr]">
-          <SubjectChart stats={stats} classAvg={cohort.avgAttendanceBySubject} onPick={pick} />
-          <Simulator stats={sorted} />
-        </FadeUp>
-
-        <FadeUp delay={d()}><TrendCard lectures={lectures} scope={filter === 'all' ? 'All subjects' : scoped[0]?.name ?? ''} /></FadeUp>
-        <FadeUp delay={d()}><AttendanceCalendar stats={stats} filter={filter} missedOnly={missedOnly} onMissedOnly={setMissedOnly} /></FadeUp>
-        <FadeUp delay={d()}><ActionPlan stats={stats} weekly={weeklyTrend(stats.flatMap((s) => s.lectures))} onOpen={open} /></FadeUp>
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
       </div>
 
       <SubjectDrawer s={stats.find((s) => s.code === drawer) ?? null} onClose={() => setDrawer(null)} />

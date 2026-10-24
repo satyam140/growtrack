@@ -25,10 +25,7 @@ import {
   X,
 } from "lucide-react";
 import { studentProfiles, type StudentProfile } from "@/lib/students";
-<<<<<<< HEAD
 import { StudentSelect } from "@/components/student-select";
-=======
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 import {
   readSelectedDemoStudentId,
   saveSelectedDemoStudentId,
@@ -130,11 +127,7 @@ export function StudentPageShell({
       setStorageError(
         error instanceof Error
           ? error.message
-<<<<<<< HEAD
           : "Could not save the selected student.",
-=======
-          : "Could not save the selected demo student.",
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
       );
     }
   }
@@ -148,11 +141,7 @@ export function StudentPageShell({
   if (!student) {
     return (
       <main className="min-h-screen bg-[#f5f7f3] p-8 text-[#252f28]">
-<<<<<<< HEAD
         No student records are available.
-=======
-        No student demo records are available.
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
       </main>
     );
   }
@@ -181,11 +170,7 @@ export function StudentPageShell({
                     GrowthTrack
                   </span>
                   <span className="mt-1 block text-[9px] font-semibold tracking-[1.5px] text-[#a7beb0]">
-<<<<<<< HEAD
                     STUDENT PORTAL
-=======
-                    STUDENT PORTAL · DEMO
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                   </span>
                 </span>
               </Link>
@@ -257,16 +242,11 @@ export function StudentPageShell({
                 >
                   <Menu size={19} />
                 </button>
-<<<<<<< HEAD
                 <span className="text-[#556057]">Student portal</span>
-=======
-                <span className="text-[#879087]">Student portal</span>
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                 <span className="text-[#c3c9c1]">/</span>
                 <span className="font-semibold text-[#2b382e]">{title}</span>
               </div>
               <label className="flex items-center gap-2 text-[11px] text-[#59675b]">
-<<<<<<< HEAD
                 Student
                 <StudentSelect
                   students={studentProfiles}
@@ -275,37 +255,10 @@ export function StudentPageShell({
                   placeholder="Search students"
                   className="w-[230px] rounded-md border border-[#dfe5dc] bg-white px-2.5 py-2 text-xs outline-none focus:border-[#57906f]"
                 />
-=======
-                Demo student
-                <select
-                  aria-label="Choose demo student profile"
-                  value={student.id}
-                  onChange={(event) => selectStudent(event.target.value)}
-                  className="max-w-[230px] rounded-md border border-[#dfe5dc] bg-white px-2.5 py-2 text-xs outline-none focus:border-[#57906f]"
-                >
-                  {studentProfiles.map((item) => (
-                    <option key={item.id} value={item.id}>
-                      {item.name} · {item.id}
-                    </option>
-                  ))}
-                </select>
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
               </label>
             </header>
 
             <main className="mx-auto max-w-[1580px] px-4 pb-10 pt-6 sm:px-7 lg:px-9">
-<<<<<<< HEAD
-=======
-              <div
-                role="note"
-                className="mb-5 rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-xs leading-5 text-amber-950"
-              >
-                Demo student mode only. This app has no student authentication
-                or server-side access control. Data is local to this browser;
-                changing the selector changes the demo identity and is not
-                private.
-              </div>
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
               {storageError && (
                 <p role="alert" className="mb-4 text-sm text-red-700">
                   {storageError}
@@ -348,11 +301,7 @@ export function StudentSummary({
       <p className="mt-3 text-[29px] font-semibold tracking-[-1px] text-[#252f28]">
         {value}
       </p>
-<<<<<<< HEAD
       <p className="mt-2 text-[11px] text-[#556057]">{detail}</p>
-=======
-      <p className="mt-2 text-[11px] text-[#879087]">{detail}</p>
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
     </section>
   );
 }

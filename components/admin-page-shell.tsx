@@ -2,7 +2,6 @@
 
 import { useState, type ReactNode } from "react";
 import Link from "next/link";
-<<<<<<< HEAD
 import { LogoutControl } from "@/components/logout-control";
 import { RoleBadge } from "@/components/forecast/role-badge";
 import { usePathname } from "next/navigation";
@@ -11,52 +10,12 @@ import { decide } from "@/lib/access";
 import { useCurrentUser } from "@/lib/data/hooks";
 import { NAV_BY_ROLE, navRoleFor, type NavLink } from "@/lib/admin-nav";
 import { homeFor } from "@/lib/supabase/config";
-=======
-import { usePathname } from "next/navigation";
-import {
-  Activity,
-  BookOpen,
-  BriefcaseBusiness,
-  CircleHelp,
-  ClipboardList,
-  ClipboardCheck,
-  GraduationCap,
-  LayoutDashboard,
-  LogOut,
-  Menu,
-  Settings,
-  Users,
-} from "lucide-react";
-
-const workspaceLinks = [
-  { label: "Overview", href: "/admin/dashboard", icon: LayoutDashboard },
-  { label: "Students", href: "/students", icon: Users },
-  {
-    label: "Academic performance",
-    href: "/academic-performance",
-    icon: BookOpen,
-  },
-  { label: "Results", href: "/results", icon: ClipboardList },
-  {
-    label: "Attendance management",
-    href: "/admin/attendance",
-    icon: ClipboardCheck,
-  },
-  {
-    label: "Placement readiness",
-    href: "/placement-readiness",
-    icon: BriefcaseBusiness,
-  },
-  { label: "Interventions", href: "/interventions", icon: Activity },
-];
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 
 type AdminPageShellProps = {
   title: string;
   children: ReactNode;
 };
 
-<<<<<<< HEAD
 function navClass(active: boolean) {
   return `flex min-h-[43px] items-center gap-3 rounded-md px-3 text-[12px] transition-colors ${
     active ? "bg-[#315c47] font-semibold text-white" : "text-[#c2d2c7] hover:bg-white/10 hover:text-white"
@@ -94,13 +53,6 @@ export function AdminPageShell({ title, children }: AdminPageShellProps) {
 
   const closeMenu = () => setMobileMenuOpen(false);
 
-=======
-export function AdminPageShell({ title, children }: AdminPageShellProps) {
-  const pathname = usePathname();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   function toggleNavigation() {
     if (window.matchMedia("(min-width: 1024px)").matches) {
       setSidebarCollapsed((collapsed) => !collapsed);
@@ -109,17 +61,6 @@ export function AdminPageShell({ title, children }: AdminPageShellProps) {
     }
   }
 
-<<<<<<< HEAD
-=======
-  function navClass(active: boolean) {
-    return `group flex min-h-[43px] items-center gap-3 rounded-md px-3 text-[12px] transition-all duration-200 ${
-      active
-        ? "bg-[#315c47] font-semibold text-white"
-        : "text-[#c2d2c7] hover:translate-x-1 hover:bg-[#285844] hover:text-white hover:shadow-[0_4px_12px_rgba(10,45,32,0.18)]"
-    }`;
-  }
-
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   return (
     <div className="min-h-screen bg-[#f5f7f3] text-[#252f28]">
       <div className="flex min-h-screen">
@@ -135,11 +76,7 @@ export function AdminPageShell({ title, children }: AdminPageShellProps) {
         >
           <div className="flex h-[96px] items-center justify-between px-6">
             <Link
-<<<<<<< HEAD
               href={nav.home}
-=======
-              href="/admin/dashboard"
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
               onClick={() => setMobileMenuOpen(false)}
               className="flex items-center gap-3"
             >
@@ -158,83 +95,19 @@ export function AdminPageShell({ title, children }: AdminPageShellProps) {
           </div>
 
           <nav className="flex-1 px-[18px] pt-7">
-<<<<<<< HEAD
             <NavGroup title="WORKSPACE" links={nav.workspace} pathname={pathname} onNavigate={closeMenu} />
             {nav.forecast.length > 0 && <NavGroup title="FORECAST" links={nav.forecast} divider pathname={pathname} onNavigate={closeMenu} />}
             <NavGroup title="ADMINISTRATION" links={nav.account} divider pathname={pathname} onNavigate={closeMenu} />
-=======
-            <p className="mb-3 px-3 text-[10px] font-semibold tracking-[1.5px] text-[#9cb5a6]">
-              WORKSPACE
-            </p>
-            <div className="space-y-1">
-              {workspaceLinks.map(({ label, href, icon: Icon }) => {
-                const active =
-                  pathname === href ||
-                  (href !== "/" && pathname.startsWith(`${href}/`));
-
-                return (
-                  <Link
-                    href={href}
-                    key={href}
-                    onClick={() => setMobileMenuOpen(false)}
-                    aria-current={active ? "page" : undefined}
-                    className={`${navClass(active)} relative`}
-                  >
-                    {active && (
-                      <span className="absolute bottom-2 left-0 top-2 w-[3px] rounded-r bg-[#b5d7bd]" />
-                    )}
-                    <Icon size={18} strokeWidth={1.7} className="transition-transform duration-200 group-hover:scale-110" />
-                    <span className="transition-transform duration-200 group-hover:translate-x-0.5">{label}</span>
-                  </Link>
-                );
-              })}
-            </div>
-
-            <div className="my-6 border-t border-white/10" />
-            <p className="mb-3 px-3 text-[10px] font-semibold tracking-[1.5px] text-[#9cb5a6]">
-              ADMINISTRATION
-            </p>
-            <div className="space-y-1">
-              <Link
-                href="/settings"
-                onClick={() => setMobileMenuOpen(false)}
-                aria-current={pathname === "/settings" ? "page" : undefined}
-                className={navClass(pathname === "/settings")}
-              >
-                <Settings size={18} strokeWidth={1.7} />
-                Settings
-              </Link>
-              <Link
-                href="/help"
-                onClick={() => setMobileMenuOpen(false)}
-                aria-current={pathname === "/help" ? "page" : undefined}
-                className={navClass(pathname === "/help")}
-              >
-                <CircleHelp size={18} strokeWidth={1.7} />
-                Help and documentation
-              </Link>
-            </div>
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
           </nav>
 
           <div className="border-t border-white/10 p-5">
             <div className="flex items-center gap-3 rounded-md bg-white/[0.06] p-3">
               <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#d9e7dc] text-[12px] font-semibold text-[#234b38]">
-<<<<<<< HEAD
                 {(me.data?.displayName ?? nav.label).split(/\s+/).map((w) => w[0]).join("").slice(0, 2).toUpperCase()}
               </div>
               <div className="min-w-0 flex-1">
                 <p className="truncate text-[12px] font-semibold">{me.data?.displayName ?? nav.label}</p>
                 <p className="truncate text-[10px] text-[#a8bfb0]">{nav.label}</p>
-=======
-                AD
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className="text-[11px] font-semibold">Administrator</p>
-                <p className="mt-1 text-[10px] text-[#a8bfb0]">
-                  Demo workspace
-                </p>
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
               </div>
             </div>
           </div>
@@ -262,33 +135,18 @@ export function AdminPageShell({ title, children }: AdminPageShellProps) {
               >
                 <Menu size={19} />
               </button>
-<<<<<<< HEAD
               <span className="text-[#556057]">Workspace</span>
-=======
-              <span className="text-[#879087]">Workspace</span>
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
               <span className="text-[#c3c9c1]">/</span>
               <span className="font-semibold text-[#2b382e]">{title}</span>
             </div>
             <div className="flex items-center gap-3">
-<<<<<<< HEAD
               <RoleBadge />
               <LogoutControl
-=======
-              <span className="inline-flex items-center gap-2 rounded border border-[#dce8df] bg-[#f5faf6] px-2.5 py-2 text-[10px] text-[#28654d] sm:px-3 sm:text-[11px]">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#4c9169]" />
-                Demo data
-              </span>
-              <Link
-                href="/"
-                aria-label="Logout"
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                 title="Logout"
                 className="inline-flex items-center gap-2 rounded-md border border-[#dfe5dc] px-3 py-2 text-[11px] font-medium text-[#47564b] transition hover:bg-[#f5f7f4] hover:text-[#193f31]"
               >
                 <LogOut size={15} />
                 <span className="hidden sm:inline">Logout</span>
-<<<<<<< HEAD
               </LogoutControl>
             </div>
           </header>
@@ -301,13 +159,6 @@ export function AdminPageShell({ title, children }: AdminPageShellProps) {
                 <Link href={homeFor(me.data!.role!)} className="mt-5 inline-block rounded-md bg-[#28684e] px-4 py-2.5 text-[14px] font-semibold text-white hover:bg-[#1f5340]">Go to my dashboard</Link>
               </div>
             ) : children}
-=======
-              </Link>
-            </div>
-          </header>
-          <main className="mx-auto max-w-[1580px] px-4 pb-10 pt-7 sm:px-7 lg:px-9">
-            {children}
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
           </main>
         </div>
       </div>

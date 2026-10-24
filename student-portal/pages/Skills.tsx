@@ -1,28 +1,15 @@
 import { useEffect, useRef, useState } from 'react'
 import { Bar, BarChart, CartesianGrid, Legend, PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
-<<<<<<< HEAD
 import { BookOpen, Brain, Clock, Code2, Play, Users } from 'lucide-react'
-=======
-import { BookOpen, Brain, Camera, Clock, Code2, Loader2, Mic, Play, Square, Users, Video } from 'lucide-react'
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 import { Button } from '@student/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@student/components/ui/card'
 import { Badge } from '@student/components/ui/badge'
 import { Modal, Progress, useToast } from '@student/components/ui/misc'
 import { ChartCard, InsightsCard, PageHeader, StatCard, StatGrid, WithData, tooltipStyle } from '@student/components/common'
 import { skillLevel, softAvg, techAvg } from '@student/lib/scoring'
-<<<<<<< HEAD
 import { SKILL_RESOURCES, TECH_TESTS, type CoreTech } from '@student/data/questions'
 import { saveSkillTest } from '@student/services/api'
 import { useStudent } from '@student/hooks/useStudent'
-=======
-import { SJT, SKILL_RESOURCES, TECH_TESTS, type CoreTech } from '@student/data/questions'
-import { saveIntro, saveSkillTest, saveSoftSkills } from '@student/services/api'
-import { scoreIntroduction } from '@student/services/ai'
-import { useStudent } from '@student/hooks/useStudent'
-import { useSpeech } from '@student/hooks/useSpeech'
-import { useCamera } from '@student/hooks/useCamera'
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 import { TODAY } from '@student/data/students'
 import { cn, scoreTone, TONE } from '@student/lib/utils'
 import type { SoftSkill, TechSkill } from '@student/types'
@@ -36,10 +23,6 @@ const levelTone = (l: string) => (l === 'Advanced' ? 'good' : l === 'Intermediat
 
 export default function Skills() {
   const [tech, setTech] = useState<CoreTech | null>(null)
-<<<<<<< HEAD
-=======
-  const [sjt, setSjt] = useState(false)
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   const [resFor, setResFor] = useState<string | null>(null)
   return (
     <WithData>
@@ -117,46 +100,18 @@ export default function Skills() {
             </Card>
 
             <Card className="mb-6">
-<<<<<<< HEAD
               <CardContent className="flex flex-wrap items-center justify-between gap-3 p-5">
                 <div><p className="font-semibold">Soft skills have their own page</p><p className="text-sm text-muted-foreground">Communication, teamwork, leadership, the situational test and the video introduction.</p></div>
                 <Link to={`${base}/placement/soft-skills`} className="text-sm font-semibold text-primary hover:underline">Open soft skills</Link>
               </CardContent>
             </Card>
 
-=======
-              <CardHeader className="flex-row flex-wrap items-center justify-between gap-2 space-y-0">
-                <div><CardTitle>Soft skills</CardTitle><CardDescription>Situational judgment test: 10 workplace scenarios mapped to five skills.</CardDescription></div>
-                <Button onClick={() => setSjt(true)}><Play className="h-4 w-4" />Take situational test</Button>
-              </CardHeader>
-              <CardContent className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
-                {SOFT.map((k) => {
-                  const v = s.skills.soft[k]; const lv = skillLevel(v)
-                  return (
-                    <div key={k} className="rounded-xl border border-border p-4">
-                      <div className="text-sm font-semibold">{k}</div>
-                      <div className={cn('mt-1 text-2xl font-bold', TONE[scoreTone(v)].text)}>{v}%</div>
-                      <Progress value={v} tone={scoreTone(v)} className="mt-2" />
-                      <div className="mt-2 flex items-center justify-between"><Badge tone={levelTone(lv)}>{lv}</Badge><button className="text-xs text-primary hover:underline" onClick={() => setResFor(k)}>Resources</button></div>
-                    </div>
-                  )
-                })}
-              </CardContent>
-            </Card>
-
-            <IntroCard />
-
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
             <InsightsCard items={[
               { text: <>Your strongest skill is <b>{sorted[0].k}</b> ({sorted[0].v}%). Your weakest is <b>{sorted[sorted.length - 1].k}</b> ({sorted[sorted.length - 1].v}%) — {sorted[sorted.length - 1].v < sorted[sorted.length - 1].avg ? `${sorted[sorted.length - 1].avg - sorted[sorted.length - 1].v} points below the cohort average` : 'still above the cohort average'}.</>, tone: scoreTone(sorted[sorted.length - 1].v) },
               ...all.filter((x) => x.v < x.avg - 5).slice(0, 3).map((x) => ({ text: <><b>{x.k}</b> is {x.avg - x.v} points below the cohort average. {SKILL_RESOURCES[x.k][skillLevel(x.v).toLowerCase() as 'beginner'][0]} is a good place to start.</>, tone: 'warn' as const })),
             ]} />
 
             {tech && <TechTestModal skill={tech} current={s.skills.technical[tech] ?? 0} onClose={() => setTech(null)} />}
-<<<<<<< HEAD
-=======
-            {sjt && <SJTModal current={s.skills.soft} onClose={() => setSjt(false)} />}
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
             <Modal open={!!resFor} onClose={() => setResFor(null)} title={`Suggested resources · ${resFor}`}>
               {resFor && (() => {
                 const cur = resFor in s.skills.soft ? s.skills.soft[resFor as SoftSkill] : s.skills.technical[resFor as TechSkill] ?? 0
@@ -225,110 +180,3 @@ function TechTestModal({ skill, current, onClose }: { skill: CoreTech; current: 
     </Modal>
   )
 }
-<<<<<<< HEAD
-=======
-
-/* ---------------------- situational judgment test (soft) ------------------- */
-function SJTModal({ current, onClose }: { current: Record<SoftSkill, number>; onClose: () => void }) {
-  const { studentId } = useStudent()
-  const toast = useToast()
-  const [i, setI] = useState(0)
-  const [picked, setPicked] = useState<(number | null)[]>(SJT.map(() => null))
-  const [res, setRes] = useState<Partial<Record<SoftSkill, number>> | null>(null)
-
-  const finish = async () => {
-    const sums: Record<string, number[]> = {}
-    SJT.forEach((sc, k) => { (sums[sc.skill] ??= []).push(sc.options[picked[k]!].score) })
-    const scores: Partial<Record<SoftSkill, number>> = {}
-    SOFT.forEach((k) => { const arr = sums[k]; if (arr) scores[k] = Math.round((current[k] + arr.reduce((a, b) => a + b, 0) / arr.length) / 2) })
-    await saveSoftSkills(studentId, scores)
-    toast.success('Soft-skill scores updated')
-    setRes(scores)
-  }
-  const sc = SJT[i]
-  return (
-    <Modal open onClose={onClose} title="Situational judgment test" wide>
-      {res ? (
-        <div>
-          <p className="mb-3 text-sm text-muted-foreground">Your soft-skill scores (averaged with your previous scores):</p>
-          <div className="space-y-3">{SOFT.map((k) => <div key={k}><div className="mb-1 flex justify-between text-sm"><span>{k}</span><b>{current[k]}% → {res[k]}%</b></div><Progress value={res[k] ?? 0} tone={scoreTone(res[k] ?? 0)} /></div>)}</div>
-          <div className="mt-4 flex justify-end"><Button onClick={onClose}>Done</Button></div>
-        </div>
-      ) : (
-        <div>
-          <div className="mb-2 flex items-center justify-between text-sm"><Badge tone="primary">{sc.skill}</Badge><span>Scenario {i + 1} / {SJT.length}</span></div>
-          <Progress value={((i + 1) / SJT.length) * 100} tone="primary" />
-          <p className="mt-4 font-medium">{sc.scenario}</p>
-          <p className="mt-1 text-xs text-muted-foreground">Choose the response that is closest to what you would really do.</p>
-          <div className="mt-3 space-y-2">{sc.options.map((o, k) => (
-            <button key={k} onClick={() => setPicked((a) => a.map((x, j) => (j === i ? k : x)))} className={cn('w-full rounded-xl border p-3 text-left text-sm transition', picked[i] === k ? 'border-primary bg-primary/10' : 'border-border hover:bg-muted')}>{o.text}</button>))}</div>
-          <div className="mt-5 flex justify-between">
-            <Button variant="outline" disabled={i === 0} onClick={() => setI(i - 1)}>Previous</Button>
-            {i < SJT.length - 1 ? <Button disabled={picked[i] === null} onClick={() => setI(i + 1)}>Next</Button> : <Button disabled={picked.some((p) => p === null)} onClick={finish}>Submit</Button>}
-          </div>
-        </div>
-      )}
-    </Modal>
-  )
-}
-
-/* --------------------------- video introduction (beta) --------------------- */
-function IntroCard() {
-  const { student, studentId } = useStudent()
-  const toast = useToast()
-  const speech = useSpeech()
-  const cam = useCamera()
-  const [recording, setRecording] = useState(false)
-  const [secs, setSecs] = useState(0)
-  const [busy, setBusy] = useState(false)
-  const startedAt = useRef(0)
-  const prev = student?.skills.introScore
-
-  useEffect(() => {
-    if (!recording) return
-    const t = setInterval(() => { const e = Math.round((Date.now() - startedAt.current) / 1000); setSecs(e); if (e >= 60) stop() }, 500)
-    return () => clearInterval(t)
-  }) // eslint-disable-line
-
-  const begin = async () => {
-    if (!cam.on) await cam.start()
-    speech.reset(); speech.start(); startedAt.current = Date.now(); setSecs(0); setRecording(true)
-  }
-  const stop = async () => {
-    if (!recording) return
-    setRecording(false); speech.stop(); cam.stop(); setBusy(true)
-    const text = speech.final.trim()
-    const elapsed = Math.max(1, Math.round((Date.now() - startedAt.current) / 1000))
-    if (text.split(/\s+/).length < 8) { setBusy(false); toast.error('Not enough speech was captured. Try again in a quiet place and speak clearly.'); return }
-    const r = await scoreIntroduction(text, elapsed)
-    await saveIntro(studentId, { date: TODAY, score: r.score, feedback: r.feedback })
-    setBusy(false); toast.success(`Communication score: ${r.score}/100`)
-  }
-
-  return (
-    <Card className="mb-6">
-      <CardHeader><CardTitle className="flex items-center gap-2"><Video className="h-5 w-5" />Video Introduction <Badge tone="primary">Beta</Badge></CardTitle><CardDescription>Record a 1-minute self-introduction. Video is only previewed; the speech transcript is sent to the AI service for a communication score.</CardDescription></CardHeader>
-      <CardContent>
-        <div className="grid gap-4 md:grid-cols-2">
-          <div>
-            <div className="aspect-video overflow-hidden rounded-xl bg-muted">
-              {cam.on ? <video ref={cam.videoRef} autoPlay muted playsInline className="h-full w-full -scale-x-100 object-cover" /> : <div className="grid h-full place-items-center text-muted-foreground"><Camera className="h-8 w-8" /></div>}
-            </div>
-            <div className="mt-3 flex items-center gap-3">
-              {!recording ? <Button onClick={begin} disabled={!speech.supported || busy}><Mic className="h-4 w-4" />Start recording</Button> : <Button variant="danger" onClick={stop}><Square className="h-4 w-4" />Stop &amp; score</Button>}
-              {recording && <span className="font-mono text-sm">{String(Math.floor(secs / 60)).padStart(2, '0')}:{String(secs % 60).padStart(2, '0')} / 01:00</span>}
-              {busy && <span className="flex items-center gap-2 text-sm text-muted-foreground"><Loader2 className="h-4 w-4 animate-spin" />Scoring…</span>}
-            </div>
-            {!speech.supported && <p className="mt-2 text-xs text-amber-600">Speech recognition isn't supported in this browser — try Chrome or Edge.</p>}
-            {cam.error && <p className="mt-2 text-xs text-red-600">{cam.error}</p>}
-          </div>
-          <div className="space-y-3">
-            <div className="min-h-[96px] rounded-xl bg-muted/60 p-3 text-sm"><div className="mb-1 text-xs font-medium text-muted-foreground">Live transcript</div>{speech.final || speech.interim ? <>{speech.final}<span className="italic text-muted-foreground">{speech.interim}</span></> : <span className="text-muted-foreground">Your words will appear here. Cover: who you are, what you study, a project or skill, and your goal.</span>}</div>
-            {prev && <div className={cn('rounded-xl border p-3 text-sm', TONE[scoreTone(prev.score)].border, TONE[scoreTone(prev.score)].bg)}><b>Last score: {prev.score}/100</b><p className="mt-1 text-muted-foreground">{prev.feedback}</p></div>}
-          </div>
-        </div>
-      </CardContent>
-    </Card>
-  )
-}
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd

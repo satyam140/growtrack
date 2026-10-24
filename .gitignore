@@ -32,10 +32,6 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
-<<<<<<< HEAD
-=======
-!.env.example
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 
 # vercel
 .vercel
@@ -43,7 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-<<<<<<< HEAD
 
 # Round 2 pipeline: models and intermediates are rebuilt by `npm run ml:all`
 /ml/out/*
@@ -65,5 +60,3 @@ __pycache__/
 
 # generated executive brief
 /data/brief/
-=======
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd

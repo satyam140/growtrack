@@ -14,7 +14,6 @@ import {
 } from "lucide-react";
 import { studentProfiles, type StudentProfile } from "@/lib/students";
 import { AdminPageShell } from "@/components/admin-page-shell";
-<<<<<<< HEAD
 import { Pager, usePaged } from "@/components/pager";
 import { NewStudentsPanel } from "@/components/new-students-panel";
 import { useData } from "@/lib/data/hooks";
@@ -25,15 +24,6 @@ const knownIds = new Set(baseStudents.map((s) => s.id));
 
 /** A student who is in the database but has no marks or forecast yet (added in Supabase or with the Add student form). */
 type Row = StudentProfile & { pending?: boolean };
-=======
-
-const students = studentProfiles;
-
-const departments = [
-  "All departments",
-  ...Array.from(new Set(students.map((student) => student.department))),
-];
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 
 const riskClass: Record<StudentProfile["risk"], string> = {
   High: "student-risk-high",
@@ -48,7 +38,6 @@ export default function StudentsPage() {
   const [selectedStudent, setSelectedStudent] =
     useState<StudentProfile | null>(null);
 
-<<<<<<< HEAD
   const live = useData(["directory-students"], fetchDirectoryStudents);
   const students: Row[] = useMemo(() => {
     const extras: Row[] = (live.data ?? []).filter((d) => !knownIds.has(d.id)).map((d) => ({
@@ -61,8 +50,6 @@ export default function StudentsPage() {
   }, [live.data]);
   const departments = useMemo(() => ["All departments", ...Array.from(new Set(students.map((student) => student.department)))], [students]);
 
-=======
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   const filteredStudents = useMemo(() => {
     const query = search.trim().toLowerCase();
 
@@ -75,20 +62,12 @@ export default function StudentsPage() {
         department === "All departments" ||
         student.department === department;
 
-<<<<<<< HEAD
       const matchesRisk = risk === "All risks" || (!student.pending && student.risk === risk);
 
       return matchesSearch && matchesDepartment && matchesRisk;
     });
   }, [students, search, department, risk]);
   const paged = usePaged(filteredStudents, `${search}|${department}|${risk}`);
-=======
-      const matchesRisk = risk === "All risks" || student.risk === risk;
-
-      return matchesSearch && matchesDepartment && matchesRisk;
-    });
-  }, [search, department, risk]);
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 
   return (
     <AdminPageShell title="Students">
@@ -98,29 +77,16 @@ export default function StudentsPage() {
           <div className="eyebrow">CAMPUS DIRECTORY</div>
           <h1>Student list</h1>
         </div>
-<<<<<<< HEAD
       </div>
 
       <NewStudentsPanel knownIds={knownIds} />
 
-=======
-        <div className="directory-demo-label">
-          <span /> Sample student records
-        </div>
-      </div>
-
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
       <section className="directory-panel">
         <div className="directory-panel-heading">
           <div>
             <h2>All students</h2>
             <p>
-<<<<<<< HEAD
               Showing {filteredStudents.length} of {students.length} students
-=======
-              Showing {filteredStudents.length} of {students.length} sample
-              records
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
             </p>
           </div>
           <span className="directory-record-tag">Student directory</span>
@@ -190,11 +156,7 @@ export default function StudentsPage() {
               </tr>
             </thead>
             <tbody>
-<<<<<<< HEAD
               {paged.pageItems.map((student) => (
-=======
-              {filteredStudents.map((student) => (
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                 <tr key={student.id}>
                   <td>
                     <div className="directory-student-cell">
@@ -220,12 +182,9 @@ export default function StudentsPage() {
                     </div>
                     <div className="directory-year">{student.year}</div>
                   </td>
-<<<<<<< HEAD
                   {student.pending ? (
                     <td colSpan={4} className="directory-year">Awaiting marks and attendance. Details appear once records are loaded.</td>
                   ) : (<>
-=======
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                   <td>
                     <div className="directory-progress-cell">
                       <span
@@ -262,23 +221,16 @@ export default function StudentsPage() {
                       {student.risk} risk
                     </span>
                   </td>
-<<<<<<< HEAD
                   </>)}
                   <td>
                     {!student.pending && (
-=======
-                  <td>
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                     <button
                       className="directory-view-button"
                       onClick={() => setSelectedStudent(student)}
                     >
                       View <ArrowUpRight size={14} />
                     </button>
-<<<<<<< HEAD
                     )}
-=======
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                   </td>
                 </tr>
               ))}
@@ -293,19 +245,12 @@ export default function StudentsPage() {
           </table>
         </div>
 
-<<<<<<< HEAD
         <Pager paged={paged} noun="students" />
 
         <div className="directory-table-footer">
           <span>
             {filteredStudents.length} record
             {filteredStudents.length === 1 ? "" : "s"} match
-=======
-        <div className="directory-table-footer">
-          <span>
-            Demo dataset · {filteredStudents.length} record
-            {filteredStudents.length === 1 ? "" : "s"} displayed
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
           </span>
           <button
             className="directory-reset-button"
@@ -417,23 +362,10 @@ export default function StudentsPage() {
             ) : (
               <div className="student-positive-note">
                 <CheckCircle2 size={17} />
-<<<<<<< HEAD
                 No current risk factors. Continue regular
                 progress monitoring.
               </div>
             )}
-=======
-                No current risk factors in this sample record. Continue regular
-                progress monitoring.
-              </div>
-            )}
-
-            <div className="student-profile-disclaimer">
-              <BookOpen size={15} />
-              Sample profile for demonstration. Scores and risk flags must be
-              validated against actual institutional data before use.
-            </div>
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
           </section>
         </div>
       )}

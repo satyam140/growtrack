@@ -149,7 +149,6 @@ export interface FacultyRemark {
   comment: string
 }
 
-<<<<<<< HEAD
 export type Gender = 'Female' | 'Male' | 'Other'
 export type Residence = 'Hostel' | 'Day scholar'
 export type EntryBand = 'Top 10%' | 'Top 25%' | 'Top 50%' | 'Bottom 50%'
@@ -170,24 +169,17 @@ export interface StudentProfile {
   batch: number
 }
 
-=======
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 export interface Student {
   id: string
   name: string
   rollNo: string
   branch: string
-<<<<<<< HEAD
   /** Short branch code that selects the subject catalog (CSE, IT, ECE, MECH, CIVIL). */
   branchCode: 'CSE' | 'IT' | 'ECE' | 'MECH' | 'CIVIL'
   /** Latest completed semester (the dataset holds semesters 1..semester). */
   semester: number
   email: string
   profile: StudentProfile
-=======
-  semester: number
-  email: string
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
   results: SubjectResult[]
   backlogs: Backlog[]
   attendance: AttendanceRecord[]

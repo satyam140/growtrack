@@ -38,7 +38,6 @@ export function SubjectCard({ s, onOpen }: { s: SubjectStat; onOpen: () => void 
   )
 }
 
-<<<<<<< HEAD
 export function SubjectRiskSection({ stats, onOpen }: { stats: SubjectStat[]; onOpen: (code: string) => void }) {
   const critical = stats.filter((s) => s.status.label === 'Critical')
   const atRisk = stats.filter((s) => s.status.label === 'At risk')
@@ -103,8 +102,6 @@ export function SubjectRiskSection({ stats, onOpen }: { stats: SubjectStat[]; on
   )
 }
 
-=======
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 export function SubjectDrawer({ s, onClose }: { s: SubjectStat | null; onClose: () => void }) {
   if (!s) return null
   const st = statusStyle(s.status)

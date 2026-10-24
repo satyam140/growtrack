@@ -1,6 +1,3 @@
-
-import { connection } from "next/server";
-
 import StudentPortalApp from "@/components/student-portal-app";
 
 const studentPortalPaths = [
@@ -11,9 +8,7 @@ const studentPortalPaths = [
   ["dashboard", "placement"],
   ["dashboard", "placement", "aptitude"],
   ["dashboard", "placement", "interview"],
-
   ["dashboard", "placement", "soft-skills"],
-
   ["dashboard", "skills"],
   ["dashboard", "skills", "coding"],
   ["dashboard", "feedback"],
@@ -23,9 +18,6 @@ export function generateStaticParams() {
   return studentPortalPaths.map((portal) => ({ portal }));
 }
 
-
-export default async function StudentPortalPage() {
-  await connection();
-
+export default function StudentPortalPage() {
   return <StudentPortalApp />;
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import { AlertTriangle, BookOpenCheck, ClipboardCheck, ShieldAlert, UsersRound } from "lucide-react";
 import { AdminPageShell } from "@/components/admin-page-shell";
@@ -227,16 +227,8 @@ export function FeedbackControl({ compact = false }: { compact?: boolean }) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [done, setDone] = useState("");
-  const [now, setNow] = useState<number | null>(null);
-  const [today, setToday] = useState("");
 
-  useEffect(() => {
-    const current = Date.now();
-    setNow(current);
-    setToday(new Date(current).toISOString().slice(0, 10));
-  }, []);
-
-  const open = now !== null && isWindowOpen(win.data ?? null, now);
+  const open = isWindowOpen(win.data ?? null);
   const text = message ?? win.data?.message ?? "";
   const closesValue = closes ?? (win.data?.closesAt ? win.data.closesAt.slice(0, 10) : "");
 
@@ -248,6 +240,7 @@ export function FeedbackControl({ compact = false }: { compact?: boolean }) {
     try {
       // a closing date means the end of that day, local time
       const closesAt = isOpen && closesValue ? new Date(`${closesValue}T23:59:59`).toISOString() : null;
+      if (closesAt && new Date(closesAt).getTime() < Date.now()) throw new Error("Choose a closing date from today onward.");
       await setFeedbackWindow(db, dept.data.code, { isOpen, message: text, closesAt });
       await mutate((key) => Array.isArray(key) && key[0] === "gt" && key[1] === "feedback-window");
       setDone(isOpen ? `Feedback is now open for ${dept.data.name} students. They see it in their notifications and on the Feedback page.` : `Feedback is now closed for ${dept.data.name} students.`);
@@ -267,7 +260,7 @@ export function FeedbackControl({ compact = false }: { compact?: boolean }) {
       </label>
       <label className="text-[14px] font-semibold text-[#1f2c24]">
         Close automatically on
-        <input type="date" value={closesValue} min={today} onChange={(e) => setCloses(e.target.value)} className="mt-2 w-full rounded-md border border-[#cfd8cd] bg-white px-3 py-2.5 text-[15px] font-normal text-[#1f2c24]" />
+        <input type="date" value={closesValue} onChange={(e) => setCloses(e.target.value)} className="mt-2 w-full rounded-md border border-[#cfd8cd] bg-white px-3 py-2.5 text-[15px] font-normal text-[#1f2c24]" />
         <span className="mt-1 block text-[12.5px] font-normal text-[#4b564e]">Leave empty to keep it open until you lock it.</span>
       </label>
     </div>

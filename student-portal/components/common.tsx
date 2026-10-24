@@ -7,22 +7,14 @@ import { useEffect, useRef, useState } from 'react'
 import { usePageTitle } from '@student/hooks/usePageTitle'
 import { Button } from '@student/components/ui/button'
 import {
-<<<<<<< HEAD
   PolarAngleAxis, RadialBar, RadialBarChart, ResponsiveContainer,
-=======
-  Bar, BarChart, CartesianGrid, Cell, LabelList, PolarAngleAxis, RadialBar, RadialBarChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis,
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 } from 'recharts'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@student/components/ui/card'
 import { Skeleton } from '@student/components/ui/misc'
 import { Badge } from '@student/components/ui/badge'
 import { cn, levelTone, TONE } from '@student/lib/utils'
 import { useStudent } from '@student/hooks/useStudent'
-<<<<<<< HEAD
 import type { RiskFlag, Tone } from '@student/lib/scoring'
-=======
-import type { Contribution, RiskFlag, Tone } from '@student/lib/scoring'
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 import type { Level } from '@student/types'
 
 export function PageHeader({ title, description, actions }: { title: string; description: string; actions?: ReactNode }) {
@@ -190,33 +182,6 @@ export function RiskCard({ title, flag }: { title: string; flag: RiskFlag }) {
 }
 
 /** Diverging horizontal bar chart: impact of each component vs cohort average (green right, red left) */
-<<<<<<< HEAD
-=======
-export function ImpactChart({ data }: { data: Contribution[] }) {
-  const rows = [...data].sort((a, b) => b.impact - a.impact).map((d) => ({ name: d.label, impact: d.impact, score: d.score, cohortAvg: d.cohortAvg, weight: d.weight }))
-  const max = Math.max(1, ...rows.map((r) => Math.abs(r.impact)))
-  return (
-    <ResponsiveContainer width="100%" height="100%">
-      <BarChart data={rows} layout="vertical" margin={{ left: 8, right: 24, top: 8, bottom: 22 }}>
-        <CartesianGrid horizontal={false} strokeDasharray="3 3" />
-        <XAxis type="number" domain={[-Math.ceil(max), Math.ceil(max)]} label={{ value: 'Points added to (or taken from) your score vs. cohort average', position: 'insideBottom', offset: -14, fontSize: 11 }} tickFormatter={(v) => (v > 0 ? `+${v}` : `${v}`)} />
-        <YAxis type="category" dataKey="name" width={150} tick={{ fontSize: 13, fill: 'rgb(var(--foreground))' }} />
-        <ReferenceLine x={0} stroke="rgb(var(--foreground))" strokeOpacity={0.6} strokeWidth={1.5} />
-        <Tooltip
-          cursor={{ fill: 'rgb(var(--muted))' }}
-          contentStyle={{ borderRadius: 12, border: '1px solid rgb(var(--border))', background: 'rgb(var(--card))' }}
-          formatter={(v) => { const impact = Number(v ?? 0); return [`${impact > 0 ? '+' : ''}${impact} pts`, 'Impact vs cohort'] }}
-          labelFormatter={(l, p) => { const r = p?.[0]?.payload; return r ? `${l} — you ${r.score} vs cohort ${r.cohortAvg} (weight ${Math.round(r.weight * 100)}%)` : l }}
-        />
-        <Bar dataKey="impact" name="Impact" radius={4}>
-          {rows.map((r) => <Cell key={r.name} fill={r.impact >= 0 ? 'var(--success)' : 'var(--danger)'} />)}
-          <LabelList dataKey="impact" position="right" fontSize={11} formatter={(v) => { const impact = Number(v ?? 0); return impact > 0 ? `+${impact}` : `${impact}` }} />
-        </Bar>
-      </BarChart>
-    </ResponsiveContainer>
-  )
-}
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 
 export function Gauge({ value, tone, size = 190, label, sub }: { value: number; tone: Tone; size?: number; label?: string; sub?: string }) {
   const pct = Math.min(100, Math.max(0, value))

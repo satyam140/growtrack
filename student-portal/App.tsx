@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { Suspense, lazy, useEffect, useState } from 'react'
 import { Navigate, Route, Routes, useLocation, useParams } from 'react-router-dom'
 import { DASH, Shell } from '@student/components/Shell'
@@ -7,14 +6,6 @@ import { listStudents } from '@student/services/api'
 import NotFound from '@student/pages/NotFound'
 import { PageSkeleton } from '@student/components/common'
 import { useHomeStudent } from '@student/hooks/useHomeStudent'
-=======
-import { Suspense, lazy } from 'react'
-import { Navigate, Route, Routes, useLocation, useParams } from 'react-router-dom'
-import { DASH, Shell } from '@student/components/Shell'
-import { ALL_STUDENTS, DEFAULT_STUDENT_ID } from '@student/data/students'
-import NotFound from '@student/pages/NotFound'
-import { PageSkeleton } from '@student/components/common'
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 const Home = lazy(() => import('@student/pages/Home'))
 const Attendance = lazy(() => import('@student/pages/Attendance'))
 const Results = lazy(() => import('@student/pages/Results'))
@@ -22,10 +13,7 @@ const Engagement = lazy(() => import('@student/pages/Engagement'))
 const Placement = lazy(() => import('@student/pages/Placement'))
 const AptitudeTest = lazy(() => import('@student/pages/AptitudeTest'))
 const MockInterview = lazy(() => import('@student/pages/MockInterview'))
-<<<<<<< HEAD
 const SoftSkills = lazy(() => import('@student/pages/SoftSkills'))
-=======
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 const Skills = lazy(() => import('@student/pages/Skills'))
 const CodingTest = lazy(() => import('@student/pages/CodingTest'))
 const Feedback = lazy(() => import('@student/pages/Feedback'))
@@ -40,10 +28,7 @@ const pages = (
     <Route path="placement" element={<Placement />} />
     <Route path="placement/aptitude" element={<AptitudeTest />} />
     <Route path="placement/interview" element={<MockInterview />} />
-<<<<<<< HEAD
     <Route path="placement/soft-skills" element={<SoftSkills />} />
-=======
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
     <Route path="skills" element={<Skills />} />
     <Route path="skills/coding" element={<CodingTest />} />
     <Route path="feedback" element={<Feedback />} />
@@ -51,7 +36,6 @@ const pages = (
   </>
 )
 
-<<<<<<< HEAD
 /** "/dashboard": the signed-in student's own record (staff see the demo student and can switch). */
 function HomeShell() {
   const home = useHomeStudent()
@@ -72,12 +56,6 @@ function StudentShell() {
   if (!home.canSwitch && studentId !== home.id) return <Navigate to={DASH} replace />   // a student may only open their own pages
   if (!known.ok) return <NotFound message="That student does not exist." />
   return <Shell studentId={studentId ?? DEFAULT_STUDENT_ID} base={`${DASH}/student/${studentId}`} homeId={home.id} canSwitch={home.canSwitch} />
-=======
-function StudentShell() {
-  const { studentId } = useParams()
-  if (!ALL_STUDENTS.some((s) => s.id === studentId)) return <NotFound message="That student does not exist." />
-  return <Shell studentId={studentId ?? DEFAULT_STUDENT_ID} base={`${DASH}/student/${studentId}`} />
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
 }
 
 /** Old (pre-redesign) URLs such as /attendance or /student/s007/results keep working. */
@@ -92,11 +70,7 @@ export default function App() {
     <Suspense fallback={<div className="p-8"><PageSkeleton /></div>}>
     <Routes>
       <Route path="/" element={<Navigate to={DASH} replace />} />
-<<<<<<< HEAD
       <Route path={DASH} element={<HomeShell />}>{pages}</Route>
-=======
-      <Route path={DASH} element={<Shell studentId={DEFAULT_STUDENT_ID} base={DASH} />}>{pages}</Route>
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
       <Route path={`${DASH}/student/:studentId`} element={<StudentShell />}>{pages}</Route>
       <Route path="*" element={<Legacy />} />
     </Routes>

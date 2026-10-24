@@ -677,11 +677,7 @@ export default function MockInterviewsPage() {
                     htmlFor="studentId"
                     className="mb-2 block text-sm font-semibold text-slate-700"
                   >
-<<<<<<< HEAD
                     Student profile
-=======
-                    Demo student profile
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                   </label>
                   <select
                     id="studentId"
@@ -707,11 +703,7 @@ export default function MockInterviewsPage() {
                     ))}
                   </select>
                   <p className="mt-2 text-xs text-slate-500">
-<<<<<<< HEAD
                     Result will be linked to the selected student ID and
-=======
-                    Result will be linked to the selected demo student ID and
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                     saved in this browser only.
                   </p>
                 </div>
@@ -922,11 +914,7 @@ export default function MockInterviewsPage() {
                       Practice history
                     </h3>
                     <p className="mt-1 text-xs text-slate-500">
-<<<<<<< HEAD
                       Local to {studentName || "this student"}
-=======
-                      Local to {studentName || "this demo student"}
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
                     </p>
                   </div>
                   <span className="rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700">
@@ -1735,14 +1723,8 @@ export default function MockInterviewsPage() {
 
             <p className="text-center text-xs leading-5 text-slate-500">
               Practice estimates are not verified placement-readiness or
-<<<<<<< HEAD
               hiring assessments. History is stored per selected student
               in this browser only.
-=======
-              hiring assessments. History is stored per selected demo student
-              in this browser only; it is not backed by an authenticated
-              account or database.
->>>>>>> 241ceafd543cf5aa4e4a94777b87d4d27d569ebd
             </p>
           </div>
         )}
